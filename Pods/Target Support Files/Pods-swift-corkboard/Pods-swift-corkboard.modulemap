@@ -1,0 +1,6 @@
+framework module Pods_swift_corkboard {
+  umbrella header "Pods-swift-corkboard-umbrella.h"
+
+  export *
+  module * { export * }
+}
