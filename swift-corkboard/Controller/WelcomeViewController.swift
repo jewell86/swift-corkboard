@@ -12,8 +12,11 @@ class WelcomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+//        if FIRAuth.auth()?.currentUser != nil {
+//            performSegue(withIdentifier: "goToChat", sender: self)
+//        }
+        
     }
 
     override func didReceiveMemoryWarning() {

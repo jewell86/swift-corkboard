@@ -28,13 +28,9 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func loginButton(_ sender: AnyObject) {
-        loginRequest()
-    }
-    
     var params : [String : String] = [ "username": "jewell86", "password": "C@tscratch12" ]
     
-    func loginRequest(){
+    @IBAction func loginButtonPressed(_ sender: Any) {
         SVProgressHUD.show()
         Alamofire.request("http://localhost:5000/login", method: .post, parameters: [ "username": usernameTextField.text!, "password": passwordTextField.text! ],encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
@@ -48,9 +44,15 @@ class LoginViewController: UIViewController {
             } else {
                 print("Login Success!")
                 SVProgressHUD.dismiss()
-                self.performSegue(withIdentifier: "goToMainView", sender: self)
-            }
+//                self.performSegue(withIdentifier: "goToMainView", sender: self)
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let mainViewController = storyBoard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+                self.present(mainViewController, animated: true, completion: nil)            }
+        }
     }
+    
+    func loginRequest(){
+        
     }
     
     /*
