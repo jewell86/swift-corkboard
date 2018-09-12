@@ -10,6 +10,9 @@
 		27E5F16D4B48D0F0C219790A /* Pods_swift_corkboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2D303AFD5A04C33266D52F /* Pods_swift_corkboard.framework */; };
 		66BA8BD5C1E650AAB6BD8745 /* Pods_swift_corkboardUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 621F9337CF51F4F501F88394 /* Pods_swift_corkboardUITests.framework */; };
 		748F9E9A24FE12384A8AFFA2 /* Pods_swift_corkboardTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A760FBE2A4C7B2D3C49AD9FF /* Pods_swift_corkboardTests.framework */; };
+		F106D7A12148BCA2008C51C4 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106D7A02148BCA2008C51C4 /* BoardViewController.swift */; };
+		F106D7A32148BCB4008C51C4 /* BoardSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106D7A22148BCB4008C51C4 /* BoardSettingsViewController.swift */; };
+		F106D7A52148BCC2008C51C4 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106D7A42148BCC2008C51C4 /* UserSettingsViewController.swift */; };
 		F12ADF7F2141B67800FAF011 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ADF7E2141B67800FAF011 /* LoginViewController.swift */; };
 		F12ADF832141B6E000FAF011 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ADF822141B6E000FAF011 /* WelcomeViewController.swift */; };
 		F12ADF852141B73100FAF011 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ADF842141B73100FAF011 /* RegisterViewController.swift */; };
@@ -49,6 +52,9 @@
 		A760FBE2A4C7B2D3C49AD9FF /* Pods_swift_corkboardTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_swift_corkboardTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B06F2FB4060AAD208C72B256 /* Pods-swift-corkboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-corkboard.debug.xcconfig"; path = "Pods/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard.debug.xcconfig"; sourceTree = "<group>"; };
 		CE2D303AFD5A04C33266D52F /* Pods_swift_corkboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_swift_corkboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F106D7A02148BCA2008C51C4 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
+		F106D7A22148BCB4008C51C4 /* BoardSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSettingsViewController.swift; sourceTree = "<group>"; };
+		F106D7A42148BCC2008C51C4 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
 		F12ADF7E2141B67800FAF011 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F12ADF822141B6E000FAF011 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F12ADF842141B73100FAF011 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +200,9 @@
 				F1602D5521404601005DFA13 /* AppDelegate.swift */,
 				F12ADF822141B6E000FAF011 /* WelcomeViewController.swift */,
 				F12ADF7E2141B67800FAF011 /* LoginViewController.swift */,
+				F106D7A02148BCA2008C51C4 /* BoardViewController.swift */,
+				F106D7A22148BCB4008C51C4 /* BoardSettingsViewController.swift */,
+				F106D7A42148BCC2008C51C4 /* UserSettingsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -472,7 +481,10 @@
 				F12ADF7F2141B67800FAF011 /* LoginViewController.swift in Sources */,
 				F1602D5621404601005DFA13 /* AppDelegate.swift in Sources */,
 				F12ADF852141B73100FAF011 /* RegisterViewController.swift in Sources */,
+				F106D7A52148BCC2008C51C4 /* UserSettingsViewController.swift in Sources */,
+				F106D7A32148BCB4008C51C4 /* BoardSettingsViewController.swift in Sources */,
 				F12ADF872141B74400FAF011 /* MainViewController.swift in Sources */,
+				F106D7A12148BCA2008C51C4 /* BoardViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

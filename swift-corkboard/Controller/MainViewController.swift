@@ -14,6 +14,10 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        //make get request for all boards
+        //populate buttons for each board w/ id#
+        //link each button to boardViewController
+        //make get request from boardViewController to get all board info
     }
 
     override func didReceiveMemoryWarning() {
