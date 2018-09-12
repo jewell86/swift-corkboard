@@ -249,10 +249,10 @@
             </objects>
             <point key="canvasLocation" x="930.39999999999998" y="535.68215892053979"/>
         </scene>
-        <!--View Controller-->
+        <!--User Settings-->
         <scene sceneID="CrJ-qw-VI3">
             <objects>
-                <viewController id="Pfw-NS-Yee" sceneMemberID="viewController">
+                <viewController id="Pfw-NS-Yee" customClass="UserSettingsViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5ZN-eo-bCl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -268,15 +268,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="M66-Z8-O6q"/>
                     </view>
+                    <navigationItem key="navigationItem" title="User Settings" id="5FS-JV-WWB"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hcg-vj-RwZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1825" y="-611"/>
+            <point key="canvasLocation" x="2281" y="-548"/>
         </scene>
-        <!--View Controller-->
+        <!--Board Settings-->
         <scene sceneID="0KM-UQ-Kcs">
             <objects>
-                <viewController id="Vc4-LS-6tE" sceneMemberID="viewController">
+                <viewController id="Vc4-LS-6tE" customClass="BoardSettingsViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kc7-Wr-Ckl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -292,59 +293,103 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="c3o-vn-WOa"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Board Settings" id="uOz-2b-6OX"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhp-9i-80s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2654" y="-611"/>
+            <point key="canvasLocation" x="3118" y="-548"/>
         </scene>
-        <!--Main View Controller-->
+        <!--My Boards-->
         <scene sceneID="As8-2N-v8d">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="frX-dJ-iLL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="MainViewController" id="mxH-Vc-7c1" customClass="MainViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Ru-ky-j4A">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hello!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="90J-sP-zcd">
-                                <rect key="frame" x="138" y="143" width="99" height="48"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="any-DP-c64">
+                                <rect key="frame" x="168" y="627" width="38" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <state key="normal" title="Trash"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xNN-pU-Lb5">
+                                <rect key="frame" x="252" y="333" width="93" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="User Settings"/>
+                                <connections>
+                                    <segue destination="Pfw-NS-Yee" kind="show" identifier="goToUserSettingsView" id="zot-rP-eG3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SE2-HX-se1">
+                                <rect key="frame" x="70" y="212" width="61" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Board #1"/>
+                                <connections>
+                                    <segue destination="6KO-rH-v0K" kind="push" identifier="goToBoardView" id="1gb-WK-bGg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JBX-uQ-Php">
+                                <rect key="frame" x="149" y="76" width="76" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="New Board"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="MYE-go-cBj"/>
                     </view>
-                    <navigationItem key="navigationItem" id="A8Y-iM-xWa"/>
+                    <navigationItem key="navigationItem" title="My Boards" largeTitleDisplayMode="always" id="A8Y-iM-xWa">
+                        <barButtonItem key="backBarButtonItem" title="My Boards" id="rEj-Qa-Zu6"/>
+                    </navigationItem>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="frX-dJ-iLL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2280.8000000000002" y="187.55622188905548"/>
         </scene>
-        <!--View Controller-->
+        <!--Board-->
         <scene sceneID="lRl-gt-R6k">
             <objects>
-                <viewController id="6KO-rH-v0K" sceneMemberID="viewController">
+                <viewController id="6KO-rH-v0K" customClass="BoardViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5l7-NQ-cbc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SINGLE BOARD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rjw-cj-84j">
-                                <rect key="frame" x="131" y="79" width="171" height="134"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8E-ML-KQe">
+                                <rect key="frame" x="257" y="318" width="102" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <state key="normal" title="Board Settings"/>
+                                <connections>
+                                    <segue destination="Vc4-LS-6tE" kind="show" identifier="goToBoardSettings" id="vMR-Cn-f3U"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eS3-vV-DXa">
+                                <rect key="frame" x="168" y="625" width="38" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Trash"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fL4-xo-wVk">
+                                <rect key="frame" x="51" y="183" width="68" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="New Note"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dNv-OA-6fg">
+                                <rect key="frame" x="288" y="183" width="40" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Video"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X3T-2B-7RT">
+                                <rect key="frame" x="178" y="183" width="42" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Image"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="utb-om-YhQ"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Board" largeTitleDisplayMode="always" id="OF2-Qf-AUQ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kN7-54-XVC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3592.8000000000002" y="188.45577211394306"/>
+            <point key="canvasLocation" x="3119" y="188"/>
         </scene>
         <!--Corkboard-->
         <scene sceneID="9HB-8N-33h">
