@@ -302,7 +302,6 @@
         <!--My Boards-->
         <scene sceneID="As8-2N-v8d">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="frX-dJ-iLL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="MainViewController" id="mxH-Vc-7c1" customClass="MainViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Ru-ky-j4A">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -342,6 +341,7 @@
                         <barButtonItem key="backBarButtonItem" title="My Boards" id="rEj-Qa-Zu6"/>
                     </navigationItem>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="frX-dJ-iLL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2280.8000000000002" y="187.55622188905548"/>
         </scene>
