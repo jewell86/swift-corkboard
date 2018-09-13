@@ -13,7 +13,6 @@
 		F106D7A12148BCA2008C51C4 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106D7A02148BCA2008C51C4 /* BoardViewController.swift */; };
 		F106D7A32148BCB4008C51C4 /* BoardSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106D7A22148BCB4008C51C4 /* BoardSettingsViewController.swift */; };
 		F106D7A52148BCC2008C51C4 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106D7A42148BCC2008C51C4 /* UserSettingsViewController.swift */; };
-		F121F7772149A706003105AE /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F121F7762149A706003105AE /* NoteModel.swift */; };
 		F12ADF7F2141B67800FAF011 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ADF7E2141B67800FAF011 /* LoginViewController.swift */; };
 		F12ADF832141B6E000FAF011 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ADF822141B6E000FAF011 /* WelcomeViewController.swift */; };
 		F12ADF852141B73100FAF011 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ADF842141B73100FAF011 /* RegisterViewController.swift */; };
@@ -26,6 +25,7 @@
 		F1602D7621404602005DFA13 /* swift_corkboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1602D7521404602005DFA13 /* swift_corkboardUITests.swift */; };
 		F17829492149DAFF00E78BFE /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17829472149DAFF00E78BFE /* NoteCell.swift */; };
 		F178294A2149DAFF00E78BFE /* NoteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F17829482149DAFF00E78BFE /* NoteCell.xib */; };
+		F19A0EFD214B0468007C1D31 /* BoardIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +58,6 @@
 		F106D7A02148BCA2008C51C4 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
 		F106D7A22148BCB4008C51C4 /* BoardSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSettingsViewController.swift; sourceTree = "<group>"; };
 		F106D7A42148BCC2008C51C4 /* UserSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsViewController.swift; sourceTree = "<group>"; };
-		F121F7762149A706003105AE /* NoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 		F12ADF7E2141B67800FAF011 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F12ADF822141B6E000FAF011 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F12ADF842141B73100FAF011 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +76,7 @@
 		F1602D7721404602005DFA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F17829472149DAFF00E78BFE /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
 		F17829482149DAFF00E78BFE /* NoteCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoteCell.xib; sourceTree = "<group>"; };
+		F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardIconModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,7 +194,7 @@
 		F1CE889021405415000638DF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F121F7762149A706003105AE /* NoteModel.swift */,
+				F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -500,11 +500,11 @@
 				F1602D5621404601005DFA13 /* AppDelegate.swift in Sources */,
 				F12ADF852141B73100FAF011 /* RegisterViewController.swift in Sources */,
 				F106D7A52148BCC2008C51C4 /* UserSettingsViewController.swift in Sources */,
-				F121F7772149A706003105AE /* NoteModel.swift in Sources */,
 				F106D7A32148BCB4008C51C4 /* BoardSettingsViewController.swift in Sources */,
 				F17829492149DAFF00E78BFE /* NoteCell.swift in Sources */,
 				F12ADF872141B74400FAF011 /* MainViewController.swift in Sources */,
 				F106D7A12148BCA2008C51C4 /* BoardViewController.swift in Sources */,
+				F19A0EFD214B0468007C1D31 /* BoardIconModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
