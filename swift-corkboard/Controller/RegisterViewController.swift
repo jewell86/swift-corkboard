@@ -13,6 +13,9 @@ import SwiftyJSON
 
 class RegisterViewController: UIViewController {
 
+    
+    let defaults = UserDefaults.standard
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,7 +45,10 @@ class RegisterViewController: UIViewController {
             response in
             let data : JSON = JSON(response.result.value!)
             let token = data["token"]
+            let userId = data["user_id"]
             let error = data["error"]
+            self.defaults.set(token.stringValue, forKey: "token")
+            self.defaults.set(userId.stringValue, forKey: "userId")
             print(token)
             if token == JSON.null {
                 SVProgressHUD.dismiss()

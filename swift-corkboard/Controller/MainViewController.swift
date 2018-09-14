@@ -12,9 +12,10 @@ import SwiftyJSON
 
 class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    let notes = [ "Hello there", "groceries", "todo list", "its me", "again", "meme", "hay", "its a note", "poop" ]
-    
     var boardArray : [BoardIcon] = [BoardIcon]()
+    
+    let defaults = UserDefaults.standard
+
     
     //ADD NEW BOARD BUTTON
     @IBAction func addNewBoard(_ sender: Any) {
@@ -45,8 +46,12 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     @IBOutlet weak var allBoardsTableView: UICollectionView!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        let userId = defaults.string(forKey: "userId")
+//        let token = defaults.string(forKey: "token")
         
     //TODO: Set delegates
     allBoardsTableView.delegate = self
@@ -98,10 +103,14 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func renderBoards() {
+        let userId = defaults.string(forKey: "userId")
+        print("here is renderboards func userid from storage")
+        print(userId!)
+        let url = "http://localhost:5000/\(userId!)/main"
         self.boardArray = [BoardIcon]()
-        Alamofire.request("http://localhost:5000/1/main", method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
+        Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-            let data : JSON = JSON(response.result.value!)
+            if let data : JSON = JSON(response.result.value) {
             let allBoards = data["response"]
             for board in allBoards.arrayValue {
                 let newBoard = BoardIcon()
@@ -110,6 +119,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 newBoard.title = board["title"].stringValue
                 print(newBoard.title)
                 self.boardArray.append(newBoard)
+                }
             }
             self.configureCollectionView()
             self.allBoardsTableView.reloadData()
@@ -118,7 +128,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func addNewBoard(title: String) {
-        Alamofire.request("http://localhost:5000/1", method: .post, parameters: ["title" : title], encoding: JSONEncoding.default, headers: nil).responseJSON {
+        let userId = defaults.string(forKey: "userId")
+
+        let url = "http://localhost:5000/\(userId!)"
+        Alamofire.request(url, method: .post, parameters: ["title" : title], encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
 //            let data : JSON = JSON(response.result.value!)
             self.renderBoards()
