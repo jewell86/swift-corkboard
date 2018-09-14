@@ -11,7 +11,7 @@ import Alamofire
 import SVProgressHUD
 import SwiftyJSON
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UITextFieldDelegate {
 
     
     let defaults = UserDefaults.standard
@@ -27,10 +27,20 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         firstName.becomeFirstResponder()
+        self.firstName.delegate = self
+        self.lastName.delegate = self
+        self.email.delegate = self
+        self.username.delegate = self
+        self.password.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        registerPressed((Any).self)
+        return true
     }
     
      @IBAction func registerPressed(_ sender: Any) {
@@ -51,24 +61,12 @@ class RegisterViewController: UIViewController {
                 print("Registration Success!")
                 SVProgressHUD.dismiss()
                 self.performSegue(withIdentifier: "goToMainView", sender: self)
-//                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                let mainViewController = storyBoard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-//                self.present(mainViewController, animated: true, completion: nil)            }
+
         }
     }
-    
-//    func loginRequest(){
+
      }
-    
 
-    
-
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-//    }
 
 
 }

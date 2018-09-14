@@ -36,7 +36,7 @@
                                     <color key="titleColor" red="0.052270036939666677" green="0.22337483528289828" blue="0.25448128172588835" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="IDb-1Y-N4p" kind="push" identifier="goToRegisterView" id="vrQ-hJ-N9o"/>
+                                    <segue destination="IDb-1Y-N4p" kind="show" identifier="goToRegisterView" id="vrQ-hJ-N9o"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZO7-2X-k2I">
@@ -242,7 +242,7 @@
                         <outlet property="lastName" destination="abk-QW-2p2" id="0Jm-Qh-q7Q"/>
                         <outlet property="password" destination="rwJ-3Y-XOU" id="d8a-sm-HbR"/>
                         <outlet property="username" destination="Cxz-Aw-Uv1" id="HRe-uS-Pck"/>
-                        <segue destination="mxH-Vc-7c1" kind="push" identifier="goToMainView" id="FUM-RI-vQb"/>
+                        <segue destination="mxH-Vc-7c1" kind="show" identifier="goToMainView" id="FUM-RI-vQb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TjB-zh-hqc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -500,7 +500,7 @@
         <image name="corkboard" width="2533" height="1737"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="25O-x5-IDb"/>
+        <segue reference="FUM-RI-vQb"/>
         <segue reference="37y-1Q-SJ7"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -134,7 +134,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let url = "http://localhost:5000/\(userId!)"
         Alamofire.request(url, method: .post, parameters: ["title" : title], encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-            //            let data : JSON = JSON(response.result.value!)
             self.renderBoards()
         }
     }
@@ -142,7 +141,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBAction func logoutButton(_ sender: Any) {
         self.defaults.removeObject(forKey: "token")
         self.defaults.removeObject(forKey: "userId")
-        self.performSegue(withIdentifier: "goToLoginView", sender: self)
     }
 
     
