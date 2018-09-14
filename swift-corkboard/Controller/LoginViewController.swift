@@ -12,21 +12,23 @@ import SwiftyJSON
 import SVProgressHUD
 
 class LoginViewController: UIViewController {
+    
+    
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
-    let defaults = UserDefaults.standard
     
+    
+    let defaults = UserDefaults.standard
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        usernameTextField.becomeFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func loginButtonPressed(_ sender: Any) {

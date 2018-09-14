@@ -15,41 +15,15 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var boardArray : [BoardIcon] = [BoardIcon]()
     
     let defaults = UserDefaults.standard
-
-    
-    //ADD NEW BOARD BUTTON
-    @IBAction func addNewBoard(_ sender: Any) {
- 
-        let alert = UIAlertController(title: "Add A New Board", message: "Enter Board Name", preferredStyle: .alert)
-        
-        //2. Add the text field. You can configure it however you need.
-        alert.addTextField { (textField) in
-            textField.text = ""
-        }
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
-
-        
-        // 3. Grab the value from the text field, and print it when the user clicks OK.
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-            guard let textField = alert?.textFields![0] else {
-                return
-            } // Force unwrapping because we know it exists.
-            self.addNewBoard(title: textField.text!)
-            print("Text field: \(String(describing: textField.text))")
-        }))
-        
-        // 4. Present the alert.
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     
     @IBOutlet weak var allBoardsTableView: UICollectionView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        ?setContentInset:UIEdgeInsetsMake(topMargin, 0, 0, 0);
+
+        self.navigationItem .setHidesBackButton(true, animated: false)
 //        let userId = defaults.string(forKey: "userId")
 //        let token = defaults.string(forKey: "token")
         
@@ -127,18 +101,51 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     }
     
+    //ADD NEW BOARD BUTTON
+    @IBAction func addNewBoard(_ sender: Any) {
+        
+        let alert = UIAlertController(title: "Add A New Board", message: "Enter Board Name", preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField { (textField) in
+            textField.text = ""
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+        
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            guard let textField = alert?.textFields![0] else {
+                return
+            } // Force unwrapping because we know it exists.
+            self.addNewBoard(title: textField.text!)
+            print("Text field: \(String(describing: textField.text))")
+        }))
+        
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    //ADD NEW BOARD DB CALL
     func addNewBoard(title: String) {
         let userId = defaults.string(forKey: "userId")
-
+        
         let url = "http://localhost:5000/\(userId!)"
         Alamofire.request(url, method: .post, parameters: ["title" : title], encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-//            let data : JSON = JSON(response.result.value!)
+            //            let data : JSON = JSON(response.result.value!)
             self.renderBoards()
         }
     }
 
+    @IBAction func logoutButton(_ sender: Any) {
+        self.defaults.removeObject(forKey: "token")
+        self.defaults.removeObject(forKey: "userId")
+        self.performSegue(withIdentifier: "goToLoginView", sender: self)
+    }
 
+    
 
 }
 

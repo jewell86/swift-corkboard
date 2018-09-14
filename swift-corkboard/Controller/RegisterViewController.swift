@@ -16,16 +16,7 @@ class RegisterViewController: UIViewController {
     
     let defaults = UserDefaults.standard
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
@@ -33,11 +24,14 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     
-    // MARK: - Navigation
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        firstName.becomeFirstResponder()
+    }
     
-    //TODO: Register a user
-    
-//    var params : [String : String] = [ "first_name" : "jewell", "last_name" : "White", "username": "jewell86", "email" : "jewell@gmail.com", "password": "C@tscratch12" ]
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
     
      @IBAction func registerPressed(_ sender: Any) {
         SVProgressHUD.show()
