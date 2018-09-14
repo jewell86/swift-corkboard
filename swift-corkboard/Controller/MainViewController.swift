@@ -16,6 +16,33 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     var boardArray : [BoardIcon] = [BoardIcon]()
     
+    //ADD NEW BOARD BUTTON
+    @IBAction func addNewBoard(_ sender: Any) {
+ 
+        let alert = UIAlertController(title: "Add A New Board", message: "Enter Board Name", preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField { (textField) in
+            textField.text = ""
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            guard let textField = alert?.textFields![0] else {
+                return
+            } // Force unwrapping because we know it exists.
+            self.addNewBoard(title: textField.text!)
+            print("Text field: \(String(describing: textField.text))")
+        }))
+        
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
     @IBOutlet weak var allBoardsTableView: UICollectionView!
     
     override func viewDidLoad() {
@@ -71,6 +98,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func renderBoards() {
+        self.boardArray = [BoardIcon]()
         Alamofire.request("http://localhost:5000/1/main", method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             let data : JSON = JSON(response.result.value!)
@@ -87,6 +115,14 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.allBoardsTableView.reloadData()
         }
 
+    }
+    
+    func addNewBoard(title: String) {
+        Alamofire.request("http://localhost:5000/1", method: .post, parameters: ["title" : title], encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+//            let data : JSON = JSON(response.result.value!)
+            self.renderBoards()
+        }
     }
 
 
