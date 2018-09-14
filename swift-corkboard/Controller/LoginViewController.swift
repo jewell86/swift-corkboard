@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import SVProgressHUD
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
 
@@ -25,10 +25,17 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameTextField.becomeFirstResponder()
+        self.usernameTextField.delegate = self
+        self.passwordTextField.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        loginButtonPressed((Any).self)
+        return true
     }
     
     @IBAction func loginButtonPressed(_ sender: Any) {
