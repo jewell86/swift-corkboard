@@ -36,7 +36,9 @@ class LoginViewController: UIViewController {
             response in
             let data : JSON = JSON(response.result.value!)
             let token = data["token"]
+            let userId = data["user_id"]
             let error = data["error"]
+            print(userId)
             print(token)
             if token == JSON.null {
                 print("Error: \(error)")

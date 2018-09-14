@@ -36,13 +36,14 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteCell", for: indexPath) as! NoteCell
 //        print(boardArray[indexPath.row].title)
         
-        cell.noteTextInput.text = notes[indexPath.row]
+        cell.noteTextInput.text = boardArray[indexPath.row].title
+
         return cell
 
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return notes.count
+        return boardArray.count
     }
 
     override func didReceiveMemoryWarning() {
@@ -78,7 +79,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 let newBoard = BoardIcon()
                 newBoard.boards_id = board["boards_id"]
                 newBoard.added_by = board["added_by"]
-                newBoard.title = board["title"]
+                newBoard.title = board["title"].stringValue
                 print(newBoard.title)
                 self.boardArray.append(newBoard)
             }
