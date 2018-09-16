@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class MainViewController: UIViewController, UINavigationBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     //DECLARE GLOBAL VARIABLES
     var boardArray : [BoardIcon] = [BoardIcon]()
@@ -22,7 +22,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     //VIEWDIDLOAD - FIRST FUNC CALLED
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem .setHidesBackButton(true, animated: false)
+        
+//        self.allBoardsTableView?.allowsSelection = true
+//        self.allBoardsTableView?.allowsMultipleSelection = false
+        
         //SET DELEGATES
         allBoardsTableView.delegate = self
         allBoardsTableView.dataSource = self
@@ -36,25 +39,33 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     //CREATE & CONFIGURE CELLS FOR COLLECTION VIEW
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "boardCellCollectionViewCell", for: indexPath) as! BoardCellCollectionViewCell
-        print("indexpath.row")
-        print(indexPath.row)
-        print(boardArray[indexPath.row].title)
         cell.boardCellLabel.text = boardArray[indexPath.row].title
         cell.tag = indexPath.row
         return cell
     }
     
     //CLICK ON BOARD FUNC
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        print("Index of board")
-        print(indexPath)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let id = boardArray[indexPath.row]
-        print(id.title)
-//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let boardViewController = storyBoard.instantiateViewController(withIdentifier: "BoardViewController") as! BoardViewController
-//        self.present(boardViewController, animated: true, completion: nil)
-//        print("displayboard!")
+        let boardId = id.title
+        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let boardViewController = storyBoard.instantiateViewController(withIdentifier: "BoardViewController") as! BoardViewController
+        boardViewController.name = boardId
+        self.present(boardViewController, animated: true, completion: nil)
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        let vc = segue.destination as! BoardViewController //Your ViewController class
+//        if let cell = sender as? UICollectionViewCell,
+//            let indexPath = self.allBoardsTableView.indexPath(for: cell){
+//
+//            let id = boardArray[indexPath.row]
+//            let boardId = id.title
+//            print(boardId)
+//            vc.name = boardId
+//        }
+//    }
+    
     
     //DETERMINE CELL COUNT
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -143,4 +154,5 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.defaults.removeObject(forKey: "userId")
     }
 }
+
 

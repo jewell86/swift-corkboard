@@ -10,10 +10,16 @@ import UIKit
 
 class BoardViewController: UIViewController {
 
+    @IBOutlet weak var boardCellLabel: UILabel!
+    
+    var name : String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        boardCellLabel.text! = name
     }
 
     override func didReceiveMemoryWarning() {
