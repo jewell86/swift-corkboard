@@ -12,52 +12,62 @@ import SwiftyJSON
 
 class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    //DECLARE GLOBAL VARIABLES
     var boardArray : [BoardIcon] = [BoardIcon]()
-    
     let defaults = UserDefaults.standard
-    
+
+    //VAR FOR COLLECTIONVIEW
     @IBOutlet weak var allBoardsTableView: UICollectionView!
     
+    //VIEWDIDLOAD - FIRST FUNC CALLED
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        ?setContentInset:UIEdgeInsetsMake(topMargin, 0, 0, 0);
-
         self.navigationItem .setHidesBackButton(true, animated: false)
-//        let userId = defaults.string(forKey: "userId")
-//        let token = defaults.string(forKey: "token")
-        
-    //TODO: Set delegates
-    allBoardsTableView.delegate = self
-    allBoardsTableView.dataSource = self
-        
-    //TODO: Register NoteCell.xib file here
-    allBoardsTableView.register(UINib(nibName: "NoteCell", bundle: nil), forCellWithReuseIdentifier: "noteCell")
-    configureCollectionView()
-    renderBoards()
-        
+        //SET DELEGATES
+        allBoardsTableView.delegate = self
+        allBoardsTableView.dataSource = self
+        //REGISTER XIB FILE
+        allBoardsTableView.register(UINib(nibName: "BoardCellCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "boardCellCollectionViewCell")
+        //CALL OTHER FUNCS
+        configureCollectionView()
+        renderBoards()
     }
     
+    //CREATE & CONFIGURE CELLS FOR COLLECTION VIEW
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteCell", for: indexPath) as! NoteCell
-//        print(boardArray[indexPath.row].title)
-        
-        cell.noteTextInput.text = boardArray[indexPath.row].title
-
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "boardCellCollectionViewCell", for: indexPath) as! BoardCellCollectionViewCell
+        print("indexpath.row")
+        print(indexPath.row)
+        print(boardArray[indexPath.row].title)
+        cell.boardCellLabel.text = boardArray[indexPath.row].title
+        cell.tag = indexPath.row
         return cell
-
     }
     
+    //CLICK ON BOARD FUNC
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        print("Index of board")
+        print(indexPath)
+        let id = boardArray[indexPath.row]
+        print(id.title)
+//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let boardViewController = storyBoard.instantiateViewController(withIdentifier: "BoardViewController") as! BoardViewController
+//        self.present(boardViewController, animated: true, completion: nil)
+//        print("displayboard!")
+    }
+    
+    //DETERMINE CELL COUNT
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return boardArray.count
     }
-
+    
+    //?
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    //SET SIZE OF COLLECTION VIEW ROWS
     func configureCollectionView() {
-        //TODO: Set size to auto layout
         if let flowLayout = allBoardsTableView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.estimatedItemSize = CGSize(width: 100, height: 100)
         }
@@ -76,6 +86,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
+    //RENDER & DISPLAY ALL BOARDS FROM DB TO COLLECTION VIEW
     func renderBoards() {
         let userId = defaults.string(forKey: "userId")
         print("here is renderboards func userid from storage")
@@ -91,59 +102,45 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 newBoard.boards_id = board["boards_id"]
                 newBoard.added_by = board["added_by"]
                 newBoard.title = board["title"].stringValue
-                print(newBoard.title)
                 self.boardArray.append(newBoard)
                 }
             }
             self.configureCollectionView()
             self.allBoardsTableView.reloadData()
         }
-
     }
     
-    //ADD NEW BOARD BUTTON
-    @IBAction func addNewBoard(_ sender: Any) {
-        
+    //ADD NEW BOARD BUTTON PRESSED SHOW ALERT
+    @IBAction func addNewBoard(_ sender: Any) {        
         let alert = UIAlertController(title: "Add A New Board", message: "Enter Board Name", preferredStyle: .alert)
-        
-        //2. Add the text field. You can configure it however you need.
         alert.addTextField { (textField) in
             textField.text = ""
         }
-        
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
-        
-        
-        // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             guard let textField = alert?.textFields![0] else {
                 return
-            } // Force unwrapping because we know it exists.
+            }
             self.addNewBoard(title: textField.text!)
             print("Text field: \(String(describing: textField.text))")
         }))
-        
-        // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
     }
     
     //ADD NEW BOARD DB CALL
     func addNewBoard(title: String) {
         let userId = defaults.string(forKey: "userId")
-        
         let url = "http://localhost:5000/\(userId!)"
         Alamofire.request(url, method: .post, parameters: ["title" : title], encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             self.renderBoards()
         }
     }
-
+    
+    //LOGOUT BUTTON PRESSED
     @IBAction func logoutButton(_ sender: Any) {
         self.defaults.removeObject(forKey: "token")
         self.defaults.removeObject(forKey: "userId")
     }
-
-    
-
 }
 

@@ -318,13 +318,6 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="any-DP-c64">
-                                <rect key="frame" x="166" y="627" width="42" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Trash"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xNN-pU-Lb5">
                                 <rect key="frame" x="249" y="333" width="100" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -333,16 +326,6 @@
                                 <state key="normal" title="User Settings"/>
                                 <connections>
                                     <segue destination="Pfw-NS-Yee" kind="show" identifier="goToUserSettingsView" id="zot-rP-eG3"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SE2-HX-se1">
-                                <rect key="frame" x="67" y="212" width="67" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.45009386540000001" green="0.98132258650000004" blue="0.4743030667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
-                                <state key="normal" title="Board #1"/>
-                                <connections>
-                                    <segue destination="6KO-rH-v0K" kind="push" identifier="goToBoardView" id="1gb-WK-bGg"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JBX-uQ-Php">
@@ -358,6 +341,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owT-Jh-yJP">
                                 <rect key="frame" x="265" y="158" width="48" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.45085787770000002" green="0.98829740290000001" blue="0.83763033149999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Logout"/>
                                 <connections>
                                     <action selector="logoutButton:" destination="mxH-Vc-7c1" eventType="touchUpInside" id="UNY-S5-cXL"/>
@@ -380,6 +364,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="allBoardsTableView" destination="dmL-Xj-3U1" id="OTu-ya-Ka4"/>
+                        <segue destination="6KO-rH-v0K" kind="show" identifier="goToBoardView" id="gn0-44-xuo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frX-dJ-iLL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -389,7 +374,7 @@
         <!--Board-->
         <scene sceneID="lRl-gt-R6k">
             <objects>
-                <viewController id="6KO-rH-v0K" customClass="BoardViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BoardViewController" id="6KO-rH-v0K" customClass="BoardViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5l7-NQ-cbc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -472,7 +457,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kN7-54-XVC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2392.8000000000002" y="187.55622188905548"/>
+            <point key="canvasLocation" x="2753" y="188"/>
         </scene>
         <!--Corkboard-->
         <scene sceneID="9HB-8N-33h">
@@ -500,7 +485,7 @@
         <image name="corkboard" width="2533" height="1737"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FUM-RI-vQb"/>
+        <segue reference="KWl-Eb-hxs"/>
         <segue reference="37y-1Q-SJ7"/>
     </inferredMetricsTieBreakers>
 </document>
