@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TGS-ZP-f6a">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M1c-gN-V0O">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,16 +10,32 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Welcome View-->
+        <!--Navigation Controller-->
+        <scene sceneID="h4o-YP-FQy">
+            <objects>
+                <navigationController id="M1c-gN-V0O" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GIn-rP-DBw">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="9SK-0r-KW9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ftZ-ex-9Kf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-655" y="140"/>
+        </scene>
+        <!--Welcome View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Welcome View" id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fotoram.io" translatesAutoresizingMaskIntoConstraints="NO" id="zID-5j-qU4">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Home Screen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cks-z3-dPy">
                                 <rect key="frame" x="125" y="-21" width="104" height="21"/>
@@ -29,7 +45,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tVG-oi-1BQ">
-                                <rect key="frame" x="0.0" y="422" width="375" height="45"/>
+                                <rect key="frame" x="0.0" y="442" width="375" height="45"/>
                                 <color key="backgroundColor" red="0.26323697660648859" green="0.49697528539404345" blue="0.52074079949238583" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="PingFangHK-Regular" family="PingFang HK" pointSize="23"/>
                                 <state key="normal" title="Register">
@@ -40,7 +56,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZO7-2X-k2I">
-                                <rect key="frame" x="0.0" y="377" width="375" height="45"/>
+                                <rect key="frame" x="0.0" y="397" width="375" height="45"/>
                                 <color key="backgroundColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="PingFangHK-Regular" family="PingFang HK" pointSize="23"/>
                                 <state key="normal" title="Login">
@@ -68,9 +84,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Welcome" id="gEg-Wa-Mrp"/>
+                    <navigationItem key="navigationItem" id="RlJ-dk-Jgv"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <segue destination="mxH-Vc-7c1" kind="push" identifier="goToMainView" id="25O-x5-IDb"/>
+                        <segue destination="mxH-Vc-7c1" kind="show" identifier="goToMainView" id="25O-x5-IDb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -82,11 +99,11 @@
             <objects>
                 <viewController id="tZE-VK-fMP" customClass="LoginViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J5F-ol-7qc">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fotoram.io" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OG8-tg-DD1">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </imageView>
                             <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SZu-il-pUW">
                                 <rect key="frame" x="68" y="210" width="240" height="303"/>
@@ -153,11 +170,11 @@
             <objects>
                 <viewController definesPresentationContext="YES" id="IDb-1Y-N4p" customClass="RegisterViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YFX-b2-qxF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fotoram.io" translatesAutoresizingMaskIntoConstraints="NO" id="DSm-VW-8cy">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </imageView>
                             <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xSU-ZU-qgh">
                                 <rect key="frame" x="67" y="193" width="240" height="369"/>
@@ -249,7 +266,7 @@
             </objects>
             <point key="canvasLocation" x="930.39999999999998" y="535.68215892053979"/>
         </scene>
-        <!--User Settings-->
+        <!--User Settings View Controller-->
         <scene sceneID="CrJ-qw-VI3">
             <objects>
                 <viewController id="Pfw-NS-Yee" customClass="UserSettingsViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
@@ -268,13 +285,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="M66-Z8-O6q"/>
                     </view>
-                    <navigationItem key="navigationItem" title="User Settings" id="5FS-JV-WWB"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hcg-vj-RwZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1729" y="-501"/>
         </scene>
-        <!--Board Settings-->
+        <!--Board Settings View Controller-->
         <scene sceneID="0KM-UQ-Kcs">
             <objects>
                 <viewController id="Vc4-LS-6tE" customClass="BoardSettingsViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
@@ -293,13 +309,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="c3o-vn-WOa"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Board Settings" id="uOz-2b-6OX"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhp-9i-80s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2393" y="-501"/>
         </scene>
-        <!--My Boards-->
+        <!--Main View Controller-->
         <scene sceneID="As8-2N-v8d">
             <objects>
                 <viewController storyboardIdentifier="MainViewController" id="mxH-Vc-7c1" customClass="MainViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
@@ -310,20 +325,33 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dmL-Xj-3U1">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" sectionInsetReference="layoutMargins" id="beK-vr-m4t">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <imageView key="backgroundView" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="corkboard" id="bg2-Nf-SmC">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <gestureRecognizers/>
+                                </imageView>
                                 <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="mxH-Vc-7c1" id="3Om-4E-ZZs"/>
+                                    <outlet property="delegate" destination="mxH-Vc-7c1" id="zy9-mc-tIJ"/>
+                                </connections>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="any-DP-c64">
-                                <rect key="frame" x="166" y="627" width="42" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JBX-uQ-Php">
+                                <rect key="frame" x="148" y="76" width="80" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="1" green="0.52120530610000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Trash"/>
+                                <state key="normal" title="New Board"/>
+                                <connections>
+                                    <action selector="addNewBoard:" destination="mxH-Vc-7c1" eventType="touchUpInside" id="6eJ-Vz-38B"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xNN-pU-Lb5">
                                 <rect key="frame" x="249" y="333" width="100" height="30"/>
@@ -335,29 +363,11 @@
                                     <segue destination="Pfw-NS-Yee" kind="show" identifier="goToUserSettingsView" id="zot-rP-eG3"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SE2-HX-se1">
-                                <rect key="frame" x="67" y="212" width="67" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.45009386540000001" green="0.98132258650000004" blue="0.4743030667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
-                                <state key="normal" title="Board #1"/>
-                                <connections>
-                                    <segue destination="6KO-rH-v0K" kind="push" identifier="goToBoardView" id="1gb-WK-bGg"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JBX-uQ-Php">
-                                <rect key="frame" x="148" y="76" width="80" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.52120530610000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="New Board"/>
-                                <connections>
-                                    <action selector="addNewBoard:" destination="mxH-Vc-7c1" eventType="touchUpInside" id="6eJ-Vz-38B"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owT-Jh-yJP">
                                 <rect key="frame" x="265" y="158" width="48" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.45085787770000002" green="0.98829740290000001" blue="0.83763033149999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
                                 <state key="normal" title="Logout"/>
                                 <connections>
                                     <action selector="logoutButton:" destination="mxH-Vc-7c1" eventType="touchUpInside" id="UNY-S5-cXL"/>
@@ -367,29 +377,29 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="dmL-Xj-3U1" secondAttribute="bottom" id="0aK-Cl-OdM"/>
-                            <constraint firstAttribute="trailing" secondItem="dmL-Xj-3U1" secondAttribute="trailing" id="Ryu-AD-YtM"/>
-                            <constraint firstItem="dmL-Xj-3U1" firstAttribute="top" secondItem="5Ru-ky-j4A" secondAttribute="top" id="ic3-mv-tAh"/>
-                            <constraint firstItem="dmL-Xj-3U1" firstAttribute="leading" secondItem="5Ru-ky-j4A" secondAttribute="leading" id="mm7-5B-veP"/>
+                            <constraint firstItem="dmL-Xj-3U1" firstAttribute="trailing" secondItem="MYE-go-cBj" secondAttribute="trailing" id="GPM-33-y1k"/>
+                            <constraint firstAttribute="bottom" secondItem="dmL-Xj-3U1" secondAttribute="bottom" id="WNE-CB-HhR"/>
+                            <constraint firstItem="dmL-Xj-3U1" firstAttribute="leading" secondItem="MYE-go-cBj" secondAttribute="leading" id="h9C-4V-ymj"/>
+                            <constraint firstItem="dmL-Xj-3U1" firstAttribute="top" secondItem="MYE-go-cBj" secondAttribute="top" id="iil-PS-8Lt"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MYE-go-cBj"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="My Boards" id="A8Y-iM-xWa"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="allBoardsTableView" destination="dmL-Xj-3U1" id="OTu-ya-Ka4"/>
+                        <segue destination="6KO-rH-v0K" kind="show" identifier="goToBoardView" id="gn0-44-xuo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frX-dJ-iLL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1728.8" y="187.55622188905548"/>
         </scene>
-        <!--Board-->
+        <!--Board View Controller-->
         <scene sceneID="lRl-gt-R6k">
             <objects>
-                <viewController id="6KO-rH-v0K" customClass="BoardViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BoardViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6KO-rH-v0K" customClass="BoardViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5l7-NQ-cbc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -456,43 +466,32 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Video"/>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IKp-uG-ct0">
+                                <rect key="frame" x="80" y="188" width="232" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="OYK-tC-uoH" firstAttribute="top" secondItem="5l7-NQ-cbc" secondAttribute="top" id="SQ6-eC-508"/>
-                            <constraint firstItem="OYK-tC-uoH" firstAttribute="leading" secondItem="utb-om-YhQ" secondAttribute="leading" id="b1b-46-9TO"/>
-                            <constraint firstItem="OYK-tC-uoH" firstAttribute="trailing" secondItem="utb-om-YhQ" secondAttribute="trailing" id="cvi-cy-c0f"/>
-                            <constraint firstItem="OYK-tC-uoH" firstAttribute="top" secondItem="utb-om-YhQ" secondAttribute="top" id="lSt-Ed-Pdr"/>
-                            <constraint firstItem="utb-om-YhQ" firstAttribute="bottom" secondItem="OYK-tC-uoH" secondAttribute="bottom" id="xiw-dg-FJX"/>
+                            <constraint firstItem="OYK-tC-uoH" firstAttribute="trailing" secondItem="utb-om-YhQ" secondAttribute="trailing" id="Ou1-qP-nDY"/>
+                            <constraint firstItem="OYK-tC-uoH" firstAttribute="top" secondItem="utb-om-YhQ" secondAttribute="top" id="UNI-Hl-r4q"/>
+                            <constraint firstItem="OYK-tC-uoH" firstAttribute="leading" secondItem="utb-om-YhQ" secondAttribute="leading" id="niV-lY-vMk"/>
+                            <constraint firstItem="OYK-tC-uoH" firstAttribute="bottom" secondItem="utb-om-YhQ" secondAttribute="bottom" id="yNg-pl-K0Q"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="utb-om-YhQ"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Board" largeTitleDisplayMode="always" id="OF2-Qf-AUQ"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="boardCellLabel" destination="IKp-uG-ct0" id="Y3Y-Dv-70g"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kN7-54-XVC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2392.8000000000002" y="187.55622188905548"/>
-        </scene>
-        <!--Corkboard-->
-        <scene sceneID="9HB-8N-33h">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="s8o-5g-gMs" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController title="Corkboard" automaticallyAdjustsScrollViewInsets="NO" id="TGS-ZP-f6a" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="hao-H1-1dg"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="L3U-cz-PjF">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Z5O-Nk-Ahr"/>
-                    </connections>
-                </navigationController>
-            </objects>
-            <point key="canvasLocation" x="-802.39999999999998" y="139.880059970015"/>
+            <point key="canvasLocation" x="2752.8000000000002" y="187.55622188905548"/>
         </scene>
     </scenes>
     <resources>
@@ -501,6 +500,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="FUM-RI-vQb"/>
-        <segue reference="37y-1Q-SJ7"/>
+        <segue reference="9SK-0r-KW9"/>
     </inferredMetricsTieBreakers>
 </document>
