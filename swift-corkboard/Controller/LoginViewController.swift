@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import SVProgressHUD
 
-class LoginViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
 

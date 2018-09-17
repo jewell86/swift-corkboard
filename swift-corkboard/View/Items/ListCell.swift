@@ -1,0 +1,20 @@
+//
+//  ListCell.swift
+//  swift-corkboard
+//
+//  Created by Jewell Braden on 9/17/18.
+//  Copyright © 2018 Jewell White. All rights reserved.
+//
+
+import UIKit
+
+class ListCell: UICollectionViewCell {
+
+    @IBOutlet weak var content: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+
+}

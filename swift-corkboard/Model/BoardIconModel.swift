@@ -8,8 +8,7 @@
 
 
 
-class BoardIcon{
-    
+class BoardIcon {    
     var boards_id : Any = ""
     var added_by : Any = ""
     var title : String = ""

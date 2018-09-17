@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class MainViewController: UIViewController, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     //DECLARE GLOBAL VARIABLES
     var boardArray : [BoardIcon] = [BoardIcon]()
@@ -22,12 +22,7 @@ class MainViewController: UIViewController, UINavigationControllerDelegate, UICo
     //VIEWDIDLOAD - FIRST FUNC CALLED
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        self.allBoardsTableView?.allowsSelection = true
-//        self.allBoardsTableView?.allowsMultipleSelection = false
-        
         self.navigationController?.isNavigationBarHidden = true
-
         //SET DELEGATES
         allBoardsTableView.delegate = self
         allBoardsTableView.dataSource = self
@@ -38,7 +33,7 @@ class MainViewController: UIViewController, UINavigationControllerDelegate, UICo
         renderBoards()
     }
     
-    //CREATE & CONFIGURE CELLS FOR COLLECTION VIEW
+    //CREATE CELLS BY PASSING DATA FROM BOARD ARRAY INTO BOARD CELLS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "boardCellCollectionViewCell", for: indexPath) as! BoardCellCollectionViewCell
         cell.boardCellLabel.text = boardArray[indexPath.row].title
@@ -88,7 +83,7 @@ class MainViewController: UIViewController, UINavigationControllerDelegate, UICo
         }
     }
     
-    //RENDER & DISPLAY ALL BOARDS FROM DB TO COLLECTION VIEW
+    //RENDER ALL BOARDS FROM DB TO SELF.BOARD ARRAY
     func renderBoards() {
         let userId = defaults.string(forKey: "userId")
         print("here is renderboards func userid from storage")
