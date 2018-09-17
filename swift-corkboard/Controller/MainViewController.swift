@@ -49,25 +49,14 @@ class MainViewController: UIViewController, UINavigationControllerDelegate, UICo
     //CLICK ON BOARD FUNC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let id = boardArray[indexPath.row]
-        let boardId = id.title
+        let title = id.title
+        let boardId = id.boards_id
         let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let boardViewController = storyBoard.instantiateViewController(withIdentifier: "BoardViewController") as! BoardViewController
-        boardViewController.name = boardId
+        boardViewController.name = title
+        boardViewController.id = boardId
         self.present(boardViewController, animated: true, completion: nil)
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let vc = segue.destination as! BoardViewController //Your ViewController class
-//        if let cell = sender as? UICollectionViewCell,
-//            let indexPath = self.allBoardsTableView.indexPath(for: cell){
-//
-//            let id = boardArray[indexPath.row]
-//            let boardId = id.title
-//            print(boardId)
-//            vc.name = boardId
-//        }
-//    }
-    
     
     //DETERMINE CELL COUNT
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -151,10 +140,7 @@ class MainViewController: UIViewController, UINavigationControllerDelegate, UICo
     }
     
     //LOGOUT BUTTON PRESSED
-    @IBAction func logoutButton(_ sender: Any) {
-        self.defaults.removeObject(forKey: "token")
-        self.defaults.removeObject(forKey: "userId")
-    }
+    
 }
 
 
