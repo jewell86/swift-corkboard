@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BoardViewController: UIViewController {
+class BoardViewController: UIViewController, UINavigationControllerDelegate {
 
     @IBOutlet weak var boardCellLabel: UILabel!
     
@@ -27,15 +27,13 @@ class BoardViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func backButton(_ sender: UIButton) {
+        print("hi")
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let mainViewController = storyBoard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
+        self.present(mainViewController, animated: true, completion: nil)
+        
     }
-    */
+    
 
 }

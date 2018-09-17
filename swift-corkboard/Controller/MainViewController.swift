@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class MainViewController: UIViewController, UINavigationBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class MainViewController: UIViewController, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     //DECLARE GLOBAL VARIABLES
     var boardArray : [BoardIcon] = [BoardIcon]()
@@ -26,6 +26,8 @@ class MainViewController: UIViewController, UINavigationBarDelegate, UICollectio
 //        self.allBoardsTableView?.allowsSelection = true
 //        self.allBoardsTableView?.allowsMultipleSelection = false
         
+        self.navigationController?.isNavigationBarHidden = true
+
         //SET DELEGATES
         allBoardsTableView.delegate = self
         allBoardsTableView.dataSource = self
