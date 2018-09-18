@@ -12,13 +12,9 @@ import SwiftyJSON
 import SVProgressHUD
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
-    
-    
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    
-    
     
     let defaults = UserDefaults.standard
 

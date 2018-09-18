@@ -10,15 +10,11 @@ target 'swift-corkboard' do
     pod 'SwiftyJSON'
     pod 'SVProgressHUD'
     pod 'ChameleonFramework'
-    pod 'DZNEmptyDataSet'
-    pod 'PKRevealController'
-    pod 'Firebase/Core'
     pod 'Firebase'
-    pod 'Firebase/Auth'
-    pod 'Firebase/Database'
     pod 'Firebase/Firestore'
     pod 'Firebase/Storage'
     pod 'Firebase/Functions'
+    pod 'FirebaseUI/Storage'
 
   target 'swift-corkboardTests' do
     inherit! :search_paths

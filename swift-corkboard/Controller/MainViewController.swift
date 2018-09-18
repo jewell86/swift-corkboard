@@ -86,8 +86,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     //RENDER ALL BOARDS FROM DB TO SELF.BOARD ARRAY
     func renderBoards() {
         let userId = defaults.string(forKey: "userId")
-        print("here is renderboards func userid from storage")
-        print(userId!)
         let url = "http://localhost:5000/\(userId!)/main"
         self.boardArray = [BoardIcon]()
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {

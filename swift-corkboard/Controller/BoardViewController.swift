@@ -25,6 +25,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     var name : String = ""
     var id : Any = ""
+    
 
     //VIEW DID LOAD
     override func viewDidLoad() {
@@ -33,9 +34,11 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //SET DELEGATES
         itemCollectionView.delegate = self
         itemCollectionView.dataSource = self
-        imagePicker.delegate = self as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
+//        imagePickerDelegate.delegate = self as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
         boardCellLabel.text! = name
-        
+        self.defaults.set("\(self.id)", forKey: "boardId")
+
+
         //REGISTER CELL XIBS
         itemCollectionView.register(UINib(nibName: "NoteViewCell", bundle: nil), forCellWithReuseIdentifier: "noteViewCell")
         itemCollectionView.register(UINib(nibName: "ListCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
@@ -123,7 +126,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     //RENDER ALL ITEMS INTO ITEM ARRAY FROM DB
     func renderItems() {
         let userId = defaults.string(forKey: "userId")
-        let boardId = self.id
+        let boardId = self.id   
         let url = "http://localhost:5000/\(userId!)/\(boardId)"
         self.itemArray = [AnyObject]()
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
@@ -162,14 +165,31 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         webpageItem.date_added = item["updated_at"]
                         self.itemArray.append(webpageItem)
                     }
+                }
             }
-        }
             self.configureCollectionView()
             self.itemCollectionView.reloadData()
-    }
+        }
 
-}
-    var imagePicker = UIImagePickerController()
+    }
+    
+    //RENDER IMAGES FROM DB
+    func renderImages() {
+        // Create a reference with an initial file path and name
+        let reference = Storage.storage().reference(withPath: "images/")
+        reference.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
+            if let _error = error{
+                print(_error)
+            } else {
+                if let _data  = data {
+                    print("ALL IMAGES")
+                    print(data)
+                    //                        let myImage:UIImage! = UIImage(data: _data)
+                    //                        success(myImage)
+                }
+            }
+        }
+    }
     
     //ADD IMAGE BUTTON PRESSED
     @IBAction func addImage(_ sender: Any) {
@@ -180,29 +200,25 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         present(imagePickerController, animated: true, completion: nil)
     }
     
-    func renderImages() {
-
-    }
-    
-    struct Constants {
-        struct Image {
-            static let imagesFolder: String = "images"
-        }
-    }
-
-    
     //SAVE IMAGE TO FIREBASE
     func uploadImage(_ image: UIImage, progressBlock: @escaping (_ percentage: Double) -> Void, completionBlock: @escaping (_ url: URL?, _ errorMessage: String?) -> Void) {
         let storage = Storage.storage()
-        let storageReference = storage.reference()
-        let imageName = "\(Date().timeIntervalSince1970).jpg"
-        let imagesReference = storageReference.child(Constants.Image.imagesFolder).child(imageName)
+        let storageRef = storage.reference()
+        let directory = defaults.string(forKey: "boardId")
+        let fileName = Date().timeIntervalSinceNow
+        let imageRef = storageRef.child("images/\(directory!)/\(fileName).jpg")
         if let imageData = UIImageJPEGRepresentation(image, 0.8) {
             let metadata = StorageMetadata()
+            metadata.customMetadata = [
+                    "itemType": "image",
+                    "added_by": "1",
+                    "content": "",
+                    "board_id": "\(self.id)",
+            ]
+                
             metadata.contentType = "image/jpeg"
-
-            let uploadTask = imagesReference.putData(imageData, metadata: metadata, completion: { (metadata, error) in
-                imagesReference.downloadURL(completion: { (url, error) in
+            let uploadTask = imageRef.putData(imageData, metadata: metadata, completion: { (metadata, error) in
+                imageRef.downloadURL(completion: { (url, error) in
                 if let metadata = metadata {
                     print("made upload call")
                     print(url)
@@ -221,9 +237,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             })
         } else {
             completionBlock(nil, "Image not converted to data")
+        }
     }
-}
-    
 }
 
 
@@ -245,6 +260,7 @@ extension UIViewController: UIImagePickerControllerDelegate, UINavigationControl
         }
     }
 }
+
     
 
 
