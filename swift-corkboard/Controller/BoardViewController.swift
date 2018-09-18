@@ -38,6 +38,9 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         boardCellLabel.text! = name
         self.defaults.set("\(self.id)", forKey: "boardId")
 
+        print("ITS THE BOARD ID RIGHT HRRRRR")
+        let boardId = defaults.string(forKey: "boardId")
+        print(boardId!)
 
         //REGISTER CELL XIBS
         itemCollectionView.register(UINib(nibName: "NoteViewCell", bundle: nil), forCellWithReuseIdentifier: "noteViewCell")
@@ -175,20 +178,20 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     //RENDER IMAGES FROM DB
     func renderImages() {
-        // Create a reference with an initial file path and name
-        let reference = Storage.storage().reference(withPath: "images/")
-        reference.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
-            if let _error = error{
-                print(_error)
-            } else {
-                if let _data  = data {
-                    print("ALL IMAGES")
-                    print(data)
-                    //                        let myImage:UIImage! = UIImage(data: _data)
-                    //                        success(myImage)
-                }
-            }
-        }
+//        // Create a reference with an initial file path and name
+//        let reference = Storage.storage().reference(withPath: "images/")
+//        reference.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
+//            if let _error = error{
+//                print(_error)
+//            } else {
+//                if let _data  = data {
+//                    print("ALL IMAGES")
+//                    print(data)
+//                    //                        let myImage:UIImage! = UIImage(data: _data)
+//                    //                        success(myImage)
+//                }
+//            }
+//        }
     }
     
     //ADD IMAGE BUTTON PRESSED
@@ -215,30 +218,29 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                     "content": "",
                     "board_id": "\(self.id)",
             ]
-                
             metadata.contentType = "image/jpeg"
+            
             let uploadTask = imageRef.putData(imageData, metadata: metadata, completion: { (metadata, error) in
                 imageRef.downloadURL(completion: { (url, error) in
-                if let metadata = metadata {
-                    print("made upload call")
-                    print(url)
-                    return completionBlock( url, nil)
-                } else {
-                    completionBlock(nil, error?.localizedDescription)
-                }
+                    if let metadata = metadata {
+                        return completionBlock( url, nil)
+                    } else {
+                        completionBlock(nil, error?.localizedDescription)
+                    }
                 })
             })
+            
             uploadTask.observe(.progress, handler: { (snapshot) in
                 guard let progress = snapshot.progress else {
                     return
                 }
                 let percentage = (Double(progress.completedUnitCount) / Double(progress.totalUnitCount)) * 100
                 progressBlock(percentage)
-            })
-        } else {
-            completionBlock(nil, "Image not converted to data")
-        }
-    }
+                })
+                } else {
+                completionBlock(nil, "Image not converted to data")
+                }
+            }
 }
 
 
