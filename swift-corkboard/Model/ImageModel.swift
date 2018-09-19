@@ -7,11 +7,11 @@
 //
 
 class BoardImage {
-    var image_id : Any = ""
+    var image_id : String = ""
     var itemType : String = ""
-    var added_by : Any = ""
-    var link : Any = ""
+    var added_by : String = ""
+    var link : String = ""
     var content : String = ""
-    var board_id : Any = ""
-    var date_added : Any = ""
+    var board_id : String = ""
+
 }

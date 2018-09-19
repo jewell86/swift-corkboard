@@ -13,5 +13,5 @@ class BoardVideo {
     var link : Any = ""
     var content : String = ""
     var board_id : Any = ""
-    var date_added : Any = ""
+
 }

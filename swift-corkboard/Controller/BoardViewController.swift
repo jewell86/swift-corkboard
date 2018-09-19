@@ -12,11 +12,11 @@ import SwiftyJSON
 import FirebaseFirestore
 import Firebase
 import FirebaseStorage
+import FirebaseUI
 
 class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     @IBOutlet weak var itemCollectionView: UICollectionView!
-    
     @IBOutlet weak var boardCellLabel: UILabel!
     
     //DECLARE GLOBAL VARIABLES
@@ -26,7 +26,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     var name : String = ""
     var id : Any = ""
     
-
     //VIEW DID LOAD
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,13 +33,9 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //SET DELEGATES
         itemCollectionView.delegate = self
         itemCollectionView.dataSource = self
-//        imagePickerDelegate.delegate = self as? UIImagePickerControllerDelegate & UINavigationControllerDelegate
         boardCellLabel.text! = name
         self.defaults.set("\(self.id)", forKey: "boardId")
-
-        print("ITS THE BOARD ID RIGHT HRRRRR")
-        let boardId = defaults.string(forKey: "boardId")
-        print(boardId!)
+        var boardId = defaults.set("\(id)", forKey: "boardId")
 
         //REGISTER CELL XIBS
         itemCollectionView.register(UINib(nibName: "NoteViewCell", bundle: nil), forCellWithReuseIdentifier: "noteViewCell")
@@ -52,7 +47,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //CALL OTHER FUNCS
         configureCollectionView()
         renderItems()
-        renderImages()
     }
     
     //RENDER ALL ITEM CELLS TO PAGE FROM ITEM ARRAY
@@ -71,6 +65,14 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         } else if ((itemArray[indexPath.row] as? BoardImage) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCell
             cell.titleLabel.text = (itemArray[indexPath.row] as! BoardImage).content
+            let storage = Storage.storage()
+            let storageRef = storage.reference()
+//            let boardId = defaults.string(forKey: "boardId")
+//            let url = (itemArray[indexPath.row] as! BoardImage).link
+            let imageRef = storageRef.child("\((itemArray[indexPath.row] as! BoardImage).link)")
+            let imageView = cell.img
+            let placeholderImage = UIImage(named: "angle-mask.png")
+            imageView?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
             return cell
 
         } else if ((itemArray[indexPath.row] as? BoardVideo) != nil) {
@@ -129,9 +131,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     //RENDER ALL ITEMS INTO ITEM ARRAY FROM DB
     func renderItems() {
         let userId = defaults.string(forKey: "userId")
-        let boardId = self.id   
-        let url = "http://localhost:5000/\(userId!)/\(boardId)"
-        self.itemArray = [AnyObject]()
+        let boardId = defaults.string(forKey: "boardId")
+        let url = "http://localhost:5000/\(userId!)/\(boardId!)"
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             if let data : JSON = JSON(response.result.value) {
@@ -167,31 +168,20 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         webpageItem.board_id = item["board_id"]
                         webpageItem.date_added = item["updated_at"]
                         self.itemArray.append(webpageItem)
+                    } else if item["type"] == "image" {
+                        let imageItem = BoardImage()
+                        imageItem.image_id = item["id"].stringValue
+                        imageItem.itemType = item["type"].stringValue
+                        imageItem.added_by = item["added_by"].stringValue
+                        imageItem.link = item["link"].stringValue
+                        imageItem.content = item["content"].stringValue
+                        imageItem.board_id = item["board_id"].stringValue
+                        self.itemArray.append(imageItem)
                     }
                 }
             }
-            self.configureCollectionView()
             self.itemCollectionView.reloadData()
         }
-
-    }
-    
-    //RENDER IMAGES FROM DB
-    func renderImages() {
-//        // Create a reference with an initial file path and name
-//        let reference = Storage.storage().reference(withPath: "images/")
-//        reference.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
-//            if let _error = error{
-//                print(_error)
-//            } else {
-//                if let _data  = data {
-//                    print("ALL IMAGES")
-//                    print(data)
-//                    //                        let myImage:UIImage! = UIImage(data: _data)
-//                    //                        success(myImage)
-//                }
-//            }
-//        }
     }
     
     //ADD IMAGE BUTTON PRESSED
@@ -207,29 +197,31 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     func uploadImage(_ image: UIImage, progressBlock: @escaping (_ percentage: Double) -> Void, completionBlock: @escaping (_ url: URL?, _ errorMessage: String?) -> Void) {
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        let directory = defaults.string(forKey: "boardId")
-        let fileName = Date().timeIntervalSinceNow
-        let imageRef = storageRef.child("images/\(directory!)/\(fileName).jpg")
+        let boardId = defaults.string(forKey: "boardId")
+        let userId = defaults.string(forKey: "userId")
+        let fileName = NSUUID().uuidString
+        let imageRef = storageRef.child("images/\(boardId!)/\(fileName).jpg")
         if let imageData = UIImageJPEGRepresentation(image, 0.8) {
             let metadata = StorageMetadata()
             metadata.customMetadata = [
                     "itemType": "image",
-                    "added_by": "1",
-                    "content": "",
-                    "board_id": "\(self.id)",
+                    "added_by": "\(userId!)",
+                    "content": "TITLE",
+                    "board_id": "\(boardId!)",
             ]
             metadata.contentType = "image/jpeg"
-            
             let uploadTask = imageRef.putData(imageData, metadata: metadata, completion: { (metadata, error) in
                 imageRef.downloadURL(completion: { (url, error) in
                     if let metadata = metadata {
+                        print("here's metadata")
+                        print(metadata)
+                        self.addImageToDB(filename: fileName)
                         return completionBlock( url, nil)
                     } else {
                         completionBlock(nil, error?.localizedDescription)
                     }
                 })
             })
-            
             uploadTask.observe(.progress, handler: { (snapshot) in
                 guard let progress = snapshot.progress else {
                     return
@@ -239,26 +231,44 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 })
                 } else {
                 completionBlock(nil, "Image not converted to data")
-                }
             }
+        }
+    
+    //ADD IMAGE TO POSTGRESSQL DB
+    func addImageToDB(filename : String) {
+        let name = filename
+        let boardId = defaults.string(forKey: "boardId")
+        let userId = defaults.string(forKey: "userId")
+        let imageItem = BoardImage()
+        let params = [
+            "itemType": "image",
+            "added_by": Int(userId!),
+            "link": "images/\(String(describing: boardId!))/\(String(describing: name)).jpg",
+            "content": "TITLE",
+            "board_id": Int(boardId!)
+            ] as [String : Any]
+        let url = "http://localhost:5000/\(String(describing: boardId!))/addItem"
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
+            }
+    }
 }
-
 
 //DELEGATE EXTENSIONS FOR PHOTO UPLOADING
 extension UIViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
+//        self.viewDidLoad()
     }
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+//            picker.dismiss(animated: true, completion: nil)
+
             let imageUploadManager = BoardViewController()
             imageUploadManager.uploadImage(image, progressBlock: { (percentage) in
                 print(percentage)
             }, completionBlock: { (fileURL, errorMessage) in
-                print(fileURL)
                 print(errorMessage)
             })
-            
         }
     }
 }
