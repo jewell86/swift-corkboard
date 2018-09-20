@@ -10,32 +10,26 @@ import UIKit
 import PusherSwift
 import Alamofire
 
-class NoteViewCell: UICollectionViewCell, UITextFieldDelegate {
+class NoteViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var content: UITextField!
+    @IBOutlet weak var content: UITextView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        content.delegate = self
+        self.content.delegate = self
+        content.isUserInteractionEnabled = true
         content.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAwayFunction(_:))))
+        
         var frameRect : CGRect = self.content.frame;
-        frameRect.size.height = 100; //
+        frameRect.size.height = 100;
         content.frame = frameRect;
         listenForChanges()
-        content.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
     var pusher : Pusher!
     var randomUuid : String = ""
     var noteId : Any = ""
 
-    @objc func textFieldDidChange(_ textView: UITextView) {
-//        if content.text!.count > 0 {
-            print("TEXT CHANGING!!")
-            sendToPusher(text: content.text!)
-    }
-    
     @objc func tappedAwayFunction(_ sender: UITapGestureRecognizer) {
         print("tapped away")
         print(self.noteId)
@@ -56,10 +50,10 @@ class NoteViewCell: UICollectionViewCell, UITextFieldDelegate {
     }
 
     func listenForChanges() {
-        pusher = Pusher(key: "PUSHER_KEY", options: PusherClientOptions(
-            host: .cluster("PUSHER_CLUSTER")
+        pusher = Pusher(key: "68d00ab5cb679315179f", options: PusherClientOptions(
+            host: .cluster("us2")
         ))
-        let channel = pusher.subscribe("collabo")
+        let channel = pusher.subscribe("Corkboard")
         let _ = channel.bind(eventName: "text_update", callback: { (data: Any?) -> Void in
             if let data = data as? [String: AnyObject] {
                 let fromDeviceId = data["deviceId"] as! String
@@ -73,3 +67,13 @@ class NoteViewCell: UICollectionViewCell, UITextFieldDelegate {
     }
 
 }
+
+extension NoteViewCell: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        print("entered text")
+        sendToPusher(text: content.text!)
+
+    }
+}
+    
+

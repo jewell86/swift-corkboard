@@ -19,22 +19,21 @@
                 <rect key="frame" x="0.0" y="0.0" width="85" height="83"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ikY-Jf-A5u">
-                        <rect key="frame" x="0.0" y="0.0" width="85" height="30"/>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Lorem ipsum dolor sit er elit lamet." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ttz-fn-EI9">
+                        <rect key="frame" x="-1" y="0.0" width="86" height="83"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="textColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits"/>
-                    </textField>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="85" height="83"/>
             <connections>
-                <outlet property="content" destination="ikY-Jf-A5u" id="m2W-CT-Ti5"/>
+                <outlet property="content" destination="Ttz-fn-EI9" id="WM6-5e-UUD"/>
             </connections>
-            <point key="canvasLocation" x="156.5" y="70.5"/>
+            <point key="canvasLocation" x="157.5" y="70.5"/>
         </collectionViewCell>
     </objects>
 </document>

@@ -15,7 +15,7 @@ import FirebaseStorage
 import FirebaseUI
 import PusherSwift
 
-class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UITextFieldDelegate {
+class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var boardCellLabel: UILabel!
@@ -56,7 +56,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         if ((itemArray[indexPath.row] as? BoardNote) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteViewCell", for: indexPath) as! NoteViewCell
             cell.content.text = (itemArray[indexPath.row] as! BoardNote).content
-            cell.content.delegate = self
+//            cell.content.delegate = self
             cell.noteId = (itemArray[indexPath.row] as! BoardNote).note_id
             print("made note cell")
             return cell
@@ -256,7 +256,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
 extension UIViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
-//        self.viewDidLoad()
     }
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
