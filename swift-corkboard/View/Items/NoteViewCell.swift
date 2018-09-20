@@ -9,31 +9,82 @@
 import UIKit
 import PusherSwift
 import Alamofire
+import SVProgressHUD
 
 class NoteViewCell: UICollectionViewCell {
     
     @IBOutlet weak var content: UITextView!
     
+    let defaults = UserDefaults.standard
+
     override func awakeFromNib() {
+
         super.awakeFromNib()
         self.content.delegate = self
         content.isUserInteractionEnabled = true
         content.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAwayFunction(_:))))
-        
+        content.isScrollEnabled = true
         var frameRect : CGRect = self.content.frame;
         frameRect.size.height = 100;
         content.frame = frameRect;
         listenForChanges()
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     var pusher : Pusher!
     var randomUuid : String = ""
-    var noteId : Any = ""
+    var noteId : String = ""
+    
+    @IBAction func saveNote(_ sender: UIButton) {
+        print("BUTTON PUSHED!")
+        saveNoteRequest()
+    }
+    
+    func saveNoteRequest() {
+//        let params : [String : Any] = ["content": self.content.text! as NSString, "id": self.noteId as! NSInteger]
+        print("CONTENT TEXT:")
+        print(type(of: self.content.text!))
+        print(self.content.text!)
+        
+        print("ID")
+        print(type(of: self.noteId))
+        print(self.noteId)
+        let id = self.noteId
+        let url = "http://localhost:5000/updateItem"
+        Alamofire.request(url, method: .patch, parameters: ["content": self.content.text!, "id": id], encoding: JSONEncoding.default, headers: nil).responseJSON { response in
+            switch response.result {
+            case .success:
+                print("Succeeded")
+            case .failure(let error):
+                print(error)
+            }
+        }
+        print("hello")
+    }
 
     @objc func tappedAwayFunction(_ sender: UITapGestureRecognizer) {
         print("tapped away")
         print(self.noteId)
         self.content.resignFirstResponder()
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+//            if self.content.frame.origin.y == 1.0 {
+//                self.content.frame.origin.y -= keyboardSize.height
+//            }
+//        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+//            if self.frame.origin.y != 1.0 {
+//                self.content.frame.origin.y += keyboardSize.height
+//            }
+//        }
     }
     
     func sendToPusher(text: String) {
@@ -68,11 +119,16 @@ class NoteViewCell: UICollectionViewCell {
 
 }
 
+
+
 extension NoteViewCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         print("entered text")
         sendToPusher(text: content.text!)
-
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        print("done editing!")
     }
 }
     

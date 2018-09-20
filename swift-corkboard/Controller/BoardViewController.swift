@@ -138,7 +138,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 for item in allItems.arrayValue {
                     if item["type"] == "note"{
                         let noteItem = BoardNote()
-                        noteItem.note_id = item["id"]
+                        noteItem.note_id = item["id"].stringValue
                         noteItem.itemType = item["type"].stringValue
                         noteItem.added_by = item["added_by"]
                         noteItem.link = item["link"]
