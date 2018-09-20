@@ -249,6 +249,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             ] as [String : Any]
         let url = "http://localhost:5000/\(String(describing: boardId!))/addItem"
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
+            self.renderItems()
             }
     }
 }
@@ -261,7 +262,7 @@ extension UIViewController: UIImagePickerControllerDelegate, UINavigationControl
     }
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
-//            picker.dismiss(animated: true, completion: nil)
+            picker.dismiss(animated: true, completion: nil)
 
             let imageUploadManager = BoardViewController()
             imageUploadManager.uploadImage(image, progressBlock: { (percentage) in

@@ -11,10 +11,10 @@ target 'swift-corkboard' do
     pod 'SVProgressHUD'
     pod 'ChameleonFramework'
     pod 'Firebase'
-    pod 'Firebase/Firestore'
     pod 'Firebase/Storage'
-    pod 'Firebase/Functions'
+    pod 'Firebase/Firestore'
     pod 'FirebaseUI/Storage'
+    pod 'PusherSwift'
 
   target 'swift-corkboardTests' do
     inherit! :search_paths
