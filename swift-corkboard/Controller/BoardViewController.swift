@@ -13,8 +13,9 @@ import FirebaseFirestore
 import Firebase
 import FirebaseStorage
 import FirebaseUI
+import PusherSwift
 
-class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UITextFieldDelegate {
 
     @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var boardCellLabel: UILabel!
@@ -33,6 +34,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //SET DELEGATES
         itemCollectionView.delegate = self
         itemCollectionView.dataSource = self
+        
         boardCellLabel.text! = name
         self.defaults.set("\(self.id)", forKey: "boardId")
         var boardId = defaults.set("\(id)", forKey: "boardId")
@@ -54,6 +56,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         if ((itemArray[indexPath.row] as? BoardNote) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteViewCell", for: indexPath) as! NoteViewCell
             cell.content.text = (itemArray[indexPath.row] as! BoardNote).content
+            cell.content.delegate = self
+            cell.noteId = (itemArray[indexPath.row] as! BoardNote).note_id
             print("made note cell")
             return cell
         } else if ((itemArray[indexPath.row] as? BoardList) != nil) {
@@ -61,31 +65,25 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.content.text = (itemArray[indexPath.row] as! BoardList).content
             print("made list cell")
             return cell
-
         } else if ((itemArray[indexPath.row] as? BoardImage) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCell
             cell.titleLabel.text = (itemArray[indexPath.row] as! BoardImage).content
             let storage = Storage.storage()
             let storageRef = storage.reference()
-//            let boardId = defaults.string(forKey: "boardId")
-//            let url = (itemArray[indexPath.row] as! BoardImage).link
             let imageRef = storageRef.child("\((itemArray[indexPath.row] as! BoardImage).link)")
             let imageView = cell.img
             let placeholderImage = UIImage(named: "angle-mask.png")
             imageView?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
             return cell
-
         } else if ((itemArray[indexPath.row] as? BoardVideo) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoCell", for: indexPath) as! VideoCell
             cell.titleLabel.text = (itemArray[indexPath.row] as! BoardVideo).content
             return cell
-
         } else if ((itemArray[indexPath.row] as? BoardWebpage) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
             cell.titleLabel.text = (itemArray[indexPath.row] as! BoardWebpage).content
             print("made a webpage cell")
             return cell
-
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
         return cell
@@ -263,7 +261,6 @@ extension UIViewController: UIImagePickerControllerDelegate, UINavigationControl
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             picker.dismiss(animated: true, completion: nil)
-
             let imageUploadManager = BoardViewController()
             imageUploadManager.uploadImage(image, progressBlock: { (percentage) in
                 print(percentage)
