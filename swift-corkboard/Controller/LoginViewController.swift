@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import SVProgressHUD
+import SwiftKeychainWrapper
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
@@ -20,7 +21,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        usernameTextField.becomeFirstResponder()
+//        usernameTextField.becomeFirstResponder()
         self.usernameTextField.delegate = self
         self.passwordTextField.delegate = self
     }
@@ -46,6 +47,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             self.defaults.set(userId.stringValue, forKey: "userId")
             print(userId)
             print(token)
+            let saveToken: Bool = KeychainWrapper.standard.set(token.stringValue, forKey: "token")
+            let saveUserId: Bool = KeychainWrapper.standard.set(userId.stringValue, forKey: "userId")
+            print(saveToken)
             if token == JSON.null {
                 print("Error: \(error)")
                 SVProgressHUD.dismiss()

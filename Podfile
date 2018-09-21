@@ -15,6 +15,7 @@ target 'swift-corkboard' do
     pod 'Firebase/Firestore'
     pod 'FirebaseUI/Storage'
     pod 'PusherSwift'
+    pod 'SwiftKeychainWrapper', '~> 3.0'
 
   target 'swift-corkboardTests' do
     inherit! :search_paths

@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import SwiftKeychainWrapper
 
 class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -17,7 +18,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     let defaults = UserDefaults.standard
 
     //VAR FOR COLLECTIONVIEW
-    @IBOutlet weak var allBoardsTableView: UICollectionView!
+    @IBOutlet var allBoardsTableView: UICollectionView!
     
     //VIEWDIDLOAD - FIRST FUNC CALLED
     override func viewDidLoad() {
@@ -134,6 +135,14 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     //LOGOUT BUTTON PRESSED
     
+    @IBAction func logoutButtonPressed(_ sender: UIButton) {
+        KeychainWrapper.standard.removeObject(forKey: "token")
+        KeychainWrapper.standard.removeObject(forKey: "token")
+        
+        let mainView = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+        let appDelegate = UIApplication.shared.delegate
+        appDelegate?.window??.rootViewController = mainView
+    }
 }
 
 

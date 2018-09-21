@@ -27,12 +27,12 @@
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQA-5p-wSl">
-                        <rect key="frame" x="84" y="77" width="30" height="36"/>
+                        <rect key="frame" x="64" y="57" width="30" height="36"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <state key="normal" title="+"/>
                         <connections>
-                            <action selector="saveNote:" destination="gTV-IL-0wX" eventType="touchUpInside" id="8Lz-qh-Sfi"/>
+                            <action selector="saveNote:" destination="gTV-IL-0wX" eventType="touchUpInside" id="l7d-lG-P5a"/>
                         </connections>
                     </button>
                 </subviews>
@@ -40,7 +40,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="114" height="113"/>
             <connections>
-                <outlet property="content" destination="Ttz-fn-EI9" id="WM6-5e-UUD"/>
+                <outlet property="content" destination="Ttz-fn-EI9" id="Rwv-Wh-enq"/>
             </connections>
             <point key="canvasLocation" x="188" y="98.5"/>
         </collectionViewCell>

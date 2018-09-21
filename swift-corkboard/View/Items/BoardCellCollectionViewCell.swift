@@ -10,8 +10,9 @@ import UIKit
 
 class BoardCellCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var boardCellLabel: UILabel!
 
+    @IBOutlet var boardCellLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

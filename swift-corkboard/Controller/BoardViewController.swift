@@ -15,18 +15,8 @@ import FirebaseStorage
 import FirebaseUI
 import PusherSwift
 
-class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    @IBOutlet weak var itemCollectionView: UICollectionView!
-    @IBOutlet weak var boardCellLabel: UILabel!
-    
-    //DECLARE GLOBAL VARIABLES
-    var itemArray : [AnyObject] = [AnyObject]()
-    let defaults = UserDefaults.standard
-    
-    var name : String = ""
-    var id : Any = ""
-    
     //VIEW DID LOAD
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,28 +25,46 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         itemCollectionView.delegate = self
         itemCollectionView.dataSource = self
         
-        boardCellLabel.text! = name
+        boardCellOutlet.text! = name
         self.defaults.set("\(self.id)", forKey: "boardId")
-        var boardId = defaults.set("\(id)", forKey: "boardId")
-
+        //        var boardId = defaults.set("\(id)", forKey: "boardId")
+        
         //REGISTER CELL XIBS
         itemCollectionView.register(UINib(nibName: "NoteViewCell", bundle: nil), forCellWithReuseIdentifier: "noteViewCell")
         itemCollectionView.register(UINib(nibName: "ListCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
         itemCollectionView.register(UINib(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: "imageCell")
         itemCollectionView.register(UINib(nibName: "VideoCell", bundle: nil), forCellWithReuseIdentifier: "videoCell")
         itemCollectionView.register(UINib(nibName: "WebpageCell", bundle: nil), forCellWithReuseIdentifier: "webpageCell")
-        
+
         //CALL OTHER FUNCS
         configureCollectionView()
         renderItems()
+        
+//        let tap = UITapGestureRecognizer(target: self.itemCollectionView, action: #selector(BoardViewController.dismissKeyboard))
+//        tap.cancelsTouchesInView = false
+//        self.itemCollectionView.addGestureRecognizer(tap)
     }
+    
+    @IBOutlet var itemCollectionView: UICollectionView!
+    @IBOutlet var boardCellOutlet: UILabel!
+    
+    //DECLARE GLOBAL VARIABLES
+    var itemArray : [AnyObject] = [AnyObject]()
+    let defaults = UserDefaults.standard
+    
+    var name : String = ""
+    var id : Any = ""
+    
+//    @objc func dismissKeyboard() {
+//        itemCollectionView.endEditing(true)
+//    }
+    
     
     //RENDER ALL ITEM CELLS TO PAGE FROM ITEM ARRAY
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if ((itemArray[indexPath.row] as? BoardNote) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteViewCell", for: indexPath) as! NoteViewCell
             cell.content.text = (itemArray[indexPath.row] as! BoardNote).content
-//            cell.content.delegate = self
             cell.noteId = (itemArray[indexPath.row] as! BoardNote).note_id
             print("made note cell")
             return cell
@@ -67,7 +75,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             return cell
         } else if ((itemArray[indexPath.row] as? BoardImage) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCell
-            cell.titleLabel.text = (itemArray[indexPath.row] as! BoardImage).content
+            cell.imageTitle.text = (itemArray[indexPath.row] as! BoardImage).content
+            cell.imageId = (itemArray[indexPath.row] as! BoardImage).image_id
             let storage = Storage.storage()
             let storageRef = storage.reference()
             let imageRef = storageRef.child("\((itemArray[indexPath.row] as! BoardImage).link)")
@@ -108,9 +117,13 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     //SET SIZE OF COLLECTION VIEW
     func configureCollectionView() {
+        print("itemCollection")
+        print(self.itemCollectionView)
         if let flowLayout = itemCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.estimatedItemSize = CGSize(width: 100, height: 100)
         }
+        print("itemCollection")
+        print(self.itemCollectionView)
         var isHeightCalculated: Bool = false
         func preferredLayoutAttributesFittingAttributes(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
             if !isHeightCalculated {
@@ -128,6 +141,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     //RENDER ALL ITEMS INTO ITEM ARRAY FROM DB
     func renderItems() {
+        self.itemArray = [AnyObject]()
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
         let url = "http://localhost:5000/\(userId!)/\(boardId!)"
@@ -191,6 +205,21 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         present(imagePickerController, animated: true, completion: nil)
     }
     
+    //IMAGE PICKER CONTROLLER
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+            picker.dismiss(animated: true, completion: nil)
+            self.uploadImage(image, progressBlock: { (percentage) in
+                print(percentage)
+            }, completionBlock: { (fileURL, errorMessage) in
+                print(errorMessage)
+            })
+        }
+    }
+    
     //SAVE IMAGE TO FIREBASE
     func uploadImage(_ image: UIImage, progressBlock: @escaping (_ percentage: Double) -> Void, completionBlock: @escaping (_ url: URL?, _ errorMessage: String?) -> Void) {
         let storage = Storage.storage()
@@ -208,6 +237,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                     "board_id": "\(boardId!)",
             ]
             metadata.contentType = "image/jpeg"
+            
             let uploadTask = imageRef.putData(imageData, metadata: metadata, completion: { (metadata, error) in
                 imageRef.downloadURL(completion: { (url, error) in
                     if let metadata = metadata {
@@ -215,17 +245,21 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         print(metadata)
                         self.addImageToDB(filename: fileName)
                         return completionBlock( url, nil)
+                        
+
                     } else {
                         completionBlock(nil, error?.localizedDescription)
                     }
                 })
             })
+            
             uploadTask.observe(.progress, handler: { (snapshot) in
                 guard let progress = snapshot.progress else {
                     return
                 }
                 let percentage = (Double(progress.completedUnitCount) / Double(progress.totalUnitCount)) * 100
                 progressBlock(percentage)
+
                 })
                 } else {
                 completionBlock(nil, "Image not converted to data")
@@ -250,25 +284,30 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             self.renderItems()
             }
     }
-}
-
-//DELEGATE EXTENSIONS FOR PHOTO UPLOADING
-extension UIViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
-            picker.dismiss(animated: true, completion: nil)
-            let imageUploadManager = BoardViewController()
-            imageUploadManager.uploadImage(image, progressBlock: { (percentage) in
-                print(percentage)
-            }, completionBlock: { (fileURL, errorMessage) in
-                print(errorMessage)
-            })
+    
+    //ADD BLANK NOTE TO POSTGRESQL DB
+    @IBAction func addNote(_ sender: UIButton) {
+        let url = "http://localhost:5000/1/addItem"
+        let userId = defaults.string(forKey: "userId")
+        let boardId = defaults.string(forKey: "boardId")
+        let params = [
+            "itemType": "note",
+            "added_by": Int(userId!),
+            "link": "",
+            "content": "",
+            "board_id": Int(boardId!)
+            ] as [String : Any]
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
+            self.renderItems()
         }
     }
+    
+
+    
+    
 }
+
+
 
     
 

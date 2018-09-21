@@ -13,7 +13,7 @@
         <!--Welcome View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WelcomeViewController" id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -354,7 +354,7 @@
                                 <gestureRecognizers/>
                                 <state key="normal" title="Logout"/>
                                 <connections>
-                                    <action selector="logoutButton:" destination="mxH-Vc-7c1" eventType="touchUpInside" id="UNY-S5-cXL"/>
+                                    <action selector="logoutButtonPressed:" destination="mxH-Vc-7c1" eventType="touchUpInside" id="Zq7-pX-7XM"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -371,7 +371,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="allBoardsTableView" destination="dmL-Xj-3U1" id="OTu-ya-Ka4"/>
+                        <outlet property="allBoardsTableView" destination="dmL-Xj-3U1" id="nbl-WY-PwG"/>
                         <segue destination="6KO-rH-v0K" kind="show" identifier="goToBoardView" id="gn0-44-xuo"/>
                     </connections>
                 </viewController>
@@ -425,6 +425,9 @@
                                 <color key="backgroundColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="New Note"/>
+                                <connections>
+                                    <action selector="addNote:" destination="6KO-rH-v0K" eventType="touchUpInside" id="3Qg-gQ-7Bk"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X3T-2B-7RT">
                                 <rect key="frame" x="163" y="84" width="45" height="30"/>
@@ -474,8 +477,8 @@
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="boardCellLabel" destination="IKp-uG-ct0" id="Y3Y-Dv-70g"/>
-                        <outlet property="itemCollectionView" destination="eFz-Qn-F54" id="Gdq-hF-VAO"/>
+                        <outlet property="boardCellOutlet" destination="IKp-uG-ct0" id="tv2-i2-n7P"/>
+                        <outlet property="itemCollectionView" destination="eFz-Qn-F54" id="szC-O4-5bF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kN7-54-XVC" userLabel="First Responder" sceneMemberID="firstResponder"/>

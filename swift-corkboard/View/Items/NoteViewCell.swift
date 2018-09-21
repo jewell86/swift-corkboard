@@ -13,7 +13,8 @@ import SVProgressHUD
 
 class NoteViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var content: UITextView!
+
+    @IBOutlet var content: UITextView!
     
     let defaults = UserDefaults.standard
 
@@ -22,8 +23,10 @@ class NoteViewCell: UICollectionViewCell {
         super.awakeFromNib()
         self.content.delegate = self
         content.isUserInteractionEnabled = true
-        content.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAwayFunction(_:))))
-        content.isScrollEnabled = true
+//        var tapRecog: UITapGestureRecognizer = (UITapGestureRecognizer(target: self, action: #selector(tappedAwayFunction(_:))))
+//        content.isScrollEnabled = true
+//        content.addGestureRecognizer(tapRecog)
+//        tapRecog.numberOfTapsRequired = 1
         var frameRect : CGRect = self.content.frame;
         frameRect.size.height = 100;
         content.frame = frameRect;
@@ -39,19 +42,6 @@ class NoteViewCell: UICollectionViewCell {
     var noteId : String = ""
     
     @IBAction func saveNote(_ sender: UIButton) {
-        print("BUTTON PUSHED!")
-        saveNoteRequest()
-    }
-    
-    func saveNoteRequest() {
-//        let params : [String : Any] = ["content": self.content.text! as NSString, "id": self.noteId as! NSInteger]
-        print("CONTENT TEXT:")
-        print(type(of: self.content.text!))
-        print(self.content.text!)
-        
-        print("ID")
-        print(type(of: self.noteId))
-        print(self.noteId)
         let id = self.noteId
         let url = "http://localhost:5000/updateItem"
         Alamofire.request(url, method: .patch, parameters: ["content": self.content.text!, "id": id], encoding: JSONEncoding.default, headers: nil).responseJSON { response in
@@ -63,6 +53,7 @@ class NoteViewCell: UICollectionViewCell {
             }
         }
         print("hello")
+//        BoardViewController().renderItems()
     }
 
     @objc func tappedAwayFunction(_ sender: UITapGestureRecognizer) {

@@ -26,7 +26,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        firstName.becomeFirstResponder()
+//        firstName.becomeFirstResponder()
         self.firstName.delegate = self
         self.lastName.delegate = self
         self.email.delegate = self

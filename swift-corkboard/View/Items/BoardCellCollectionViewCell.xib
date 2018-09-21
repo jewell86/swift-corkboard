@@ -32,7 +32,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="74" height="72"/>
             <connections>
-                <outlet property="boardCellLabel" destination="HFQ-Wm-6cn" id="MPx-b2-d0k"/>
+                <outlet property="boardCellLabel" destination="HFQ-Wm-6cn" id="Xi1-2e-Dpg"/>
             </connections>
             <point key="canvasLocation" x="-17" y="114"/>
         </collectionViewCell>
