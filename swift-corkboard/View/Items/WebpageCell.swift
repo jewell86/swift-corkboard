@@ -23,7 +23,5 @@ class WebpageCell: UICollectionViewCell {
     
     @IBOutlet var imageTitle: UILabel!
     
-    let url = URL(string: "\(webpageUrl)") {
-        UIApplication.shared.open(url, options: [:])
-    }
+
 }

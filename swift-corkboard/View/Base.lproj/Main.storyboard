@@ -604,52 +604,6 @@
             </objects>
             <point key="canvasLocation" x="5570.3999999999996" y="187.55622188905548"/>
         </scene>
-        <!--WebViewController-->
-        <scene sceneID="OdS-tf-8Ch">
-            <objects>
-                <viewController title="WebViewController" id="cVx-tg-9Li" customClass="WebViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Q1b-ft-aay">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <wkWebView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4AC-iy-u8d">
-                                <rect key="frame" x="0.0" y="65" width="375" height="602"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M7d-Nb-ri2">
-                                <rect key="frame" x="0.0" y="94" width="48" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="icons8-back-48"/>
-                                <connections>
-                                    <action selector="backButton:" destination="6KO-rH-v0K" eventType="touchUpInside" id="KOl-Ou-EqY"/>
-                                    <action selector="backButton:" destination="cVx-tg-9Li" eventType="touchUpInside" id="aoF-53-8Q0"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uaR-Ai-IyB">
-                                <rect key="frame" x="166" y="36" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Gdu-Wk-01d"/>
-                    </view>
-                    <connections>
-                        <outlet property="webView" destination="4AC-iy-u8d" id="PiH-ZF-Ssh"/>
-                        <outlet property="webpageTitle" destination="uaR-Ai-IyB" id="12V-A7-KdA"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gsn-38-Mj2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6447.1999999999998" y="183.95802098950526"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="4yi-pm-JrW">
             <objects>

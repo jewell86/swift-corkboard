@@ -14,5 +14,5 @@ class BoardWebpage {
     var content : String = ""
     var board_id : String = ""
     var date_added : String = ""
-    var url : String = ""
+    var webpage_url : String = ""
 }

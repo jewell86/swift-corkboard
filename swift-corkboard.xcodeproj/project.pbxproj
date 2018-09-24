@@ -42,7 +42,6 @@
 		F19A0EFD214B0468007C1D31 /* BoardIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */; };
 		F19A0F04214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0F02214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift */; };
 		F19A0F05214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F19A0F03214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib */; };
-		F1A3E6B3215983EC0036A8FD /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A3E6B2215983EC0036A8FD /* WebViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,7 +109,6 @@
 		F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardIconModel.swift; sourceTree = "<group>"; };
 		F19A0F02214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		F19A0F03214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardCellCollectionViewCell.xib; sourceTree = "<group>"; };
-		F1A3E6B2215983EC0036A8FD /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,7 +267,6 @@
 				F106D7A02148BCA2008C51C4 /* BoardViewController.swift */,
 				F106D7A22148BCB4008C51C4 /* BoardSettingsViewController.swift */,
 				F106D7A42148BCC2008C51C4 /* UserSettingsViewController.swift */,
-				F1A3E6B2215983EC0036A8FD /* WebViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -590,7 +587,6 @@
 				F13E8199214F6A4F002BD58A /* NoteModel.swift in Sources */,
 				F12ADF7F2141B67800FAF011 /* LoginViewController.swift in Sources */,
 				F13E81B0214FFBF2002BD58A /* WebpageCell.swift in Sources */,
-				F1A3E6B3215983EC0036A8FD /* WebViewController.swift in Sources */,
 				F19A0F04214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift in Sources */,
 				F1602D5621404601005DFA13 /* AppDelegate.swift in Sources */,
 				F12ADF852141B73100FAF011 /* RegisterViewController.swift in Sources */,

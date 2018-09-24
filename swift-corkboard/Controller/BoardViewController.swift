@@ -94,8 +94,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
             cell.imageTitle.text = (itemArray[indexPath.row] as! BoardWebpage).content
             cell.webpageId = (itemArray[indexPath.row] as! BoardWebpage).webpage_id
-            cell.webpageUrl = (itemArray[indexPath.row] as! BoardWebpage).url
-//            let imageRef = (itemArray[indexPath.row] as! BoardWebpage).link
+            cell.webpageUrl = (itemArray[indexPath.row] as! BoardWebpage).webpage_url
             let webpageView = cell.img
             let placeholderImage = UIImage(named: "angle-mask.png")
             webpageView?.sd_setImage(with: URL(string: "\((itemArray[indexPath.row] as! BoardWebpage).link)"), placeholderImage: placeholderImage)
@@ -113,6 +112,15 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     //OVERRIDE MEMORY THINGY
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("SELECTED!")
+        let cell = collectionView.cellForItem(at: indexPath) as! WebpageCell
+            let webItem = cell.webpageUrl
+            let url = URL(string: "\(webItem)")
+            UIApplication.shared.open(url!, options: [:])
+
     }
     
     //BACK BUTTON FUNCTIONALITY
@@ -186,7 +194,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         webpageItem.content = item["content"].stringValue
                         webpageItem.board_id = item["board_id"].stringValue
                         webpageItem.date_added = item["updated_at"].stringValue
-                        webpageItem.url = item["url"].stringValue
+                        webpageItem.webpage_url = item["webpage_url"].stringValue
                         self.itemArray.append(webpageItem)
                     } else if item["type"] == "image" {
                         let imageItem = BoardImage()
@@ -340,9 +348,9 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 let titleIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "title")!)
                 let title = result[titleIndex!].value
                 let urlIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "url")!)
-                let url = result[titleIndex!].value
+                let webpageUrl = result[urlIndex!].value
                 
-                self.addWebsiteToDatabase(title: title as! String, image: image as! String, websiteUrl: url as! String)
+                self.addWebsiteToDatabase(title: title as! String, image: image as! String, webpageUrl: webpageUrl as! URL)
             },
             onError: { error in
                 print("\(error)")
@@ -351,7 +359,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
     
     //ADD WEBSITE TO DB
-    func addWebsiteToDatabase(title: String, image: String, websiteUrl: String) {
+    func addWebsiteToDatabase(title: String, image: String, webpageUrl: URL) {
         let url = "http://localhost:5000/addItem"
         let userId = self.defaults.string(forKey: "userId")
         let boardId = self.defaults.string(forKey: "boardId")
@@ -361,7 +369,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             "link": "\(image)",
             "content": "\(title)",
             "board_id": Int(boardId!),
-            "url": "\(websiteUrl)"
+            "webpage_url": "\(webpageUrl)"
             ] as [String : Any]
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
             self.renderItems()
