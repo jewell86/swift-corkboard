@@ -7,29 +7,148 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class BoardSettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        listAllUsers()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
-    */
+    
+    let defaults = UserDefaults.standard
 
+
+    //ADD USER TO BOARD
+    @IBOutlet var addUserTextField: UITextField!
+    @IBAction func addUserButton(_ sender: UIButton) {
+        let boardId = defaults.string(forKey: "boardId")
+        let username = addUserTextField.text
+        let params : [String : Any] = ["username": username]
+        let url = "http://localhost:5000/\(boardId!)/addUser"
+        let newUrl = "http://localhost:5000/byUsername/\(username!)"
+        Alamofire.request(newUrl, method: .get).responseJSON { response in
+            if let data : JSON = JSON(response.result.value) {
+                let user = data["response"]
+                let userId = user["id"]
+                Alamofire.request(url, method: .post, parameters: ["id" : userId]).responseJSON { response in
+                    switch response.result {
+                    case .success:
+                        print("Succeeded")
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+            }
+        }
+        self.viewDidLoad()
+    }
+    
+    //REMOVE USER FROM BOARD
+    @IBOutlet var removeUserInput: UITextField!
+    @IBAction func removeUserButton(_ sender: UIButton) {
+        let boardId = defaults.string(forKey: "boardId")
+        let username = removeUserInput.text
+        let params : [String : Any] = ["username": username]
+        let newUrl = "http://localhost:5000/byUsername/\(username!)"
+        Alamofire.request(newUrl, method: .get).responseJSON { response in
+            if let data : JSON = JSON(response.result.value) {
+                let user = data["response"]
+                let userId = user["id"]
+                let url = "http://localhost:5000/\(boardId!)/\(userId)/removeUser"
+//                let params : [String : Any] = ["id": userId]
+                Alamofire.request(url, method: .delete).responseJSON { response in
+                    switch response.result {
+                    case .success:
+                        print("Succeeded")
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+            }
+        }
+        self.viewDidLoad()
+    }
+    
+    //RENAME BOARD
+    @IBOutlet var renameBoardInput: UITextField!
+    @IBAction func renameBoardButton(_ sender: UIButton) {
+        let boardId = defaults.string(forKey: "boardId")
+        let newName = renameBoardInput.text!
+        let url = "http://localhost:5000/\(boardId!)/renameBoard"
+        let params : [String : Any] = ["title" : newName]
+        Alamofire.request(url, method: .patch, parameters: params).responseJSON { response in
+            print(response)
+            switch response.result {
+            case .success:
+                print("Succeeded")
+            case .failure(let error):
+                print(error)
+            }
+        }
+        self.viewDidLoad()
+    }
+    
+    //ALL BOARD-USERS LIST
+    @IBOutlet var allUsersLabel: UILabel!
+    func listAllUsers() {
+        let userId = defaults.string(forKey: "userId")
+        let boardId = defaults.string(forKey: "boardId")
+        let params : [String : Any] = ["boards_id": boardId]
+        let url = "http://localhost:5000/\(boardId!)/getAllUsers"
+        Alamofire.request(url, method: .get).responseJSON { response in
+            if let data : JSON = JSON(response.result.value) {
+                let allUsers = data["response"]
+                self.allUsersLabel.text = ""
+                for user in allUsers.arrayValue {
+                    if user["users_id"].stringValue != userId {
+                        let newUrl = "http://localhost:5000/byId/\(user["users_id"].intValue)"
+                        Alamofire.request(newUrl, method: .get).responseJSON { response in
+                            if let data : JSON = JSON(response.result.value) {
+                                let user = data["response"]
+                                let username = user["username"]
+                                self.allUsersLabel.text = self.allUsersLabel.text!+username.stringValue
+                            }
+                        }
+                    }
+                }
+            }
+    }
+    }
+        
+    
+        //CODE TO EXTRACT OUT ALL USERS_ID MINUS THIS USER, LOOP THRU ALL & PRINT
+        
+    
+    //DELETE BOARD
+    @IBAction func deleteBoardButton(_ sender: UIButton) {
+        //ALERT _ ARE YOU SURE?
+        //IF YES:
+        let boardId = defaults.string(forKey: "boardId")
+        let url = "http://localhost:5000/\(boardId!)/deleteBoard"
+        Alamofire.request(url, method: .delete).responseJSON { response in
+            switch response.result {
+            case .success:
+                print("Succeeded")
+            case .failure(let error):
+                print(error)
+            }
+        }
+        //GO TO MAIN VC
+        
+        //IF NO: ALERT DISMISS
+    }
+    
+    @IBAction func backButton(_ sender: UIButton) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let boardViewController = storyBoard.instantiateViewController(withIdentifier: "BoardViewController") as! BoardViewController
+        self.present(boardViewController, animated: true, completion: nil)
+    }
+    
+    
 }

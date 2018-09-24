@@ -13,16 +13,19 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="webpageCell" id="gTV-IL-0wX" customClass="WebpageCell" customModule="swift_corkboard" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="74" height="75"/>
+            <rect key="frame" x="0.0" y="0.0" width="163" height="158"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="74" height="75"/>
+                <rect key="frame" x="0.0" y="0.0" width="163" height="158"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f4g-3P-RbZ">
-                        <rect key="frame" x="0.0" y="0.0" width="74" height="75"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="angle-mask.png" translatesAutoresizingMaskIntoConstraints="NO" id="hkO-yt-g9y">
+                        <rect key="frame" x="0.0" y="0.0" width="163" height="121"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yz-Na-gSX">
+                        <rect key="frame" x="0.0" y="117" width="163" height="41"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -30,11 +33,15 @@
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <size key="customSize" width="74" height="75"/>
+            <size key="customSize" width="163" height="158"/>
             <connections>
-                <outlet property="titleLabel" destination="f4g-3P-RbZ" id="izj-ne-uAD"/>
+                <outlet property="imageTitle" destination="8Yz-Na-gSX" id="nRd-6t-HP9"/>
+                <outlet property="img" destination="hkO-yt-g9y" id="dWR-1o-uXC"/>
             </connections>
-            <point key="canvasLocation" x="115" y="66.5"/>
+            <point key="canvasLocation" x="159.5" y="25"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="angle-mask.png" width="100" height="100"/>
+    </resources>
 </document>

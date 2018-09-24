@@ -14,6 +14,7 @@ import Firebase
 import FirebaseStorage
 import FirebaseUI
 import PusherSwift
+import SwiftLinkPreview
 
 class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -51,6 +52,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     //DECLARE GLOBAL VARIABLES
     var itemArray : [AnyObject] = [AnyObject]()
     let defaults = UserDefaults.standard
+    let slp = SwiftLinkPreview()
     
     var name : String = ""
     var id : Any = ""
@@ -90,8 +92,13 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             return cell
         } else if ((itemArray[indexPath.row] as? BoardWebpage) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
-            cell.titleLabel.text = (itemArray[indexPath.row] as! BoardWebpage).content
-            print("made a webpage cell")
+            cell.imageTitle.text = (itemArray[indexPath.row] as! BoardWebpage).content
+            cell.webpageId = (itemArray[indexPath.row] as! BoardWebpage).webpage_id
+            cell.webpageUrl = (itemArray[indexPath.row] as! BoardWebpage).url
+//            let imageRef = (itemArray[indexPath.row] as! BoardWebpage).link
+            let webpageView = cell.img
+            let placeholderImage = UIImage(named: "angle-mask.png")
+            webpageView?.sd_setImage(with: URL(string: "\((itemArray[indexPath.row] as! BoardWebpage).link)"), placeholderImage: placeholderImage)
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
@@ -172,13 +179,14 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         self.itemArray.append(listItem)
                     } else if item["type"] == "webpage" {
                         let webpageItem = BoardWebpage()
-                        webpageItem.webpage_id = item["id"]
+                        webpageItem.webpage_id = item["id"].stringValue
                         webpageItem.itemType = item["type"].stringValue
-                        webpageItem.added_by = item["added_by"]
-                        webpageItem.link = item["link"]
+                        webpageItem.added_by = item["added_by"].stringValue
+                        webpageItem.link = item["link"].stringValue
                         webpageItem.content = item["content"].stringValue
-                        webpageItem.board_id = item["board_id"]
-                        webpageItem.date_added = item["updated_at"]
+                        webpageItem.board_id = item["board_id"].stringValue
+                        webpageItem.date_added = item["updated_at"].stringValue
+                        webpageItem.url = item["url"].stringValue
                         self.itemArray.append(webpageItem)
                     } else if item["type"] == "image" {
                         let imageItem = BoardImage()
@@ -271,7 +279,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let name = filename
         let boardId = defaults.string(forKey: "boardId")
         let userId = defaults.string(forKey: "userId")
-        let imageItem = BoardImage()
+//        let imageItem = BoardImage()
         let params = [
             "itemType": "image",
             "added_by": Int(userId!),
@@ -279,7 +287,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             "content": "TITLE",
             "board_id": Int(boardId!)
             ] as [String : Any]
-        let url = "http://localhost:5000/\(String(describing: boardId!))/addItem"
+        let url = "http://localhost:5000/addItem"
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
             self.renderItems()
             }
@@ -287,7 +295,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     //ADD BLANK NOTE TO POSTGRESQL DB
     @IBAction func addNote(_ sender: UIButton) {
-        let url = "http://localhost:5000/1/addItem"
+        let url = "http://localhost:5000/addItem"
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
         let params = [
@@ -302,56 +310,64 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
     }
     
-
+    //ADD WEBPAGE BUTTON
+    @IBAction func addWebsite(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Add A Website", message: "Enter full website address", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.text = "http://www."
+            
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            guard let textField = alert?.textFields![0] else {
+                return
+            }
+            self.getWebsiteThumbnail(url: textField.text!)
+            
+            print("Text field: \(String(describing: textField.text!))")
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    //CREATE WEBPAGE ITEM
+    func getWebsiteThumbnail(url: String) {
+        slp.preview(
+            "\(url)",
+            onSuccess: { result in
+                print(result)
+                let imageIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "image")!)
+                let image = result[imageIndex!].value
+                let titleIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "title")!)
+                let title = result[titleIndex!].value
+                let urlIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "url")!)
+                let url = result[titleIndex!].value
+                
+                self.addWebsiteToDatabase(title: title as! String, image: image as! String, websiteUrl: url as! String)
+            },
+            onError: { error in
+                print("\(error)")
+            }
+            )
+        }
+    
+    //ADD WEBSITE TO DB
+    func addWebsiteToDatabase(title: String, image: String, websiteUrl: String) {
+        let url = "http://localhost:5000/addItem"
+        let userId = self.defaults.string(forKey: "userId")
+        let boardId = self.defaults.string(forKey: "boardId")
+        let params = [
+            "itemType": "webpage",
+            "added_by": Int(userId!),
+            "link": "\(image)",
+            "content": "\(title)",
+            "board_id": Int(boardId!),
+            "url": "\(websiteUrl)"
+            ] as [String : Any]
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
+            self.renderItems()
+        }
+    }
+    
     
     
 }
-
-
-
-    
-
-
-    /////////////////
-    
-        
-        //CLICK ON ITEM FUNC
-//        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//            let id = boardArray[indexPath.row]
-//            let title = id.title
-//            let boardId = id.boards_id
-//            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//            let boardViewController = storyBoard.instantiateViewController(withIdentifier: "BoardViewController") as! BoardViewController
-//            boardViewController.name = title
-//            boardViewController.id = boardId
-//            self.present(boardViewController, animated: true, completion: nil)
-//        }
-//
-//
-//        //ADD NEW ITEM BUTTON PRESSED SHOW ALERT
-//        @IBAction func addNewBoard(_ sender: Any) {
-//            let alert = UIAlertController(title: "Add A New Board", message: "Enter Board Name", preferredStyle: .alert)
-//            alert.addTextField { (textField) in
-//                textField.text = ""
-//            }
-//            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
-//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-//                guard let textField = alert?.textFields![0] else {
-//                    return
-//                }
-//                self.addNewBoard(title: textField.text!)
-//                print("Text field: \(String(describing: textField.text))")
-//            }))
-//            self.present(alert, animated: true, completion: nil)
-//        }
-//
-//        //ADD NEW ITEM DB CALL
-//        func addNewBoard(title: String) {
-//            let userId = defaults.string(forKey: "userId")
-//            let url = "http://localhost:5000/\(userId!)"
-//            Alamofire.request(url, method: .post, parameters: ["title" : title], encoding: JSONEncoding.default, headers: nil).responseJSON {
-//                response in
-//                self.renderBoards()
-//            }
-//        }
-//}

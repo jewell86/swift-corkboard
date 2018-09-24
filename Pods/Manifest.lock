@@ -135,6 +135,7 @@ PODS:
   - Starscream (3.0.5)
   - SVProgressHUD (2.2.5)
   - SwiftKeychainWrapper (3.0.1)
+  - SwiftLinkPreview (2.3.0)
   - SwiftyJSON (4.1.0)
   - TaskQueue (1.1.1)
 
@@ -150,6 +151,7 @@ DEPENDENCIES:
   - Quick
   - SVProgressHUD
   - SwiftKeychainWrapper (~> 3.0)
+  - SwiftLinkPreview
   - SwiftyJSON
 
 SPEC REPOS:
@@ -185,6 +187,7 @@ SPEC REPOS:
     - Starscream
     - SVProgressHUD
     - SwiftKeychainWrapper
+    - SwiftLinkPreview
     - SwiftyJSON
     - TaskQueue
 
@@ -220,9 +223,10 @@ SPEC CHECKSUMS:
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
+  SwiftLinkPreview: 6c9c37215a1310f2bb9ad74fdbe310b3e81556ac
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   TaskQueue: 53a3cdaf817d9ce3cd50837ff6610aeb7b968997
 
-PODFILE CHECKSUM: 0524d9d023fab2384b5bb32b068b842361ee4057
+PODFILE CHECKSUM: cb27aff7842b2c8e3eba97be0ef91ef174f60d61
 
 COCOAPODS: 1.5.3

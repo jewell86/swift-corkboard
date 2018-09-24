@@ -10,10 +10,20 @@ import UIKit
 
 class WebpageCell: UICollectionViewCell {
 
-    @IBOutlet weak var titleLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
+    var webpageId : String = ""
+    
+    var webpageUrl : String = ""
+    
+    @IBOutlet var img: UIImageView!
+    
+    @IBOutlet var imageTitle: UILabel!
+    
+    let url = URL(string: "\(webpageUrl)") {
+        UIApplication.shared.open(url, options: [:])
+    }
 }
