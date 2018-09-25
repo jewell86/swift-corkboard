@@ -18,33 +18,7 @@ import SwiftLinkPreview
 
 class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    //VIEW DID LOAD
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        //SET DELEGATES
-        itemCollectionView.delegate = self
-        itemCollectionView.dataSource = self
-        
-        boardCellOutlet.text! = name
-        self.defaults.set("\(self.id)", forKey: "boardId")
-        //        var boardId = defaults.set("\(id)", forKey: "boardId")
-        
-        //REGISTER CELL XIBS
-        itemCollectionView.register(UINib(nibName: "NoteViewCell", bundle: nil), forCellWithReuseIdentifier: "noteViewCell")
-        itemCollectionView.register(UINib(nibName: "ListCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
-        itemCollectionView.register(UINib(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: "imageCell")
-        itemCollectionView.register(UINib(nibName: "VideoCell", bundle: nil), forCellWithReuseIdentifier: "videoCell")
-        itemCollectionView.register(UINib(nibName: "WebpageCell", bundle: nil), forCellWithReuseIdentifier: "webpageCell")
-
-        //CALL OTHER FUNCS
-        configureCollectionView()
-        renderItems()
-        
-//        let tap = UITapGestureRecognizer(target: self.itemCollectionView, action: #selector(BoardViewController.dismissKeyboard))
-//        tap.cancelsTouchesInView = false
-//        self.itemCollectionView.addGestureRecognizer(tap)
-    }
+//    var longPressGesture: UILongPressGestureRecognizer!
     
     @IBOutlet var itemCollectionView: UICollectionView!
     @IBOutlet var boardCellOutlet: UILabel!
@@ -57,10 +31,33 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     var name : String = ""
     var id : Any = ""
     
-//    @objc func dismissKeyboard() {
-//        itemCollectionView.endEditing(true)
-//    }
-    
+    //VIEW DID LOAD
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //SET DELEGATES
+        itemCollectionView.delegate = self
+        itemCollectionView.dataSource = self
+        //        itemCollectionView.dragInteractionEnabled = true
+        //        itemCollectionView.dropDelegate = self
+        //        itemCollectionView.dragDelegate = self
+        //        itemCollectionView.reorderingCadence = .fast //default value - .immediate
+        let title = defaults.string(forKey: "title")
+        boardCellOutlet.text! = "\(title)"
+        //self.defaults.set("\(self.id)", forKey: "boardId")
+        
+        //REGISTER CELL XIBS
+        itemCollectionView.register(UINib(nibName: "NoteViewCell", bundle: nil), forCellWithReuseIdentifier: "noteViewCell")
+        itemCollectionView.register(UINib(nibName: "ListCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
+        itemCollectionView.register(UINib(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: "imageCell")
+        itemCollectionView.register(UINib(nibName: "VideoCell", bundle: nil), forCellWithReuseIdentifier: "videoCell")
+        itemCollectionView.register(UINib(nibName: "WebpageCell", bundle: nil), forCellWithReuseIdentifier: "webpageCell")
+        
+        //CALL OTHER FUNCS
+        configureCollectionView()
+        renderItems()
+        
+    }
     
     //RENDER ALL ITEM CELLS TO PAGE FROM ITEM ARRAY
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -113,6 +110,27 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    //DRAG & DROP
+//    private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView)
+//    {
+//        let items = coordinator.items
+//        if items.count == 1, let item = items.first, let sourceIndexPath = item.sourceIndexPath
+//        {
+//            var dIndexPath = destinationIndexPath
+//            if dIndexPath.row >= collectionView.numberOfItems(inSection: 0)
+//            {
+//                dIndexPath.row = collectionView.numberOfItems(inSection: 0) - 1
+//            }
+//            collectionView.performBatchUpdates({
+//                self.itemArray.remove(at: sourceIndexPath.row)
+//                self.itemArray.insert(item.dragItem.localObject as! String as AnyObject, at: dIndexPath.row)
+//                collectionView.deleteItems(at: [sourceIndexPath])
+//                collectionView.insertItems(at: [dIndexPath])
+//            })
+//            coordinator.drop(items.first!.dragItem, toItemAt: dIndexPath)
+//        }
+//    }
     
     //SELECT WEBPAGE FUNCTIONALITY
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -225,6 +243,16 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
             self.itemCollectionView.reloadData()
         }
+    }
+    
+    //MAKE DRAGGABLE
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        print("Starting Index: \(sourceIndexPath.item)")
+        print("Ending Index: \(destinationIndexPath.item)")
     }
     
     //ADD IMAGE BUTTON PRESSED
@@ -390,7 +418,82 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             self.renderItems()
         }
     }
-    
-    
-    
 }
+
+// MARK: - UICollectionViewDragDelegate Methods
+//extension BoardViewController : UICollectionViewDragDelegate
+//{
+//    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem]
+//    {
+//        let item = self.itemArray[indexPath.row]
+//        let itemProvider = NSItemProvider(object: item as! NSObject as! NSItemProviderWriting)
+//        let dragItem = UIDragItem(itemProvider: itemProvider)
+//        dragItem.localObject = item
+//        return [dragItem]
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem]
+//    {
+//        let item = self.itemArray[indexPath.row]
+//        let itemProvider = NSItemProvider(object: item as! NSObject as! NSItemProviderWriting)
+//        let dragItem = UIDragItem(itemProvider: itemProvider)
+//        dragItem.localObject = item
+//        return [dragItem]
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, dragPreviewParametersForItemAt indexPath: IndexPath) -> UIDragPreviewParameters?
+//    {
+//            let previewParameters = UIDragPreviewParameters()
+//            previewParameters.visiblePath = UIBezierPath(rect: CGRect(x: 25, y: 25, width: 120, height: 120))
+//            return previewParameters
+//    }
+//}
+//
+//// MARK: - UICollectionViewDropDelegate Methods
+//extension BoardViewController : UICollectionViewDropDelegate
+//{
+//    func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool
+//    {
+//        return session.canLoadObjects(ofClass: NSString.self)
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal
+//    {
+//
+//            if collectionView.hasActiveDrag
+//            {
+//                return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+//            }
+//            else
+//            {
+//                return UICollectionViewDropProposal(operation: .forbidden)
+//            }
+//
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator)
+//    {
+//        let destinationIndexPath: IndexPath
+//        if let indexPath = coordinator.destinationIndexPath
+//        {
+//            destinationIndexPath = indexPath
+//        }
+//        else
+//        {
+//            // Get last index path of table view.
+//            let section = collectionView.numberOfSections - 1
+//            let row = collectionView.numberOfItems(inSection: section)
+//            destinationIndexPath = IndexPath(row: row, section: section)
+//        }
+//
+//        switch coordinator.proposal.operation
+//        {
+//        case .move:
+//            self.reorderItems(coordinator: coordinator, destinationIndexPath:destinationIndexPath, collectionView: collectionView)
+//            break
+//
+//        default:
+//            return
+//        }
+//    }
+//    }

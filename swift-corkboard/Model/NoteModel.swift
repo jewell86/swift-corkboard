@@ -5,8 +5,9 @@
 //  Created by Jewell Braden on 9/16/18.
 //  Copyright © 2018 Jewell White. All rights reserved.
 //
+import Foundation
 
-class BoardNote {    
+class BoardNote : NSObject {    
     var note_id : String = ""
     var itemType : String = ""
     var added_by : Any = ""

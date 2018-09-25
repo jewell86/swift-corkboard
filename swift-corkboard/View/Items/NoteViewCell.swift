@@ -11,8 +11,8 @@ import PusherSwift
 import Alamofire
 import SVProgressHUD
 
-class NoteViewCell: UICollectionViewCell {
-    
+class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
+    static let API_ENDPOINT = "http://localhost:5000"
 
     @IBOutlet var content: UITextView!
     
@@ -23,19 +23,19 @@ class NoteViewCell: UICollectionViewCell {
         super.awakeFromNib()
         self.content.delegate = self
         content.isUserInteractionEnabled = true
-//        var tapRecog: UITapGestureRecognizer = (UITapGestureRecognizer(target: self, action: #selector(tappedAwayFunction(_:))))
-//        content.isScrollEnabled = true
-//        content.addGestureRecognizer(tapRecog)
-//        tapRecog.numberOfTapsRequired = 1
         var frameRect : CGRect = self.content.frame;
         frameRect.size.height = 100;
         content.frame = frameRect;
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tappedAwayFunction(_:))))
+        randomUuid = UIDevice.current.identifierForVendor!.uuidString
         listenForChanges()
     }
     
     var pusher : Pusher!
+    var chillPill = true
     var randomUuid : String = ""
     var noteId : String = ""
+    
     
     @IBAction func saveNote(_ sender: UIButton) {
         let id = self.noteId
@@ -48,8 +48,6 @@ class NoteViewCell: UICollectionViewCell {
                 print(error)
             }
         }
-        print("hello")
-//        BoardViewController().renderItems()
     }
 
     @objc func tappedAwayFunction(_ sender: UITapGestureRecognizer) {
@@ -59,9 +57,9 @@ class NoteViewCell: UICollectionViewCell {
     }
     
     func sendToPusher(text: String) {
-        let params : [String : Any] = ["text": text, "from": self.randomUuid]
+        let params : Parameters = ["text": text, "from": self.randomUuid]
         let url = "http://localhost:5000/update_text"
-        Alamofire.request(url, method: .post, parameters: params).validate().responseJSON { response in
+        Alamofire.request(NoteViewCell.API_ENDPOINT + "/update_text", method: .post, parameters: params).validate().responseJSON { response in
             switch response.result {
             case .success:
                 print("Succeeded")
@@ -88,14 +86,13 @@ class NoteViewCell: UICollectionViewCell {
         pusher.connect()
     }
 
-}
-
-
-
-extension NoteViewCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         print("entered text")
         sendToPusher(text: content.text!)
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        return true
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {

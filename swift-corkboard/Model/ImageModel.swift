@@ -6,7 +6,9 @@
 //  Copyright © 2018 Jewell White. All rights reserved.
 //
 
-class BoardImage {
+import Foundation
+
+class BoardImage : NSObject {
     var image_id : String = ""
     var itemType : String = ""
     var added_by : String = ""

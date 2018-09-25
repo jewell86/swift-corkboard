@@ -40,13 +40,19 @@ class BoardSettingsViewController: UIViewController {
                     switch response.result {
                     case .success:
                         print("Succeeded")
+                        let alert = UIAlertController(title: "Success!", message: "\(String(describing: username!)) added!", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        self.viewDidLoad()
                     case .failure(let error):
                         print(error)
+                        let alert = UIAlertController(title: "Ut oh!", message: "\(String(describing: username!)) could not be added!", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
             }
         }
-        self.viewDidLoad()
     }
     
     //REMOVE USER FROM BOARD
@@ -71,8 +77,9 @@ class BoardSettingsViewController: UIViewController {
                     }
                 }
             }
+            self.viewDidLoad()
+
         }
-        self.viewDidLoad()
     }
     
     //RENAME BOARD

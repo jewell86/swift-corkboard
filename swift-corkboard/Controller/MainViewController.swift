@@ -47,6 +47,8 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let id = boardArray[indexPath.row]
         let title = id.title
         let boardId = id.boards_id
+        self.defaults.set("\(boardId)", forKey: "boardId")
+        self.defaults.set("\(title)", forKey: "title")
         let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let boardViewController = storyBoard.instantiateViewController(withIdentifier: "BoardViewController") as! BoardViewController
         boardViewController.name = title
