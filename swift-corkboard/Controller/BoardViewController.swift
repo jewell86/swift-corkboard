@@ -114,13 +114,28 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         super.didReceiveMemoryWarning()
     }
     
+    //SELECT WEBPAGE FUNCTIONALITY
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("SELECTED!")
+        let cell = collectionView.cellForItem(at: indexPath)
+        if (cell as? WebpageCell) != nil {
         let cell = collectionView.cellForItem(at: indexPath) as! WebpageCell
             let webItem = cell.webpageUrl
             let url = URL(string: "\(webItem)")
             UIApplication.shared.open(url!, options: [:])
-
+        } else if (cell as? ImageCell) != nil {
+            let cell = collectionView.cellForItem(at: indexPath) as! ImageCell
+            let imageView = cell.img as! UIImageView
+            let newImageView = UIImageView(image: imageView.image)
+            newImageView.frame = UIScreen.main.bounds
+//            newImageView.backgroundColor = .black
+            newImageView.contentMode = .scaleAspectFit
+            newImageView.isUserInteractionEnabled = true
+//            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
+//            newImageView.addGestureRecognizer(tap)
+            self.view.addSubview(newImageView)
+            self.navigationController?.isNavigationBarHidden = true
+            self.tabBarController?.tabBar.isHidden = true
+        }
     }
     
     //BACK BUTTON FUNCTIONALITY

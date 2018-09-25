@@ -31,10 +31,6 @@ class NoteViewCell: UICollectionViewCell {
         frameRect.size.height = 100;
         content.frame = frameRect;
         listenForChanges()
-        
-        
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     var pusher : Pusher!
@@ -61,23 +57,6 @@ class NoteViewCell: UICollectionViewCell {
         print(self.noteId)
         self.content.resignFirstResponder()
     }
-
-//KEYBOARD STUFF
-//    @objc func keyboardWillShow(notification: NSNotification) {
-//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//            if self.content.frame.origin.y == 1.0 {
-//                self.content.frame.origin.y -= keyboardSize.height
-//            }
-//        }
-//    }
-    
-//    @objc func keyboardWillHide(notification: NSNotification) {
-//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//            if self.frame.origin.y != 1.0 {
-//                self.content.frame.origin.y += keyboardSize.height
-//            }
-//        }
-//    }
     
     func sendToPusher(text: String) {
         let params : [String : Any] = ["text": text, "from": self.randomUuid]
