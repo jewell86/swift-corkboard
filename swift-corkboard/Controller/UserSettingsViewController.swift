@@ -15,6 +15,9 @@ import FirebaseStorage
 import FirebaseUI
 import PusherSwift
 import SwiftLinkPreview
+import MobileCoreServices
+import AVFoundation
+import Photos
 
 class UserSettingsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -124,6 +127,8 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
             completionBlock(nil, "Image not converted to data")
         }
     }
+    
+
 
     
     //DELETE ACCOUNT

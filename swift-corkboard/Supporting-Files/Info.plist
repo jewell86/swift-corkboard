@@ -20,6 +20,12 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Corkboard would like to access your camera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Corkboard would like to access your photo library</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Corkboard would like to access your microphone</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

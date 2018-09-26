@@ -17,6 +17,9 @@ target 'swift-corkboard' do
     pod 'PusherSwift'
     pod 'SwiftKeychainWrapper', '~> 3.0'
     pod 'SwiftLinkPreview'
+    pod 'GoogleMaps'
+    pod 'GooglePlaces'
+    pod 'YPImagePicker'
 
   target 'swift-corkboardTests' do
     inherit! :search_paths

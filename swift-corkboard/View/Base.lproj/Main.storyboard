@@ -681,7 +681,7 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Video"/>
                                 <connections>
-                                    <action selector="addVideo:" destination="6KO-rH-v0K" eventType="touchUpInside" id="Mds-sa-mP1"/>
+                                    <action selector="fileButton:" destination="6KO-rH-v0K" eventType="touchUpInside" id="NS6-mP-gmz"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IKp-uG-ct0">

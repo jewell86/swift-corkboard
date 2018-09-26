@@ -15,6 +15,7 @@ import FirebaseStorage
 import FirebaseUI
 import PusherSwift
 import SwiftLinkPreview
+import YPImagePicker
 
 class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
@@ -28,6 +29,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     var name : String = ""
     var id : Any = ""
     var isGridView = true
+    var config = YPImagePickerConfiguration()
+
     
     //VIEW DID LOAD
     override func viewDidLoad() {
@@ -54,10 +57,16 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         itemCollectionView.register(UINib(nibName: "VideoCell", bundle: nil), forCellWithReuseIdentifier: "videoCell")
         itemCollectionView.register(UINib(nibName: "WebpageCell", bundle: nil), forCellWithReuseIdentifier: "webpageCell")
         
+        //IMAGE PICKER
+        YPImagePickerConfiguration.shared = config
+        
         //CALL OTHER FUNCS
         configureCollectionView()
         renderItems()
     }
+    
+    let picker = YPImagePicker()
+
 
     //RENDER ALL ITEM CELLS TO PAGE FROM ITEM ARRAY
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -166,6 +175,9 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             self.present(alert, animated: true, completion: nil)
         }
     }
+    @IBAction func fileButton(_ sender: UIButton) {
+
+    }
     
     //BACK BUTTON FUNCTIONALITY
     @IBAction func backButton(_ sender: UIButton) {
@@ -252,29 +264,27 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
         }
     
-    
-    //ADD IMAGE BUTTON PRESSED
+    //ADD IMAGE OR VIDEO BUTTON PRESSED
     @IBAction func addImage(_ sender: Any) {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.allowsEditing = true
-        present(imagePickerController, animated: true, completion: nil)
-    }
-    
-    //IMAGE PICKER CONTROLLER
-    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
+        let picker = YPImagePicker()
+        picker.didFinishPicking { [unowned picker] items, _ in
+            if let photo = items.singlePhoto {
+                self.uploadImage(photo.image, progressBlock: { (percentage) in
+                    print(percentage)
+                }, completionBlock: { (fileURL, errorMessage) in
+                    print(errorMessage)
+                })
+                print(photo.fromCamera) // Image source (camera or library)
+                print(photo.image) // Final image selected by the user
+                print(photo.originalImage) // original image selected by the user, unfiltered
+                print(photo.modifiedImage) // Transformed image, can be nil
+                print(photo.exifMeta) // Print exif meta data of original image.
+            } else if let video = items.singleVideo {
+                self.uploadVideo(video: video.url)
+            }
             picker.dismiss(animated: true, completion: nil)
-            self.uploadImage(image, progressBlock: { (percentage) in
-                print(percentage)
-            }, completionBlock: { (fileURL, errorMessage) in
-                print(errorMessage)
-            })
         }
+        present(picker, animated: true, completion: nil)
     }
     
     //SAVE IMAGE TO FIREBASE
@@ -326,7 +336,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let name = filename
         let boardId = defaults.string(forKey: "boardId")
         let userId = defaults.string(forKey: "userId")
-//        let imageItem = BoardImage()
         let params = [
             "itemType": "image",
             "added_by": Int(userId!),
@@ -338,6 +347,22 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
             self.renderItems()
             }
+    }
+    
+    //ADD VIDEO TO FIREBASE
+    func uploadVideo(video: URL) {
+        let fileName = NSUUID().uuidString
+        let boardId = defaults.string(forKey: "boardId")
+        let userId = defaults.string(forKey: "userId")
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let videoRef = storageRef.child("videos/\(boardId!)/\(fileName).jpg")
+        let uploadTask = videoRef.putFile(from: video, metadata: nil) { metadata, error in
+            if let error = error
+            {
+                //do error handle
+            }
+        }
     }
     
     //ADD BLANK NOTE TO POSTGRESQL DB
@@ -399,6 +424,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
         
     }
+    
+
     
     //ADD WEBPAGE BUTTON
     @IBAction func addWebsite(_ sender: UIButton) {
