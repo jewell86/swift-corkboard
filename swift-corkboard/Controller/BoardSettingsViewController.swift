@@ -125,7 +125,7 @@ class BoardSettingsViewController: UIViewController {
                             if let data : JSON = JSON(response.result.value) {
                                 let user = data["response"]
                                 let username = user["username"]
-                                self.allUsersLabel.text = self.allUsersLabel.text!+username.stringValue
+                                self.allUsersLabel.text = self.allUsersLabel.text!+"\n\(username.stringValue)"
                             }
                         }
                     }
