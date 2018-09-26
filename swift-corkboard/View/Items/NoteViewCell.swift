@@ -49,11 +49,11 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
         }
     }
 
-    @objc func tappedAwayFunction(_ sender: UITapGestureRecognizer) {
-        print("tapped away")
-        print(self.noteId)
-        self.content.resignFirstResponder()
-    }
+//    @objc func tappedAwayFunction(_ sender: UITapGestureRecognizer) {
+//        print("tapped away")
+//        print(self.noteId)
+//        self.content.resignFirstResponder()
+//    }
     
     func sendToPusher(text: String) {
         let params : Parameters = ["text": text, "from": self.randomUuid]

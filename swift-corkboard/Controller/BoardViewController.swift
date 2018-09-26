@@ -16,20 +16,18 @@ import FirebaseUI
 import PusherSwift
 import SwiftLinkPreview
 
-class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-//    var longPressGesture: UILongPressGestureRecognizer!
+class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
     @IBOutlet var itemCollectionView: UICollectionView!
     @IBOutlet var boardCellOutlet: UILabel!
     
     //DECLARE GLOBAL VARIABLES
-    var itemArray : [AnyObject] = [AnyObject]()
+    var itemArray : NSMutableArray!
     let defaults = UserDefaults.standard
     let slp = SwiftLinkPreview()
-    
     var name : String = ""
     var id : Any = ""
+    var isGridView = true
     
     //VIEW DID LOAD
     override func viewDidLoad() {
@@ -38,10 +36,16 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //SET DELEGATES
         itemCollectionView.delegate = self
         itemCollectionView.dataSource = self
+        
+        //DECLARE VARIABLES ETC
         itemCollectionView.dragInteractionEnabled = true
         let title = defaults.string(forKey: "title")
         boardCellOutlet.text! = "\(title!)"
-        //self.defaults.set("\(self.id)", forKey: "boardId")
+        itemArray = NSMutableArray()
+        
+        //SET LONGPRESS RECOGNIZER
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture))
+        itemCollectionView.addGestureRecognizer(longPressGesture)
         
         //REGISTER CELL XIBS
         itemCollectionView.register(UINib(nibName: "NoteViewCell", bundle: nil), forCellWithReuseIdentifier: "noteViewCell")
@@ -53,9 +57,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //CALL OTHER FUNCS
         configureCollectionView()
         renderItems()
-        
     }
-    
+
     //RENDER ALL ITEM CELLS TO PAGE FROM ITEM ARRAY
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if ((itemArray[indexPath.row] as? BoardNote) != nil) {
@@ -161,12 +164,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             }))
             print("TAP LIST")
             self.present(alert, animated: true, completion: nil)
-            
         }
     }
-    
-    
-
     
     //BACK BUTTON FUNCTIONALITY
     @IBAction func backButton(_ sender: UIButton) {
@@ -177,13 +176,9 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     //SET SIZE OF COLLECTION VIEW
     func configureCollectionView() {
-        print("itemCollection")
-        print(self.itemCollectionView)
         if let flowLayout = itemCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.estimatedItemSize = CGSize(width: 100, height: 100)
         }
-        print("itemCollection")
-        print(self.itemCollectionView)
         var isHeightCalculated: Bool = false
         func preferredLayoutAttributesFittingAttributes(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
             if !isHeightCalculated {
@@ -201,7 +196,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     //RENDER ALL ITEMS INTO ITEM ARRAY FROM DB
     func renderItems() {
-        self.itemArray = [AnyObject]()
+        itemArray = NSMutableArray()
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
         let url = "http://localhost:5000/\(userId!)/\(boardId!)"
@@ -219,7 +214,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         noteItem.content = item["content"].stringValue
                         noteItem.board_id = item["board_id"]
                         noteItem.date_added = item["updated_at"]
-                        self.itemArray.append(noteItem)
+                        self.itemArray.add(noteItem)
                     } else if item["type"] == "list" {
                         let listItem = BoardList()
                         listItem.list_id = item["id"].stringValue
@@ -229,7 +224,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         listItem.content = item["content"].stringValue
                         listItem.board_id = item["board_id"].stringValue
                         listItem.date_added = item["updated_at"].stringValue
-                        self.itemArray.append(listItem)
+                        self.itemArray.add(listItem)
                     } else if item["type"] == "webpage" {
                         let webpageItem = BoardWebpage()
                         webpageItem.webpage_id = item["id"].stringValue
@@ -240,7 +235,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         webpageItem.board_id = item["board_id"].stringValue
                         webpageItem.date_added = item["updated_at"].stringValue
                         webpageItem.webpage_url = item["webpage_url"].stringValue
-                        self.itemArray.append(webpageItem)
+                        self.itemArray.add(webpageItem)
                     } else if item["type"] == "image" {
                         let imageItem = BoardImage()
                         imageItem.image_id = item["id"].stringValue
@@ -249,7 +244,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         imageItem.link = item["link"].stringValue
                         imageItem.content = item["content"].stringValue
                         imageItem.board_id = item["board_id"].stringValue
-                        self.itemArray.append(imageItem)
+                        self.itemArray.add(imageItem)
                     }
                 }
             }
@@ -307,8 +302,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         print(metadata)
                         self.addImageToDB(filename: fileName)
                         return completionBlock( url, nil)
-                        
-
                     } else {
                         completionBlock(nil, error?.localizedDescription)
                     }
@@ -464,6 +457,43 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             self.renderItems()
         }
     }
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////  Collection veiw delegate and datasource methods ///////
+    ///////////////////////////////////////////////////////////////////////////////
+    
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let tempvalue1 = itemArray.object(at: sourceIndexPath.row)
+        print("MOVING!!!")
+        itemArray.removeObject(at: sourceIndexPath.row)
+        itemArray.insert(tempvalue1, at: destinationIndexPath.row)
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    //////////////////// Gesture method for updating the cell in collection view//////////
+    ////////////////////////////////////////////////////////////////////////////////
+    
+    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = itemCollectionView.indexPathForItem(at: gesture.location(in: itemCollectionView)) else {
+                break
+            }
+            itemCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            itemCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+            
+        case UIGestureRecognizerState.ended:
+            itemCollectionView.endInteractiveMovement()
+        default:
+            itemCollectionView.cancelInteractiveMovement()
+        }
+    }
+    
     
     
 }
