@@ -42,6 +42,7 @@
 		F19A0EFD214B0468007C1D31 /* BoardIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */; };
 		F19A0F04214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0F02214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift */; };
 		F19A0F05214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F19A0F03214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib */; };
+		F1A3E6BD215AB6E60036A8FD /* ListTableItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1A3E6BC215AB6E60036A8FD /* ListTableItem.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardIconModel.swift; sourceTree = "<group>"; };
 		F19A0F02214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		F19A0F03214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardCellCollectionViewCell.xib; sourceTree = "<group>"; };
+		F1A3E6BC215AB6E60036A8FD /* ListTableItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListTableItem.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 				F13E81AB214FFBDF002BD58A /* VideoCell.xib */,
 				F13E81AE214FFBF2002BD58A /* WebpageCell.swift */,
 				F13E81AF214FFBF2002BD58A /* WebpageCell.xib */,
+				F1A3E6BC215AB6E60036A8FD /* ListTableItem.xib */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1A3E6BD215AB6E60036A8FD /* ListTableItem.xib in Resources */,
 				F19A0F05214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib in Resources */,
 				F13E81B1214FFBF2002BD58A /* WebpageCell.xib in Resources */,
 				F13E81A5214FFBBF002BD58A /* ListCell.xib in Resources */,

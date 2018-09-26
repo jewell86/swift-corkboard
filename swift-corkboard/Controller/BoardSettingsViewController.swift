@@ -52,7 +52,10 @@ class BoardSettingsViewController: UIViewController {
                     }
                 }
             }
+            self.addUserTextField.text = ""
+            self.viewDidLoad()
         }
+
     }
     
     //REMOVE USER FROM BOARD
@@ -77,9 +80,10 @@ class BoardSettingsViewController: UIViewController {
                     }
                 }
             }
+            self.removeUserInput.text = ""
             self.viewDidLoad()
-
         }
+
     }
     
     //RENAME BOARD
@@ -97,8 +101,10 @@ class BoardSettingsViewController: UIViewController {
             case .failure(let error):
                 print(error)
             }
+            self.defaults.set("\(self.renameBoardInput.text!)", forKey: "title")
+            self.renameBoardInput.text = ""
         }
-        self.viewDidLoad()
+
     }
     
     //ALL BOARD-USERS LIST

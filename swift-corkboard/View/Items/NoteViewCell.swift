@@ -9,11 +9,10 @@
 import UIKit
 import PusherSwift
 import Alamofire
-import SVProgressHUD
 
 class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
     static let API_ENDPOINT = "http://localhost:5000"
-
+    
     @IBOutlet var content: UITextView!
     
     let defaults = UserDefaults.standard
@@ -26,7 +25,7 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
         var frameRect : CGRect = self.content.frame;
         frameRect.size.height = 100;
         content.frame = frameRect;
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tappedAwayFunction(_:))))
+//        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tappedAwayFunction(_:))))
         randomUuid = UIDevice.current.identifierForVendor!.uuidString
         listenForChanges()
     }

@@ -7,10 +7,10 @@
 //
 
 class BoardList {
-    var list_id : Any = ""
+    var list_id : String = ""
     var itemType : String = ""
     var added_by : Any = ""
-    var link : Any = ""
+    var link : String = ""
     var content : String = ""
     var board_id : Any = ""
     var date_added : Any = ""
