@@ -16,11 +16,13 @@ import FirebaseUI
 import PusherSwift
 import SwiftLinkPreview
 import YPImagePicker
+import GoogleMaps
+import GooglePlaces
+import CircleMenu
 
-class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate, GMSMapViewDelegate, CircleMenuDelegate {
     
     @IBOutlet var itemCollectionView: UICollectionView!
-    @IBOutlet var boardCellOutlet: UILabel!
     
     //DECLARE GLOBAL VARIABLES
     var itemArray : NSMutableArray!
@@ -30,7 +32,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     var id : Any = ""
     var isGridView = true
     var config = YPImagePickerConfiguration()
-
     
     //VIEW DID LOAD
     override func viewDidLoad() {
@@ -43,7 +44,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //DECLARE VARIABLES ETC
         itemCollectionView.dragInteractionEnabled = true
         let title = defaults.string(forKey: "title")
-        boardCellOutlet.text! = "\(title!)"
         itemArray = NSMutableArray()
         
         //SET LONGPRESS RECOGNIZER
@@ -56,16 +56,35 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         itemCollectionView.register(UINib(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: "imageCell")
         itemCollectionView.register(UINib(nibName: "VideoCell", bundle: nil), forCellWithReuseIdentifier: "videoCell")
         itemCollectionView.register(UINib(nibName: "WebpageCell", bundle: nil), forCellWithReuseIdentifier: "webpageCell")
+        itemCollectionView.register(UINib(nibName: "MapViewCell", bundle: nil), forCellWithReuseIdentifier: "mapViewCell")
         
         //IMAGE PICKER
-        YPImagePickerConfiguration.shared = config
+        config.library.mediaType = .photoAndVideo
+        config.screens = [.library, .photo, .video]
+        let picker = YPImagePicker(configuration: config)
         
+        //GOOGLE MAPS
+//        let key = "AIzaSyAXb0hDm-Sxe6rkj1dFoJRDhAGDhur2Ue8"
+//        GMSServices.provideAPIKey(key)
+       
+        let button = CircleMenu(
+            frame: CGRect(x: 200, y: 200, width: 50, height: 50),
+            normalIcon:"button",
+            selectedIcon:"button",
+            buttonsCount: 5,
+            duration: 0.5,
+            distance: 100)
+//        button.backgroundColor = UIColor.lightGrayColor()
+        button.delegate = self
+        button.layer.cornerRadius = button.frame.size.width / 2.0
+        view.addSubview(button)
+
         //CALL OTHER FUNCS
         configureCollectionView()
         renderItems()
+        
     }
     
-    let picker = YPImagePicker()
 
 
     //RENDER ALL ITEM CELLS TO PAGE FROM ITEM ARRAY
@@ -93,6 +112,10 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let imageView = cell.img
             let placeholderImage = UIImage(named: "angle-mask.png")
             imageView?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOpacity = 0.5
+            cell.layer.shadowOffset = CGSize(width: -5, height: 5)
+            cell.layer.shadowRadius = 1            
             return cell
         } else if ((itemArray[indexPath.row] as? BoardVideo) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoCell", for: indexPath) as! VideoCell
@@ -100,12 +123,28 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             return cell
         } else if ((itemArray[indexPath.row] as? BoardWebpage) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
-            cell.imageTitle.text = (itemArray[indexPath.row] as! BoardWebpage).content
+//            cell.imageTitle.text = (itemArray[indexPath.row] as! BoardWebpage).content
             cell.webpageId = (itemArray[indexPath.row] as! BoardWebpage).webpage_id
             cell.webpageUrl = (itemArray[indexPath.row] as! BoardWebpage).webpage_url
+            cell.backgroundColor = UIColor.white
             let webpageView = cell.img
             let placeholderImage = UIImage(named: "angle-mask.png")
             webpageView?.sd_setImage(with: URL(string: "\((itemArray[indexPath.row] as! BoardWebpage).link)"), placeholderImage: placeholderImage)
+            self.view.layoutIfNeeded()
+            cell.layer.cornerRadius = 7.0
+            cell.layer.masksToBounds = true
+            return cell
+        } else if ((itemArray[indexPath.row] as? BoardMap) != nil) {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mapViewCell", for: indexPath) as! MapViewCell
+            let camera = GMSCameraPosition.camera(withLatitude: 32.66, longitude: -122.33, zoom: 6.0)
+            cell.myMapView.camera = camera
+//            cell.myMapView.isMyLocationEnabled = true
+//            cell.myMapView.animate(to: camera)
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(latitude: 32.60, longitude: -122.33)
+            marker.title = "Galvanize"
+            marker.snippet = "Seattle"
+            marker.map = cell.myMapView
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
@@ -121,7 +160,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
     
     //DISMISS IMAGE SUBVIEW
     @objc func dismissFullscreenImage(sender: UITapGestureRecognizer) {
@@ -175,9 +214,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             self.present(alert, animated: true, completion: nil)
         }
     }
-    @IBAction func fileButton(_ sender: UIButton) {
 
-    }
     
     //BACK BUTTON FUNCTIONALITY
     @IBAction func backButton(_ sender: UIButton) {
@@ -189,7 +226,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     //SET SIZE OF COLLECTION VIEW
     func configureCollectionView() {
         if let flowLayout = itemCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.estimatedItemSize = CGSize(width: 100, height: 100)
+            flowLayout.estimatedItemSize = CGSize(width: 200, height: 200)
         }
         var isHeightCalculated: Bool = false
         func preferredLayoutAttributesFittingAttributes(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -257,6 +294,15 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         imageItem.content = item["content"].stringValue
                         imageItem.board_id = item["board_id"].stringValue
                         self.itemArray.add(imageItem)
+                    }   else if item["type"] == "map" {
+                        let mapItem = BoardMap()
+                        mapItem.map_id = item["id"].stringValue
+                        mapItem.itemType = item["type"].stringValue
+                        mapItem.added_by = item["added_by"].stringValue
+                        mapItem.link = item["link"].stringValue
+                        mapItem.content = item["content"].stringValue
+                        mapItem.board_id = item["board_id"].stringValue
+                        self.itemArray.add(mapItem)
                     }
                 }
             }
@@ -264,9 +310,12 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
         }
     
-    //ADD IMAGE OR VIDEO BUTTON PRESSED
-    @IBAction func addImage(_ sender: Any) {
-        let picker = YPImagePicker()
+////////////////////////////
+//BUTTONS
+///////////////////////////
+    //BUTTON PHOTO
+   func addImage() {
+        let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, _ in
             if let photo = items.singlePhoto {
                 self.uploadImage(photo.image, progressBlock: { (percentage) in
@@ -285,6 +334,84 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             picker.dismiss(animated: true, completion: nil)
         }
         present(picker, animated: true, completion: nil)
+    }
+    //BUTTON MAP
+    func addMap() {
+        let url = "http://localhost:5000/addItem"
+        let userId = defaults.string(forKey: "userId")
+        let boardId = defaults.string(forKey: "boardId")
+        let params = [
+            "itemType": "map",
+            "added_by": Int(userId!),
+            "link": "",
+            "content": "",
+            "board_id": Int(boardId!)
+            ] as [String : Any]
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
+            self.renderItems()
+        }
+    }
+    //BUTTON LIST
+    func addList() {
+        let alert = UIAlertController(title: "Create a list", message: "Enter List Title", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.text = ""
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            guard let textField = alert?.textFields![0] else {
+                return
+            }
+            let url = "http://localhost:5000/addItem"
+            let userId = self.defaults.string(forKey: "userId")
+            let boardId = self.defaults.string(forKey: "boardId")
+            let params = [
+                "itemType": "list",
+                "added_by": Int(userId!),
+                "link": "\(textField.text!)",
+                "content": "",
+                "board_id": Int(boardId!)
+                ] as [String : Any]
+            Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
+                self.renderItems()
+            }
+            print("Text field: \(String(describing: textField.text!))")
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    //BUTTON NOTE
+    func addNote() {
+        let url = "http://localhost:5000/addItem"
+        let userId = defaults.string(forKey: "userId")
+        let boardId = defaults.string(forKey: "boardId")
+        let params = [
+            "itemType": "note",
+            "added_by": Int(userId!),
+            "link": "",
+            "content": "",
+            "board_id": Int(boardId!)
+            ] as [String : Any]
+        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
+            self.renderItems()
+        }
+    }
+    //BUTTON WEBPAGE
+    func addWebsite() {
+        let alert = UIAlertController(title: "Add A Website", message: "Enter full website address", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.text = "http://www."
+            
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            guard let textField = alert?.textFields![0] else {
+                return
+            }
+            self.getWebsiteThumbnail(url: textField.text!)
+            
+            print("Text field: \(String(describing: textField.text!))")
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     //SAVE IMAGE TO FIREBASE
@@ -331,6 +458,20 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
         }
     
+    //ADD LIST ITEM
+    func addListItem(item: String, listId: String) {
+        let url = "http://localhost:5000/updateItem"
+        let listItem = "\(item) \n"
+        let params = [
+            "content": listItem,
+            "id": Int(listId)
+            ] as [String : Any]
+        Alamofire.request(url, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
+            self.renderItems()
+        }
+        
+    }
+    
     //ADD IMAGE TO POSTGRESSQL DB
     func addImageToDB(filename : String) {
         let name = filename
@@ -363,87 +504,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 //do error handle
             }
         }
-    }
-    
-    //ADD BLANK NOTE TO POSTGRESQL DB
-    @IBAction func addNote(_ sender: UIButton) {
-        let url = "http://localhost:5000/addItem"
-        let userId = defaults.string(forKey: "userId")
-        let boardId = defaults.string(forKey: "boardId")
-        let params = [
-            "itemType": "note",
-            "added_by": Int(userId!),
-            "link": "",
-            "content": "",
-            "board_id": Int(boardId!)
-            ] as [String : Any]
-        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
-            self.renderItems()
-        }
-    }
-    
-    //CREATE LIST & ADD TO DB
-    @IBAction func addList(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Create a list", message: "Enter List Title", preferredStyle: .alert)
-        alert.addTextField { (textField) in
-            textField.text = ""
-        }
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-            guard let textField = alert?.textFields![0] else {
-                return
-            }
-            let url = "http://localhost:5000/addItem"
-            let userId = self.defaults.string(forKey: "userId")
-            let boardId = self.defaults.string(forKey: "boardId")
-            let params = [
-                "itemType": "list",
-                "added_by": Int(userId!),
-                "link": "\(textField.text!)",
-                "content": "",
-                "board_id": Int(boardId!)
-                ] as [String : Any]
-            Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
-                self.renderItems()
-            }
-            print("Text field: \(String(describing: textField.text!))")
-        }))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    //ADD LIST ITEM
-    func addListItem(item: String, listId: String) {
-        let url = "http://localhost:5000/updateItem"
-        let listItem = "\(item) \n"
-        let params = [
-            "content": listItem,
-            "id": Int(listId)
-            ] as [String : Any]
-        Alamofire.request(url, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
-            self.renderItems()
-        }
-        
-    }
-    
-
-    
-    //ADD WEBPAGE BUTTON
-    @IBAction func addWebsite(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Add A Website", message: "Enter full website address", preferredStyle: .alert)
-        alert.addTextField { (textField) in
-            textField.text = "http://www."
-            
-        }
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-            guard let textField = alert?.textFields![0] else {
-                return
-            }
-            self.getWebsiteThumbnail(url: textField.text!)
-            
-            print("Text field: \(String(describing: textField.text!))")
-        }))
-        self.present(alert, animated: true, completion: nil)
     }
     
     //CREATE WEBPAGE ITEM
@@ -521,8 +581,43 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
     }
     
+    var buttons = [ "button_website", "button_note", "button_list", "button_map", "button_photo" ]
+    
+    //CIRCLE MENU
+    func circleMenu(_: CircleMenu, willDisplay button: UIButton, atIndex: Int) {
+//        button.image = items[atIndex]
+        
+        button.setImage(UIImage(named: buttons[atIndex]), for: .normal)
+        
+        // set highlited image
+        let highlightedImage = UIImage(named: buttons[atIndex])?.withRenderingMode(.alwaysTemplate)
+        button.setImage(highlightedImage, for: .highlighted)
+//        button.tintColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+    }
+    
+    func circleMenu(_: CircleMenu, buttonWillSelected _: UIButton, atIndex: Int) {
+        print("button will selected: \(atIndex)")
+        if atIndex == 0 {
+            addWebsite()
+        } else if atIndex == 1 {
+            addNote()
+        } else if atIndex == 2 {
+            addList()
+        } else if atIndex == 3 {
+            addMap()
+        } else if atIndex == 4 {
+           addImage()
+        }
+    }
+    
+    func circleMenu(_: CircleMenu, buttonDidSelected _: UIButton, atIndex: Int) {
+        print("button did selected: \(atIndex)")
+    }
+
+    
     
     
 }
+
 
 

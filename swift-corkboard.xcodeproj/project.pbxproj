@@ -43,6 +43,9 @@
 		F19A0F04214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0F02214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift */; };
 		F19A0F05214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F19A0F03214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib */; };
 		F1A3E6BD215AB6E60036A8FD /* ListTableItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1A3E6BC215AB6E60036A8FD /* ListTableItem.xib */; };
+		F1A3E6C2215C1F200036A8FD /* MapViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A3E6C0215C1F200036A8FD /* MapViewCell.swift */; };
+		F1A3E6C3215C1F200036A8FD /* MapViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1A3E6C1215C1F200036A8FD /* MapViewCell.xib */; };
+		F1A3E6C5215C22B70036A8FD /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A3E6C4215C22B70036A8FD /* MapModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +114,9 @@
 		F19A0F02214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		F19A0F03214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardCellCollectionViewCell.xib; sourceTree = "<group>"; };
 		F1A3E6BC215AB6E60036A8FD /* ListTableItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListTableItem.xib; sourceTree = "<group>"; };
+		F1A3E6C0215C1F200036A8FD /* MapViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewCell.swift; sourceTree = "<group>"; };
+		F1A3E6C1215C1F200036A8FD /* MapViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewCell.xib; sourceTree = "<group>"; };
+		F1A3E6C4215C22B70036A8FD /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +176,8 @@
 				F13E81AE214FFBF2002BD58A /* WebpageCell.swift */,
 				F13E81AF214FFBF2002BD58A /* WebpageCell.xib */,
 				F1A3E6BC215AB6E60036A8FD /* ListTableItem.xib */,
+				F1A3E6C0215C1F200036A8FD /* MapViewCell.swift */,
+				F1A3E6C1215C1F200036A8FD /* MapViewCell.xib */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -245,6 +253,7 @@
 				F13E819C214FFB0A002BD58A /* ImageModel.swift */,
 				F13E819E214FFB19002BD58A /* VideoModel.swift */,
 				F13E81A0214FFB3E002BD58A /* WebpageModel.swift */,
+				F1A3E6C4215C22B70036A8FD /* MapModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -395,6 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1A3E6BD215AB6E60036A8FD /* ListTableItem.xib in Resources */,
+				F1A3E6C3215C1F200036A8FD /* MapViewCell.xib in Resources */,
 				F19A0F05214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib in Resources */,
 				F13E81B1214FFBF2002BD58A /* WebpageCell.xib in Resources */,
 				F13E81A5214FFBBF002BD58A /* ListCell.xib in Resources */,
@@ -491,6 +501,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/CircleMenu/CircleMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -520,6 +531,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CircleMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
@@ -620,6 +632,7 @@
 				F13E81B0214FFBF2002BD58A /* WebpageCell.swift in Sources */,
 				F19A0F04214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift in Sources */,
 				F1602D5621404601005DFA13 /* AppDelegate.swift in Sources */,
+				F1A3E6C5215C22B70036A8FD /* MapModel.swift in Sources */,
 				F12ADF852141B73100FAF011 /* RegisterViewController.swift in Sources */,
 				F13E8196214F6944002BD58A /* NoteViewCell.swift in Sources */,
 				F106D7A52148BCC2008C51C4 /* UserSettingsViewController.swift in Sources */,
@@ -632,6 +645,7 @@
 				F13E819B214FFAFB002BD58A /* ListModel.swift in Sources */,
 				F106D7A12148BCA2008C51C4 /* BoardViewController.swift in Sources */,
 				F19A0EFD214B0468007C1D31 /* BoardIconModel.swift in Sources */,
+				F1A3E6C2215C1F200036A8FD /* MapViewCell.swift in Sources */,
 				F13E819F214FFB19002BD58A /* VideoModel.swift in Sources */,
 				F13E819D214FFB0A002BD58A /* ImageModel.swift in Sources */,
 			);

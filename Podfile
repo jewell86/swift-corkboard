@@ -20,6 +20,7 @@ target 'swift-corkboard' do
     pod 'GoogleMaps'
     pod 'GooglePlaces'
     pod 'YPImagePicker'
+    pod 'CircleMenu'
 
   target 'swift-corkboardTests' do
     inherit! :search_paths

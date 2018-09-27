@@ -19,7 +19,6 @@ class ImageCell: UICollectionViewCell {
     var imageId : String = ""
 
     @IBOutlet var img: UIImageView!
-    
     @IBOutlet var imageTitle: UITextView!
     
     @IBAction func saveImageTitle(_ sender: UIButton) {

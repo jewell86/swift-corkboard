@@ -20,6 +20,11 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>googlechromes</string>
+        <string>comgooglemaps</string>
+    </array>
 	<key>NSCameraUsageDescription</key>
 	<string>Corkboard would like to access your camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>

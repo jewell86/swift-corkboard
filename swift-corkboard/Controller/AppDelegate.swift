@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import SwiftKeychainWrapper
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,7 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var navigationController: UINavigationController?
 
     //WHEN APP GETS LOADED, BEFORE FIRST VIEWDIDLOAD
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) ->
+        Bool {
+            
+        GMSServices.provideAPIKey("AIzaSyAXb0hDm-Sxe6rkj1dFoJRDhAGDhur2Ue8")
+
         // Override point for customization after application launch.
         FirebaseApp.configure()
         
@@ -29,6 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let homePage = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
             self.window?.rootViewController = homePage
         }
+//        GMSPlacesClient.provideAPIKey("AIzaSyC4vIrCJoMEiydy21Sy968-STfTWG0J3fI")
+        
         return true
     }
     
