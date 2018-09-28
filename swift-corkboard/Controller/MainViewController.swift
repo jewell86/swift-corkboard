@@ -39,6 +39,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "boardCellCollectionViewCell", for: indexPath) as! BoardCellCollectionViewCell
         cell.boardCellLabel.text = boardArray[indexPath.row].title
         cell.tag = indexPath.row
+        cell.layer.cornerRadius = 7.0
+        cell.layer.masksToBounds = true
+
         return cell
     }
     
@@ -69,7 +72,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     //SET SIZE OF COLLECTION VIEW ROWS
     func configureCollectionView() {
         if let flowLayout = allBoardsTableView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.estimatedItemSize = CGSize(width: 100, height: 100)
+            flowLayout.estimatedItemSize = CGSize(width: 150, height: 127)
         }
         var isHeightCalculated: Bool = false
         func preferredLayoutAttributesFittingAttributes(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
