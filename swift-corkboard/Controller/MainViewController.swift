@@ -42,6 +42,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         cell.tag = indexPath.row
         cell.layer.cornerRadius = 7.0
         cell.layer.masksToBounds = true
+        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowOpacity = 0.5
+        cell.layer.shadowOffset = CGSize(width: -10, height: 10)
+        cell.layer.shadowRadius = 1
 
         return cell
     }
@@ -72,22 +76,22 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     //SET SIZE OF COLLECTION VIEW ROWS
     func configureCollectionView() {
-        if let flowLayout = allBoardsTableView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.estimatedItemSize = CGSize(width: 150, height: 127)
-        }
-        var isHeightCalculated: Bool = false
-        func preferredLayoutAttributesFittingAttributes(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-            if !isHeightCalculated {
-                //                setNeedsLayout()
-                //                layoutIfNeeded()
-                let size = allBoardsTableView.systemLayoutSizeFitting(layoutAttributes.size)
-                var newFrame = layoutAttributes.frame
-                newFrame.size.width = CGFloat(ceilf(Float(size.width)))
-                layoutAttributes.frame = newFrame
-                isHeightCalculated = true
-            }
-            return layoutAttributes
-        }
+//        if let flowLayout = allBoardsTableView.collectionViewLayout as? UICollectionViewFlowLayout {
+//            flowLayout.estimatedItemSize = CGSize(width: 120, height: 120)
+//        }
+//        var isHeightCalculated: Bool = false
+//        func preferredLayoutAttributesFittingAttributes(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+//            if !isHeightCalculated {
+//                //                setNeedsLayout()
+//                //                layoutIfNeeded()
+//                let size = allBoardsTableView.systemLayoutSizeFitting(layoutAttributes.size)
+//                var newFrame = layoutAttributes.frame
+//                newFrame.size.width = CGFloat(ceilf(Float(size.width)))
+//                layoutAttributes.frame = newFrame
+//                isHeightCalculated = true
+//            }
+//            return layoutAttributes
+//        }
     }
     
     //RENDER ALL BOARDS FROM DB TO SELF.BOARD ARRAY
@@ -129,6 +133,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }))
         self.present(alert, animated: true, completion: nil)
     }
+    
     
     @IBAction func settingsButton(_ sender: UIBarButtonItem) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)

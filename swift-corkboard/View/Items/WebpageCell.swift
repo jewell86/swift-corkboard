@@ -10,6 +10,8 @@ import UIKit
 
 class WebpageCell: UICollectionViewCell {
 
+    @IBOutlet var img: UIImageView!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -18,10 +20,5 @@ class WebpageCell: UICollectionViewCell {
     var webpageId : String = ""
     
     var webpageUrl : String = ""
-    
-    @IBOutlet var img: UIImageView!
-    
-    @IBOutlet var imageTitle: UILabel!
-    
 
 }

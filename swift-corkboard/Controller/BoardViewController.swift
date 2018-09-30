@@ -21,7 +21,8 @@ import GoogleMaps
 import GooglePlaces
 import CircleMenu
 
-class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate, GMSMapViewDelegate, CircleMenuDelegate {
+class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate,  UIGestureRecognizerDelegate, GMSMapViewDelegate, CircleMenuDelegate, GMSAutocompleteResultsViewControllerDelegate {
+    
     
     //COLLECTION VIEW OUTLET
     @IBOutlet var itemCollectionView: UICollectionView!
@@ -34,6 +35,10 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     var id : Any = ""
     var isGridView = true
     var config = YPImagePickerConfiguration()
+    var resultsViewController: GMSAutocompleteResultsViewController?
+    var searchController: UISearchController?
+    var resultView: UITextView?
+    let subView = UIView(frame: CGRect(x: 0, y: 65.0, width: 350.0, height: 45.0))
     
     //VIEW DID LOAD
     override func viewDidLoad() {
@@ -93,22 +98,22 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     ////////////////  CONFIGURE COLLECTION VIEW ///////
     ///////////////////////////////////////////////////////////////////////////////
     func configureCollectionView() {
-        if let flowLayout = itemCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.estimatedItemSize = CGSize(width: 125, height: 125)
-        }
-        var isHeightCalculated: Bool = false
-        func preferredLayoutAttributesFittingAttributes(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-            if !isHeightCalculated {
-                //                setNeedsLayout()
-                //                layoutIfNeeded()
-                let size = itemCollectionView.systemLayoutSizeFitting(layoutAttributes.size)
-                var newFrame = layoutAttributes.frame
-                newFrame.size.width = CGFloat(ceilf(Float(size.width)))
-                layoutAttributes.frame = newFrame
-                isHeightCalculated = true
-            }
-            return layoutAttributes
-        }
+//        if let flowLayout = itemCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+//            flowLayout.estimatedItemSize = CGSize(width: 125, height: 125)
+//        }
+//        var isHeightCalculated: Bool = false
+//        func preferredLayoutAttributesFittingAttributes(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+//            if !isHeightCalculated {
+////                setNeedsLayout()
+////                layoutIfNeeded()
+//                let size = itemCollectionView.systemLayoutSizeFitting(layoutAttributes.size)
+//                var newFrame = layoutAttributes.frame
+//                newFrame.size.width = CGFloat(ceilf(Float(size.width)))
+//                layoutAttributes.frame = newFrame
+//                isHeightCalculated = true
+//            }
+//            return layoutAttributes
+//        }
     }
     //DETERMINE CELL COUNT
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -123,6 +128,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     ////////////////  RENDER CELLS FROM OBJECTS ARRAY ///////
     ///////////////////////////////////////////////////////////////////////////////
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        //NOTE CELL
         if ((itemArray[indexPath.row] as? BoardNote) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteViewCell", for: indexPath) as! NoteViewCell
             cell.content.text = (itemArray[indexPath.row] as! BoardNote).content
@@ -133,6 +139,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.layer.shadowRadius = 1
             print("made note cell")
             return cell
+        //LIST CELL
         } else if ((itemArray[indexPath.row] as? BoardList) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as! ListCell
             cell.listTitle.text = (itemArray[indexPath.row] as! BoardList).link
@@ -145,6 +152,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.layer.shadowRadius = 1
             print("made list cell")
             return cell
+        //IMAGE CELL
         } else if ((itemArray[indexPath.row] as? BoardImage) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCell
             cell.imageTitle.text = (itemArray[indexPath.row] as! BoardImage).content
@@ -158,12 +166,14 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.layer.shadowColor = UIColor.black.cgColor
             cell.layer.shadowOpacity = 0.5
             cell.layer.shadowOffset = CGSize(width: -10, height: 10)
-            cell.layer.shadowRadius = 1            
+            cell.layer.shadowRadius = 1
             return cell
+        //VIDEO CELL
         } else if ((itemArray[indexPath.row] as? BoardVideo) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoCell", for: indexPath) as! VideoCell
             cell.titleLabel.text = (itemArray[indexPath.row] as! BoardVideo).content
             return cell
+        //WEBPAGE CELL
         } else if ((itemArray[indexPath.row] as? BoardWebpage) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
             cell.webpageId = (itemArray[indexPath.row] as! BoardWebpage).webpage_id
@@ -173,22 +183,31 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let placeholderImage = UIImage(named: "angle-mask.png")
             webpageView?.sd_setImage(with: URL(string: "\((itemArray[indexPath.row] as! BoardWebpage).link)"), placeholderImage: placeholderImage)
             self.view.layoutIfNeeded()
-            cell.layer.cornerRadius = 7.0
-            cell.layer.masksToBounds = true
-            return cell
-        } else if ((itemArray[indexPath.row] as? BoardMap) != nil) {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mapViewCell", for: indexPath) as! MapViewCell
-            let camera = GMSCameraPosition.camera(withLatitude: 47.60, longitude: -122.33, zoom: 6.0)
-            cell.myMapView.camera = camera
-            let marker = GMSMarker()
-            marker.position = CLLocationCoordinate2D(latitude: 47.60, longitude: -122.33)
-            marker.title = "Galvanize"
-            marker.snippet = "Seattle"
-            marker.map = cell.myMapView
+//            cell.layer.masksToBounds = true
             cell.layer.shadowColor = UIColor.black.cgColor
             cell.layer.shadowOpacity = 0.5
             cell.layer.shadowOffset = CGSize(width: -10, height: 10)
             cell.layer.shadowRadius = 1
+            cell.layer.cornerRadius = 7.0
+
+            return cell
+        //MAP CELL
+        } else if ((itemArray[indexPath.row] as? BoardMap) != nil) {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mapViewCell", for: indexPath) as! MapViewCell
+            let lat = (itemArray[indexPath.row] as! BoardMap).link
+            let long = (itemArray[indexPath.row] as! BoardMap).webpage_url
+            let camera = GMSCameraPosition.camera(withLatitude: Double(lat)!, longitude: Double(long)!, zoom: 6.0)
+            cell.myMapView.camera = camera
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(latitude: Double(lat)!, longitude: Double(long)!)
+            marker.snippet = "\((itemArray[indexPath.row] as! BoardMap).content)"
+            marker.map = cell.myMapView
+            cell.mapTitle.text = "\((itemArray[indexPath.row] as! BoardMap).content)"
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOpacity = 0.5
+            cell.layer.shadowOffset = CGSize(width: -10, height: 10)
+            cell.layer.shadowRadius = 1
+            cell.layer.cornerRadius = 8
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
@@ -256,6 +275,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         mapItem.link = item["link"].stringValue
                         mapItem.content = item["content"].stringValue
                         mapItem.board_id = item["board_id"].stringValue
+                        mapItem.webpage_url = item["webpage_url"].stringValue
                         self.itemArray.add(mapItem)
                     }
                 }
@@ -341,31 +361,24 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     //MAP BUTTON
     func addMap() {
-//        let alert = UIAlertController(title: "Enter A Location", message: "By address or name", preferredStyle: .alert)
-//        alert.addTextField { (textField) in
-//            textField.text = ""
-//        }
-//        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
-//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-//            guard let textField = alert?.textFields![0] else {
-//                return
-//            }
-//        })
-//        )
-        let url = "http://localhost:5000/addItem"
-        let userId = defaults.string(forKey: "userId")
-        let boardId = defaults.string(forKey: "boardId")
-        let params = [
-            "itemType": "map",
-            "added_by": Int(userId!),
-            "link": "",
-            "content": "",
-            "board_id": Int(boardId!)
-            ] as [String : Any]
-        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
-            self.renderItems()
-        }
+        resultsViewController = GMSAutocompleteResultsViewController()
+        resultsViewController?.delegate = self as! GMSAutocompleteResultsViewControllerDelegate
+        
+        searchController = UISearchController(searchResultsController: resultsViewController)
+        searchController?.searchResultsUpdater = resultsViewController
+        
+        subView.tag = 100
+        subView.addSubview((searchController?.searchBar)!)
+        view.addSubview(subView)
+        searchController?.searchBar.sizeToFit()
+        searchController?.hidesNavigationBarDuringPresentation = false
+        
+        
+        // When UISearchController presents the results view, present it in
+        // this view controller, not one further up the chain.
+        definesPresentationContext = true
     }
+    
     //LIST BUTTON
     func addList() {
         let alert = UIAlertController(title: "Create a list", message: "Enter List Title", preferredStyle: .alert)
@@ -449,6 +462,41 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////  DATABASE CALLS POSTGRESQL DB && FIREBASE AFTER BUTTON CLICK ///////
     ///////////////////////////////////////////////////////////////////////////////
+    //ADD MAP TO POSTGRESQL DB
+    func addMapToDB(latitude : String, longitude: String) {
+        let viewWithTag = self.view.viewWithTag(100)
+        viewWithTag?.removeFromSuperview()
+        let alert = UIAlertController(title: "Add location note", message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.text = ""
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            guard let textField = alert?.textFields![0] else {
+                return
+            }
+            let content = textField.text
+            print(latitude)
+            print(longitude)
+
+            let url = "http://localhost:5000/addItem"
+                let userId = self.defaults.string(forKey: "userId")
+            let boardId = self.defaults.string(forKey: "boardId")
+            let params = [
+                "itemType": "map",
+                "added_by": Int(userId!),
+                "link": Double(latitude),
+                "webpage_url": Double(longitude),
+                "content": "\(content!)",
+                "board_id": Int(boardId!)
+                ] as [String : Any]
+            Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
+                self.renderItems()
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
+
+    }
+
     //ADD IMAGE TO FIREBASE DB
     func uploadImage(_ image: UIImage, progressBlock: @escaping (_ percentage: Double) -> Void, completionBlock: @escaping (_ url: URL?, _ errorMessage: String?) -> Void) {
         let storage = Storage.storage()
@@ -462,7 +510,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             metadata.customMetadata = [
                     "itemType": "image",
                     "added_by": "\(userId!)",
-                    "content": "TITLE",
+                    "content": "",
                     "board_id": "\(boardId!)",
             ]
             metadata.contentType = "image/jpeg"
@@ -511,7 +559,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             "itemType": "image",
             "added_by": Int(userId!),
             "link": "images/\(String(describing: boardId!))/\(String(describing: name)).jpg",
-            "content": "TITLE",
+            "content": "Title",
             "board_id": Int(boardId!)
             ] as [String : Any]
         let url = "http://localhost:5000/addItem"
@@ -631,10 +679,36 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     func circleMenu(_: CircleMenu, buttonDidSelected _: UIButton, atIndex: Int) {
         print("button did selected: \(atIndex)")
     }
+}
 
+//PLACE PICKER EXTENSION
+extension BoardViewController {
+    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
+                           didAutocompleteWith place: GMSPlace) {
+        searchController?.isActive = false
+        // Do something with the selected place.
+        print("Place coordinates: \(place.coordinate.latitude)")
+        print("Place coordinates: \(place.coordinate.longitude)")
+        print("Place name: \(place.name)")
+        print("Place address: \(place.formattedAddress)")
+        print("Place attributions: \(place.attributions)")
+        self.addMapToDB(latitude: "\(place.coordinate.latitude)", longitude: "\(place.coordinate.longitude)")
+    }
     
+    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
+                           didFailAutocompleteWithError error: Error){
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
     
+    // Turn the network activity indicator on and off again.
+    func didRequestAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
     
+    func didUpdateAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
 }
 
 
