@@ -18,6 +18,9 @@ import SwiftLinkPreview
 import MobileCoreServices
 import AVFoundation
 import Photos
+import SwiftKeychainWrapper
+import SVProgressHUD
+
 
 class UserSettingsViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -26,9 +29,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let token = defaults.string(forKey: "token")
-
         uploadUserImage()
     }
     
@@ -58,6 +59,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
     //ADD IMAGE
     @IBOutlet var userPhoto: UIImageView!
     
+    //GET IMAGE
     func uploadUserImage() {
         let userId = defaults.string(forKey: "userId")
         let storage = Storage.storage()
@@ -66,6 +68,8 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         let imageView = self.userPhoto
         let placeholderImage = UIImage(named: "angle-mask.png")
         imageView?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
+        SVProgressHUD.dismiss()
+        
     }
     
     @IBAction func updatePhotoButton(_ sender: UIButton) {
@@ -75,12 +79,14 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         imagePickerController.allowsEditing = true
         present(imagePickerController, animated: true, completion: nil)
     }
+    
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             picker.dismiss(animated: true, completion: nil)
+            SVProgressHUD.show()
             self.uploadImage(image, progressBlock: { (percentage) in
                 print(percentage)
             }, completionBlock: { (fileURL, errorMessage) in
@@ -127,10 +133,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
             completionBlock(nil, "Image not converted to data")
         }
     }
-    
 
-
-    
     //DELETE ACCOUNT
     @IBAction func deleteAccountButton(_ sender: UIButton) {
         let token = defaults.string(forKey: "token")
@@ -161,14 +164,14 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
     }
     
     
-    //BACK BUTTON
-    @IBAction func backButton(_ sender: UIButton) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let mainViewController = storyBoard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-        self.present(mainViewController, animated: true, completion: nil)
+    @IBAction func logout(_ sender: UIButton) {
+        KeychainWrapper.standard.removeObject(forKey: "token")
+        KeychainWrapper.standard.removeObject(forKey: "token")
+        let mainView = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+        let appDelegate = UIApplication.shared.delegate
+        appDelegate?.window??.rootViewController = mainView
     }
     
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

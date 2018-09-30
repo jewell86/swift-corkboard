@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import SwiftKeychainWrapper
 import GoogleMaps
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Bool {
             
         GMSServices.provideAPIKey("AIzaSyAXb0hDm-Sxe6rkj1dFoJRDhAGDhur2Ue8")
+        GMSPlacesClient.provideAPIKey("AIzaSyBDV32OpTULUxmcZRu7s2JDXj18tZZrJ9w")
+        GMSServices.provideAPIKey("AIzaSyBDV32OpTULUxmcZRu7s2JDXj18tZZrJ9w")
 
         // Override point for customization after application launch.
         FirebaseApp.configure()
@@ -32,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         {
             let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let homePage = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-            self.window?.rootViewController = homePage
+//            self.window?.rootViewController = homePage
         }
 //        GMSPlacesClient.provideAPIKey("AIzaSyC4vIrCJoMEiydy21Sy968-STfTWG0J3fI")
         

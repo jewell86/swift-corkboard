@@ -23,9 +23,8 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
         self.content.delegate = self
         content.isUserInteractionEnabled = true
         var frameRect : CGRect = self.content.frame;
-        frameRect.size.height = 100;
+        frameRect.size.height = 125;
         content.frame = frameRect;
-//        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tappedAwayFunction(_:))))
         randomUuid = UIDevice.current.identifierForVendor!.uuidString
         listenForChanges()
     }
@@ -49,11 +48,7 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
         }
     }
 
-//    @objc func tappedAwayFunction(_ sender: UITapGestureRecognizer) {
-//        print("tapped away")
-//        print(self.noteId)
-//        self.content.resignFirstResponder()
-//    }
+
     
     func sendToPusher(text: String) {
         let params : Parameters = ["text": text, "from": self.randomUuid]

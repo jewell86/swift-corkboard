@@ -10,7 +10,8 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class BoardSettingsViewController: UIViewController {
+class BoardSettingsViewController: UIViewController, UINavigationControllerDelegate
+{
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -158,9 +159,7 @@ class BoardSettingsViewController: UIViewController {
     }
     
     @IBAction func backButton(_ sender: UIButton) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let boardViewController = storyBoard.instantiateViewController(withIdentifier: "BoardViewController") as! BoardViewController
-        self.present(boardViewController, animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     

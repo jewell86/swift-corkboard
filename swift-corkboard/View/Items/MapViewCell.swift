@@ -13,8 +13,6 @@ class MapViewCell: UICollectionViewCell, GMSMapViewDelegate {
     
     @IBOutlet var myMapView: GMSMapView!
     
-
-    
     override func awakeFromNib() {
         super.awakeFromNib()
 //        let camera = GMSCameraPosition.camera(withLatitude: +31.75097946, longitude: +35.23694368, zoom: 6.0)
@@ -22,11 +20,13 @@ class MapViewCell: UICollectionViewCell, GMSMapViewDelegate {
 //        let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
 //        mapView.isMyLocationEnabled = true
 //        mapView.mapType =  .terrain
-//
-//        // CHANGE THIS
+
+        // CHANGE THIS
 //        self.myMapView = mapView
-//
-//        // Creates a marker in the center of the map.
+
+        myMapView.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
+
+        // Creates a marker in the center of the map.
 //        let marker = GMSMarker()
 //        marker.position = CLLocationCoordinate2D(latitude: +31.75097946, longitude: +35.23694368)
 //        marker.title = "my location"

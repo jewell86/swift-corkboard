@@ -57,8 +57,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 print("Login Success!")
                 SVProgressHUD.dismiss()
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let mainViewController = storyBoard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-                self.present(mainViewController, animated: true, completion: nil)            }
+                let controller = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController")
+                self.navigationController!.pushViewController(controller!, animated: true)
+                
+            }
         }
     }
     

@@ -60,7 +60,9 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             } else {
                 print("Registration Success!")
                 SVProgressHUD.dismiss()
-                self.performSegue(withIdentifier: "goToMainView", sender: self)
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let controller = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController")
+                self.navigationController!.pushViewController(controller!, animated: true)
 
         }
     }

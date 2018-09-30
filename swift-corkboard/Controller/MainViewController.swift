@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import SwiftKeychainWrapper
 
-class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
     
     //DECLARE GLOBAL VARIABLES
     var boardArray : [BoardIcon] = [BoardIcon]()
@@ -23,7 +23,8 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     //VIEWDIDLOAD - FIRST FUNC CALLED
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = false
+        
         //SET DELEGATES
         allBoardsTableView.delegate = self
         allBoardsTableView.dataSource = self
@@ -56,7 +57,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let boardViewController = storyBoard.instantiateViewController(withIdentifier: "BoardViewController") as! BoardViewController
         boardViewController.name = title
         boardViewController.id = boardId
-        self.present(boardViewController, animated: true, completion: nil)
+        self.navigationController!.pushViewController(boardViewController, animated: true)
     }
     
     //DETERMINE CELL COUNT
@@ -112,8 +113,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     //ADD NEW BOARD BUTTON PRESSED SHOW ALERT
-    @IBAction func addNewBoard(_ sender: Any) {        
-        let alert = UIAlertController(title: "Add A New Board", message: "Enter Board Name", preferredStyle: .alert)
+    
+    @IBAction func addNewBoard(_ sender: UIBarButtonItem) {
+    let alert = UIAlertController(title: "Add A New Board", message: "Enter Board Name", preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.text = ""
         }
@@ -128,6 +130,11 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.present(alert, animated: true, completion: nil)
     }
     
+    @IBAction func settingsButton(_ sender: UIBarButtonItem) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = self.storyboard?.instantiateViewController(withIdentifier: "UserSettingsViewController")
+        self.navigationController!.pushViewController(controller!, animated: true)
+    }
     //ADD NEW BOARD DB CALL
     func addNewBoard(title: String) {
         let userId = defaults.string(forKey: "userId")
@@ -138,16 +145,8 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
-    //LOGOUT BUTTON PRESSED
     
-    @IBAction func logoutButtonPressed(_ sender: UIButton) {
-        KeychainWrapper.standard.removeObject(forKey: "token")
-        KeychainWrapper.standard.removeObject(forKey: "token")
-        
-        let mainView = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-        let appDelegate = UIApplication.shared.delegate
-        appDelegate?.window??.rootViewController = mainView
-    }
+    
 }
 
 

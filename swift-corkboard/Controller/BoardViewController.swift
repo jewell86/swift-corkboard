@@ -47,6 +47,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         itemCollectionView.dragInteractionEnabled = true
         let title = defaults.string(forKey: "title")
         itemArray = NSMutableArray()
+        self.title = "\(name)"
         
         //SET LONGPRESS RECOGNIZER
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture))
@@ -67,7 +68,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         //CREATE MENU BUTTON
         let button = CircleMenu(
-            frame: CGRect(x: 200, y: 200, width: 50, height: 50),
+            frame: CGRect(x: 150, y: 200, width: 50, height: 50 ),
             normalIcon:"button",
             selectedIcon:"button",
             buttonsCount: 5,
@@ -76,6 +77,11 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         button.delegate = self
         button.layer.cornerRadius = button.frame.size.width / 2.0
         view.addSubview(button)
+        
+        let bgImage = UIImageView();
+        bgImage.image = UIImage(named: "new-wallpaper");
+        bgImage.contentMode = .scaleToFill
+        self.itemCollectionView?.backgroundView = bgImage
 
         //INVOKE FUNCTIONS
         configureCollectionView()
@@ -88,7 +94,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     ///////////////////////////////////////////////////////////////////////////////
     func configureCollectionView() {
         if let flowLayout = itemCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.estimatedItemSize = CGSize(width: 200, height: 200)
+            flowLayout.estimatedItemSize = CGSize(width: 125, height: 125)
         }
         var isHeightCalculated: Bool = false
         func preferredLayoutAttributesFittingAttributes(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
@@ -121,13 +127,22 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteViewCell", for: indexPath) as! NoteViewCell
             cell.content.text = (itemArray[indexPath.row] as! BoardNote).content
             cell.noteId = (itemArray[indexPath.row] as! BoardNote).note_id
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOpacity = 0.5
+            cell.layer.shadowOffset = CGSize(width: -10, height: 10)
+            cell.layer.shadowRadius = 1
             print("made note cell")
             return cell
         } else if ((itemArray[indexPath.row] as? BoardList) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as! ListCell
             cell.listTitle.text = (itemArray[indexPath.row] as! BoardList).link
+            cell.layer.shadowOffset = CGSize(width: -10, height: 10)
 //            cell.listItems.text = (itemArray[indexPath.row] as! BoardList).content
 //            cell.listId = (itemArray[indexPath.row] as! BoardList).list_id
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOpacity = 0.5
+            cell.layer.shadowOffset = CGSize(width: -10, height: 10)
+            cell.layer.shadowRadius = 1
             print("made list cell")
             return cell
         } else if ((itemArray[indexPath.row] as? BoardImage) != nil) {
@@ -142,7 +157,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             imageView?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
             cell.layer.shadowColor = UIColor.black.cgColor
             cell.layer.shadowOpacity = 0.5
-            cell.layer.shadowOffset = CGSize(width: -5, height: 5)
+            cell.layer.shadowOffset = CGSize(width: -10, height: 10)
             cell.layer.shadowRadius = 1            
             return cell
         } else if ((itemArray[indexPath.row] as? BoardVideo) != nil) {
@@ -163,13 +178,17 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             return cell
         } else if ((itemArray[indexPath.row] as? BoardMap) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mapViewCell", for: indexPath) as! MapViewCell
-            let camera = GMSCameraPosition.camera(withLatitude: 32.66, longitude: -122.33, zoom: 6.0)
+            let camera = GMSCameraPosition.camera(withLatitude: 47.60, longitude: -122.33, zoom: 6.0)
             cell.myMapView.camera = camera
             let marker = GMSMarker()
-            marker.position = CLLocationCoordinate2D(latitude: 47.60, longitude: 122.33)
+            marker.position = CLLocationCoordinate2D(latitude: 47.60, longitude: -122.33)
             marker.title = "Galvanize"
             marker.snippet = "Seattle"
             marker.map = cell.myMapView
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOpacity = 0.5
+            cell.layer.shadowOffset = CGSize(width: -10, height: 10)
+            cell.layer.shadowRadius = 1
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
@@ -289,6 +308,11 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             self.present(alert, animated: true, completion: nil)
         }
     }
+    //TAPPED AWAY
+        @objc func tappedAwayFunction(_ sender: UITapGestureRecognizer) {
+            print("tapped away")
+//            self.content.resignFirstResponder()
+        }
 
     ////////////////////////////////////////////////////////////////////////////////
     //////////////// BUTTON METHODS ///////
@@ -317,6 +341,17 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     //MAP BUTTON
     func addMap() {
+//        let alert = UIAlertController(title: "Enter A Location", message: "By address or name", preferredStyle: .alert)
+//        alert.addTextField { (textField) in
+//            textField.text = ""
+//        }
+//        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+//            guard let textField = alert?.textFields![0] else {
+//                return
+//            }
+//        })
+//        )
         let url = "http://localhost:5000/addItem"
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
@@ -400,12 +435,16 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             sender.view?.removeFromSuperview()
         })
     }
-    //BACK BUTTON
-    @IBAction func backButton(_ sender: UIButton) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let mainViewController = storyBoard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-        self.present(mainViewController, animated: true, completion: nil)
+    @IBAction func backButton(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func settingsButton(_ sender: UIBarButtonItem) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = self.storyboard?.instantiateViewController(withIdentifier: "BoardSettingsViewController")
+        self.navigationController!.pushViewController(controller!, animated: true)
+    }
+    
     
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////  DATABASE CALLS POSTGRESQL DB && FIREBASE AFTER BUTTON CLICK ///////

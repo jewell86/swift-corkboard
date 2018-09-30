@@ -74,6 +74,9 @@ PODS:
   - GoogleMaps/Base (2.7.0)
   - GoogleMaps/Maps (2.7.0):
     - GoogleMaps/Base
+  - GooglePlacePicker (2.7.0):
+    - GoogleMaps (= 2.7.0)
+    - GooglePlaces (= 2.7.0)
   - GooglePlaces (2.7.0):
     - GoogleMaps/Base (= 2.7.0)
   - GoogleUtilities/AppDelegateSwizzler (5.3.0):
@@ -161,6 +164,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - FirebaseUI/Storage
   - GoogleMaps
+  - GooglePlacePicker
   - GooglePlaces
   - Nimble
   - PusherSwift
@@ -188,6 +192,7 @@ SPEC REPOS:
     - FirebaseUI
     - GoogleAppMeasurement
     - GoogleMaps
+    - GooglePlacePicker
     - GooglePlaces
     - GoogleUtilities
     - gRPC
@@ -230,6 +235,7 @@ SPEC CHECKSUMS:
   FirebaseUI: 09519bf436a055cd696bf68687d624423150e4c0
   GoogleAppMeasurement: 7d2552cea4e12d09ce737ef0441887a746585ff3
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
+  GooglePlacePicker: 59ea44db173c58486ad6123993e81feefcbce9c3
   GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
   GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
   gRPC: 9d4c549f37c7cef22478634bac7a0405b6e3dbfb
@@ -256,6 +262,6 @@ SPEC CHECKSUMS:
   TaskQueue: 53a3cdaf817d9ce3cd50837ff6610aeb7b968997
   YPImagePicker: 2cc64e1b8b8bac827cf99865fcd1e304ab342315
 
-PODFILE CHECKSUM: efe1ddb320605ccff100f41ab2bf8f861468edfe
+PODFILE CHECKSUM: 30a0fa91836e79b477121ac009fdee925f2be292
 
 COCOAPODS: 1.5.3
