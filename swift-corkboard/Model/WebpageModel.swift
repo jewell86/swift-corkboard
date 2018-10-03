@@ -15,4 +15,6 @@ class BoardWebpage {
     var board_id : String = ""
     var date_added : String = ""
     var webpage_url : String = ""
+    var isBig : Bool = false
+
 }

@@ -64,12 +64,16 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         let userId = defaults.string(forKey: "userId")
         let storage = Storage.storage()
         let storageRef = storage.reference()
-        let imageRef = storageRef.child("images/users/\(userId).jpg")
-        let imageView = self.userPhoto
+        let imageRef = storageRef.child("images/users/\(userId!).jpg")
+//        let imageView = self.userPhoto
         let placeholderImage = UIImage(named: "angle-mask.png")
-        imageView?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
+        self.userPhoto?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
+        self.userPhoto?.layer.borderWidth = 1
+        self.userPhoto?.layer.masksToBounds = false
+        self.userPhoto?.layer.cornerRadius = (self.userPhoto?.frame.height)!/2
+        self.userPhoto?.clipsToBounds = true
         SVProgressHUD.dismiss()
-        
+
     }
     
     @IBAction func updatePhotoButton(_ sender: UIButton) {
@@ -101,7 +105,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         let storageRef = storage.reference()
         let userId = defaults.string(forKey: "userId")
         let fileName = NSUUID().uuidString
-        let imageRef = storageRef.child("images/users/\(userId).jpg")
+        let imageRef = storageRef.child("images/users/\(userId!).jpg")
         if let imageData = UIImageJPEGRepresentation(image, 0.8) {
             let metadata = StorageMetadata()
             metadata.customMetadata = [
@@ -113,8 +117,8 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
                     if let metadata = metadata {
                         print("here's metadata")
                         print(metadata)
-//                        self.addImageToDB(filename: fileName)
-                        self.viewDidLoad()
+                        SVProgressHUD.dismiss()
+                        self.uploadUserImage()
                         return completionBlock( url, nil)
                     } else {
                         completionBlock(nil, error?.localizedDescription)
@@ -167,11 +171,9 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
     @IBAction func logout(_ sender: UIButton) {
         KeychainWrapper.standard.removeObject(forKey: "token")
         KeychainWrapper.standard.removeObject(forKey: "token")
-        let mainView = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-        let appDelegate = UIApplication.shared.delegate
-        appDelegate?.window??.rootViewController = mainView
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
     }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -14,6 +14,8 @@ class BoardNote {
     var content : String = ""
     var board_id : Any = ""
     var date_added : Any = ""
+    var isBig : Bool = false
+
     
 //    var title: String {
 //        // split into lines

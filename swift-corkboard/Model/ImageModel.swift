@@ -15,5 +15,7 @@ class BoardImage : NSObject {
     var link : String = ""
     var content : String = ""
     var board_id : String = ""
+    var isBig : Bool = false
+
 
 }

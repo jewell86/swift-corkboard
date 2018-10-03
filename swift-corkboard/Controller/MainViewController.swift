@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import SwiftKeychainWrapper
 
-class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
+class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     
     //DECLARE GLOBAL VARIABLES
     var boardArray : [BoardIcon] = [BoardIcon]()
@@ -23,15 +23,19 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     //VIEWDIDLOAD - FIRST FUNC CALLED
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = false
         
         //SET DELEGATES
         allBoardsTableView.delegate = self
         allBoardsTableView.dataSource = self
+        
         //REGISTER XIB FILE
         allBoardsTableView.register(UINib(nibName: "BoardCellCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "boardCellCollectionViewCell")
+        
+        //SET LONGPRESS RECOGNIZER
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture))
+        allBoardsTableView.addGestureRecognizer(longPressGesture)
+        
         //CALL OTHER FUNCS
-        configureCollectionView()
         renderBoards()
     }
     
@@ -44,8 +48,8 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         cell.layer.masksToBounds = true
         cell.layer.shadowColor = UIColor.black.cgColor
         cell.layer.shadowOpacity = 0.5
-        cell.layer.shadowOffset = CGSize(width: -10, height: 10)
-        cell.layer.shadowRadius = 1
+        cell.layer.shadowOffset = CGSize(width: -5, height: 5)
+        cell.layer.shadowRadius = 0.5
 
         return cell
     }
@@ -69,29 +73,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return boardArray.count
     }
     
-    //?
+    //
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    //SET SIZE OF COLLECTION VIEW ROWS
-    func configureCollectionView() {
-//        if let flowLayout = allBoardsTableView.collectionViewLayout as? UICollectionViewFlowLayout {
-//            flowLayout.estimatedItemSize = CGSize(width: 120, height: 120)
-//        }
-//        var isHeightCalculated: Bool = false
-//        func preferredLayoutAttributesFittingAttributes(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-//            if !isHeightCalculated {
-//                //                setNeedsLayout()
-//                //                layoutIfNeeded()
-//                let size = allBoardsTableView.systemLayoutSizeFitting(layoutAttributes.size)
-//                var newFrame = layoutAttributes.frame
-//                newFrame.size.width = CGFloat(ceilf(Float(size.width)))
-//                layoutAttributes.frame = newFrame
-//                isHeightCalculated = true
-//            }
-//            return layoutAttributes
-//        }
     }
     
     //RENDER ALL BOARDS FROM DB TO SELF.BOARD ARRAY
@@ -111,7 +95,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 self.boardArray.append(newBoard)
                 }
             }
-            self.configureCollectionView()
             self.allBoardsTableView.reloadData()
         }
     }
@@ -147,6 +130,40 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         Alamofire.request(url, method: .post, parameters: ["title" : title], encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             self.renderBoards()
+        }
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////  COLLECTION VIEW DELEGATE METHODS ///////
+    ///////////////////////////////////////////////////////////////////////////////
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let tempvalue1 = boardArray[sourceIndexPath.row]
+        print("MOVING!!!")
+        boardArray.remove(at: sourceIndexPath.row)
+        boardArray.insert(tempvalue1, at: destinationIndexPath.row)
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    //////////////////// GESTURE METHODS/////////
+    ////////////////////////////////////////////////////////////////////////////////
+    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = allBoardsTableView.indexPathForItem(at: gesture.location(in: allBoardsTableView)) else {
+                break
+            }
+            allBoardsTableView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            allBoardsTableView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+            
+        case UIGestureRecognizerState.ended:
+            allBoardsTableView.endInteractiveMovement()
+        default:
+            allBoardsTableView.cancelInteractiveMovement()
         }
     }
     

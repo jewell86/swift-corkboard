@@ -1,6 +1,0 @@
-framework module CircleMenu {
-  umbrella header "CircleMenu-umbrella.h"
-
-  export *
-  module * { export * }
-}

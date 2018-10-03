@@ -21,7 +21,10 @@ target 'swift-corkboard' do
     pod 'GooglePlacePicker'
     pod 'GoogleMaps'
     pod 'YPImagePicker'
-    pod 'CircleMenu'
+    pod 'Persei'
+    pod 'SCLAlertView'
+    pod 'Eureka'
+    pod 'hkAlium'
     
   target 'swift-corkboardTests' do
     inherit! :search_paths

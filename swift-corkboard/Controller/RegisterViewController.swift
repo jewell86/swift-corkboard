@@ -11,12 +11,9 @@ import Alamofire
 import SVProgressHUD
 import SwiftyJSON
 
-class RegisterViewController: UIViewController, UITextFieldDelegate {
-
+class RegisterViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     
     let defaults = UserDefaults.standard
-
-
     
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
@@ -26,7 +23,6 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        firstName.becomeFirstResponder()
         self.firstName.delegate = self
         self.lastName.delegate = self
         self.email.delegate = self
@@ -56,9 +52,15 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             print(token)
             if token == JSON.null {
                 SVProgressHUD.dismiss()
+                let alert = UIAlertController(title: "Couldn't Register", message: "Please check all fields and try again", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
+                self.present(alert, animated: true, completion: nil)
                 print("Error: \(error)")
             } else {
                 print("Registration Success!")
+                let alert = UIAlertController(title: "Success", message: "You are registered!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Go to my boards", style: UIAlertActionStyle.default,handler: nil))
+                self.present(alert, animated: true, completion: nil)
                 SVProgressHUD.dismiss()
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let controller = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController")

@@ -21,7 +21,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        usernameTextField.becomeFirstResponder()
         self.usernameTextField.delegate = self
         self.passwordTextField.delegate = self
     }
@@ -53,9 +52,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if token == JSON.null {
                 print("Error: \(error)")
                 SVProgressHUD.dismiss()
+                let alert = UIAlertController(title: "Couldn't Login", message: "Incorrect Username or Password", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
+                self.present(alert, animated: true, completion: nil)
             } else {
                 print("Login Success!")
                 SVProgressHUD.dismiss()
+                self.passwordTextField.text = ""
+                self.usernameTextField.text = ""
                 let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let controller = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController")
                 self.navigationController!.pushViewController(controller!, animated: true)

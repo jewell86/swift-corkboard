@@ -13,7 +13,7 @@ import GoogleMaps
 import GooglePlaces
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDelegate {
 
     var window: UIWindow?
     
@@ -33,9 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let token: String? = KeychainWrapper.standard.string(forKey: "token")
         if token != nil
         {
-            let mainStoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let homePage = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-//            self.window?.rootViewController = homePage
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let controller = storyBoard.instantiateViewController(withIdentifier: "MainViewController")
+            self.navigationController?.pushViewController(controller, animated: true)
         }
 //        GMSPlacesClient.provideAPIKey("AIzaSyC4vIrCJoMEiydy21Sy968-STfTWG0J3fI")
         

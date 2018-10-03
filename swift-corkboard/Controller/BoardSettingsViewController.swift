@@ -136,7 +136,7 @@ class BoardSettingsViewController: UIViewController, UINavigationControllerDeleg
     }
         
     
-        //CODE TO EXTRACT OUT ALL USERS_ID MINUS THIS USER, LOOP THRU ALL & PRINT
+    //CODE TO EXTRACT OUT ALL USERS_ID MINUS THIS USER, LOOP THRU ALL & PRINT
         
     
     //DELETE BOARD
