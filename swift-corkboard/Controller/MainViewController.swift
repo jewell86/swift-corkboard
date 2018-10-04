@@ -44,12 +44,11 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "boardCellCollectionViewCell", for: indexPath) as! BoardCellCollectionViewCell
         cell.boardCellLabel.text = boardArray[indexPath.row].title
         cell.tag = indexPath.row
-        cell.layer.cornerRadius = 7.0
-        cell.layer.masksToBounds = true
         cell.layer.shadowColor = UIColor.black.cgColor
-        cell.layer.shadowOpacity = 0.5
+        cell.layer.shadowOpacity = 0.8
         cell.layer.shadowOffset = CGSize(width: -5, height: 5)
-        cell.layer.shadowRadius = 0.5
+        cell.layer.shadowRadius = 1
+        cell.layer.cornerRadius = 10
 
         return cell
     }

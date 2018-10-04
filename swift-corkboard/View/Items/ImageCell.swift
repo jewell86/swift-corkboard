@@ -13,7 +13,7 @@ class ImageCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
     }
     
     var imageId : String = ""
@@ -31,8 +31,6 @@ class ImageCell: UICollectionViewCell {
                 print(error)
             }
         }
-        print("hello")
-//        BoardViewController().renderItems()
     }
     
     

@@ -13,43 +13,38 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="webpageCell" id="gTV-IL-0wX" customClass="WebpageCell" customModule="swift_corkboard" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="141" height="136"/>
+            <rect key="frame" x="0.0" y="0.0" width="168" height="168"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="141" height="136"/>
+                <rect key="frame" x="0.0" y="0.0" width="168" height="168"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="imageView:hkO-yt-g9y:image" translatesAutoresizingMaskIntoConstraints="NO" id="hkO-yt-g9y">
-                        <rect key="frame" x="9" y="20" width="112" height="110"/>
-                    </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="blue-pin" translatesAutoresizingMaskIntoConstraints="NO" id="cJy-Ja-IOo">
-                        <rect key="frame" x="81" y="0.0" width="47" height="40"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="imageView:hkO-yt-g9y:image" translatesAutoresizingMaskIntoConstraints="NO" id="hkO-yt-g9y">
+                        <rect key="frame" x="7" y="0.0" width="130" height="130"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="note" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TKc-LC-lvP">
-                        <rect key="frame" x="7" y="91" width="121" height="37"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sticky_note" translatesAutoresizingMaskIntoConstraints="NO" id="6q1-aj-cL9">
+                        <rect key="frame" x="74" y="76" width="94" height="92"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Note" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ll7-88-NdR">
+                        <rect key="frame" x="82" y="86" width="79" height="72"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                 </subviews>
             </view>
-            <constraints>
-                <constraint firstAttribute="trailing" secondItem="hkO-yt-g9y" secondAttribute="trailing" id="CnD-cS-LSq"/>
-                <constraint firstAttribute="bottom" secondItem="hkO-yt-g9y" secondAttribute="bottom" id="Q8s-06-ruB"/>
-                <constraint firstItem="hkO-yt-g9y" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="SdE-dj-Du4"/>
-                <constraint firstItem="hkO-yt-g9y" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="m7G-cb-bB3"/>
-            </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <size key="customSize" width="224" height="212"/>
+            <size key="customSize" width="217" height="205"/>
             <connections>
                 <outlet property="img" destination="hkO-yt-g9y" id="dWR-1o-uXC"/>
+                <outlet property="info" destination="ll7-88-NdR" id="EIb-eY-dOm"/>
             </connections>
-            <point key="canvasLocation" x="168.5" y="52"/>
+            <point key="canvasLocation" x="164" y="48"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="blue-pin" width="640" height="427"/>
         <image name="imageView:hkO-yt-g9y:image" width="100" height="100">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGVVZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK8QEgcI
@@ -846,5 +841,6 @@ lqaYppqmnKalpqqmsKa4prqmvKa+psCmxabNuDm4O7hAuE64UrhZuF64a7huuHu4gLiIuIu4kLiYuJu4
 rbiwuLUAAAAAAAACAQAAAAAAAABZAAAAAAAAAAAAAAAAAAC4tw
 </mutableData>
         </image>
+        <image name="sticky_note" width="300" height="311"/>
     </resources>
 </document>

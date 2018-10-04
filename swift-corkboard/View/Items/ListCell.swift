@@ -24,16 +24,7 @@ class ListCell: UICollectionViewCell, UITextViewDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-//        self.listTitle.delegate = self
-//        self.listItems.delegate = self
-//        listItems.isUserInteractionEnabled = true
-//        var frameRect : CGRect = self.listItems.frame;
-//        frameRect.size.height = 80;
-//        listItems.frame = frameRect;
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tappedAwayFunction(_:))))
-//        randomUuid = UIDevice.current.identifierForVendor!.uuidString
-//        listenForChanges()
     }
 
     var pusher : Pusher!

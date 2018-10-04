@@ -537,12 +537,12 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" sectionInsetReference="layoutMargins" id="beK-vr-m4t">
-                                    <size key="itemSize" width="120" height="120"/>
+                                    <size key="itemSize" width="140" height="140"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="5" minY="20" maxX="5" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="40" minY="30" maxX="40" maxY="0.0"/>
                                 </collectionViewFlowLayout>
-                                <imageView key="backgroundView" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="new-wallpaper" id="TuF-OV-eOn">
+                                <imageView key="backgroundView" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cacti-wallpaper" id="TuF-OV-eOn">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
@@ -600,11 +600,11 @@
                         <subviews>
                             <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eFz-Qn-F54">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Itf-Yk-Qzb">
-                                    <size key="itemSize" width="50" height="50"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="7" minimumInteritemSpacing="7" id="Itf-Yk-Qzb">
+                                    <size key="itemSize" width="175" height="175"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="15" minY="10" maxX="15" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <imageView key="backgroundView" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="new-wallpaper" id="OYK-tC-uoH">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
@@ -665,6 +665,7 @@
     <resources>
         <image name="Fotoram.io" width="644" height="862"/>
         <image name="angle-mask.png" width="100" height="100"/>
+        <image name="cacti-wallpaper" width="832" height="1100"/>
         <image name="new-wallpaper" width="1920" height="1080"/>
     </resources>
 </document>

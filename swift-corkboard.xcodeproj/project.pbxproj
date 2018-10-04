@@ -28,8 +28,6 @@
 		F13E81A5214FFBBF002BD58A /* ListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F13E81A3214FFBBF002BD58A /* ListCell.xib */; };
 		F13E81A8214FFBCC002BD58A /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E81A6214FFBCC002BD58A /* ImageCell.swift */; };
 		F13E81A9214FFBCC002BD58A /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F13E81A7214FFBCC002BD58A /* ImageCell.xib */; };
-		F13E81AC214FFBDF002BD58A /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E81AA214FFBDF002BD58A /* VideoCell.swift */; };
-		F13E81AD214FFBDF002BD58A /* VideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F13E81AB214FFBDF002BD58A /* VideoCell.xib */; };
 		F13E81B0214FFBF2002BD58A /* WebpageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13E81AE214FFBF2002BD58A /* WebpageCell.swift */; };
 		F13E81B1214FFBF2002BD58A /* WebpageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F13E81AF214FFBF2002BD58A /* WebpageCell.xib */; };
 		F13E81B321503B5D002BD58A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F13E81B221503B5D002BD58A /* GoogleService-Info.plist */; };
@@ -42,7 +40,6 @@
 		F19A0EFD214B0468007C1D31 /* BoardIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */; };
 		F19A0F04214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0F02214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift */; };
 		F19A0F05214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F19A0F03214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib */; };
-		F1A3E6BD215AB6E60036A8FD /* ListTableItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1A3E6BC215AB6E60036A8FD /* ListTableItem.xib */; };
 		F1A3E6C2215C1F200036A8FD /* MapViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A3E6C0215C1F200036A8FD /* MapViewCell.swift */; };
 		F1A3E6C3215C1F200036A8FD /* MapViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1A3E6C1215C1F200036A8FD /* MapViewCell.xib */; };
 		F1A3E6C5215C22B70036A8FD /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A3E6C4215C22B70036A8FD /* MapModel.swift */; };
@@ -93,8 +90,6 @@
 		F13E81A3214FFBBF002BD58A /* ListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListCell.xib; sourceTree = "<group>"; };
 		F13E81A6214FFBCC002BD58A /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		F13E81A7214FFBCC002BD58A /* ImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
-		F13E81AA214FFBDF002BD58A /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
-		F13E81AB214FFBDF002BD58A /* VideoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoCell.xib; sourceTree = "<group>"; };
 		F13E81AE214FFBF2002BD58A /* WebpageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpageCell.swift; sourceTree = "<group>"; };
 		F13E81AF214FFBF2002BD58A /* WebpageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebpageCell.xib; sourceTree = "<group>"; };
 		F13E81B221503B5D002BD58A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -113,7 +108,6 @@
 		F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardIconModel.swift; sourceTree = "<group>"; };
 		F19A0F02214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		F19A0F03214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardCellCollectionViewCell.xib; sourceTree = "<group>"; };
-		F1A3E6BC215AB6E60036A8FD /* ListTableItem.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListTableItem.xib; sourceTree = "<group>"; };
 		F1A3E6C0215C1F200036A8FD /* MapViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewCell.swift; sourceTree = "<group>"; };
 		F1A3E6C1215C1F200036A8FD /* MapViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewCell.xib; sourceTree = "<group>"; };
 		F1A3E6C4215C22B70036A8FD /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
@@ -171,11 +165,8 @@
 				F13E81A3214FFBBF002BD58A /* ListCell.xib */,
 				F13E81A6214FFBCC002BD58A /* ImageCell.swift */,
 				F13E81A7214FFBCC002BD58A /* ImageCell.xib */,
-				F13E81AA214FFBDF002BD58A /* VideoCell.swift */,
-				F13E81AB214FFBDF002BD58A /* VideoCell.xib */,
 				F13E81AE214FFBF2002BD58A /* WebpageCell.swift */,
 				F13E81AF214FFBF2002BD58A /* WebpageCell.xib */,
-				F1A3E6BC215AB6E60036A8FD /* ListTableItem.xib */,
 				F1A3E6C0215C1F200036A8FD /* MapViewCell.swift */,
 				F1A3E6C1215C1F200036A8FD /* MapViewCell.xib */,
 			);
@@ -403,7 +394,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1A3E6BD215AB6E60036A8FD /* ListTableItem.xib in Resources */,
 				F1A3E6C3215C1F200036A8FD /* MapViewCell.xib in Resources */,
 				F19A0F05214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib in Resources */,
 				F13E81B1214FFBF2002BD58A /* WebpageCell.xib in Resources */,
@@ -411,7 +401,6 @@
 				F13E81A9214FFBCC002BD58A /* ImageCell.xib in Resources */,
 				F1602D6021404602005DFA13 /* LaunchScreen.storyboard in Resources */,
 				F1602D5D21404602005DFA13 /* Assets.xcassets in Resources */,
-				F13E81AD214FFBDF002BD58A /* VideoCell.xib in Resources */,
 				F13E81B321503B5D002BD58A /* GoogleService-Info.plist in Resources */,
 				F1602D5B21404601005DFA13 /* Main.storyboard in Resources */,
 				F13E8197214F6944002BD58A /* NoteViewCell.xib in Resources */,
@@ -649,7 +638,6 @@
 				F12ADF872141B74400FAF011 /* MainViewController.swift in Sources */,
 				F13E81A8214FFBCC002BD58A /* ImageCell.swift in Sources */,
 				F13E81A4214FFBBF002BD58A /* ListCell.swift in Sources */,
-				F13E81AC214FFBDF002BD58A /* VideoCell.swift in Sources */,
 				F13E819B214FFAFB002BD58A /* ListModel.swift in Sources */,
 				F106D7A12148BCA2008C51C4 /* BoardViewController.swift in Sources */,
 				F19A0EFD214B0468007C1D31 /* BoardIconModel.swift in Sources */,

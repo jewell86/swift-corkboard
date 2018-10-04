@@ -11,10 +11,11 @@ import UIKit
 class WebpageCell: UICollectionViewCell {
 
     @IBOutlet var img: UIImageView!
-
+    @IBOutlet var info: UITextView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        img.layer.cornerRadius = 15
     }
     
     var webpageId : String = ""

@@ -23,7 +23,7 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
         self.content.delegate = self
         content.isUserInteractionEnabled = true
         var frameRect : CGRect = self.content.frame;
-        frameRect.size.height = 125;
+        frameRect.size.height = 175;
         content.frame = frameRect;
         randomUuid = UIDevice.current.identifierForVendor!.uuidString
         listenForChanges()

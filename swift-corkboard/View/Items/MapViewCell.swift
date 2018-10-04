@@ -13,12 +13,12 @@ class MapViewCell: UICollectionViewCell, GMSMapViewDelegate {
     
     @IBOutlet var myMapView: GMSMapView!
     
+    var locationId : String = ""
 
     @IBOutlet var mapTitle: UITextView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-//        myMapView.frame = CGRect(x: 0, y: 0, width: 120, height: 100)
 
     }
 }

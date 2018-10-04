@@ -68,7 +68,6 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
 //        let imageView = self.userPhoto
         let placeholderImage = UIImage(named: "angle-mask.png")
         self.userPhoto?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
-        self.userPhoto?.layer.borderWidth = 1
         self.userPhoto?.layer.masksToBounds = false
         self.userPhoto?.layer.cornerRadius = (self.userPhoto?.frame.height)!/2
         self.userPhoto?.clipsToBounds = true
