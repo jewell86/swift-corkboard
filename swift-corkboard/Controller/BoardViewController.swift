@@ -129,24 +129,20 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteViewCell", for: indexPath) as! NoteViewCell
             cell.content.text = (itemArray[indexPath.row] as! BoardNote).content
             cell.noteId = (itemArray[indexPath.row] as! BoardNote).note_id
+            let addedBy = (itemArray[indexPath.row] as! BoardNote).added_by
+            let storage = Storage.storage()
+            let storageRef = storage.reference()
+            let imageRef = storageRef.child("images/users/\(addedBy).jpg")
+            let placeholderImage = UIImage(named: "angle-mask.png")
+            cell.userPhoto?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
+            cell.userPhoto?.layer.masksToBounds = false
+            cell.userPhoto?.layer.cornerRadius = (cell.userPhoto?.frame.height)!/2
+            cell.userPhoto?.clipsToBounds = true
             cell.layer.shadowColor = UIColor.black.cgColor
             cell.layer.shadowOpacity = 0.5
             cell.layer.shadowOffset = CGSize(width: -10, height: 10)
             cell.layer.shadowRadius = 1
             print("made note cell")
-            return cell
-            //LIST CELL
-        } else if ((itemArray[indexPath.row] as? BoardList) != nil) {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as! ListCell
-            cell.listTitle.text = (itemArray[indexPath.row] as! BoardList).link
-            cell.layer.shadowOffset = CGSize(width: -10, height: 10)
-            //            cell.listItems.text = (itemArray[indexPath.row] as! BoardList).content
-            //            cell.listId = (itemArray[indexPath.row] as! BoardList).list_id
-            cell.layer.shadowColor = UIColor.black.cgColor
-            cell.layer.shadowOpacity = 0.5
-            cell.layer.shadowOffset = CGSize(width: -10, height: 10)
-            cell.layer.shadowRadius = 1
-            print("made list cell")
             return cell
             //IMAGE CELL
         } else if ((itemArray[indexPath.row] as? BoardImage) != nil) {
@@ -159,6 +155,13 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let imageView = cell.img
             let placeholderImage = UIImage(named: "angle-mask.png")
             imageView?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
+            let addedBy = (itemArray[indexPath.row] as! BoardImage).added_by
+            let userImageRef = storageRef.child("images/users/\(addedBy).jpg")
+            let userPlaceholderImage = UIImage(named: "AppIcon29x29-1")
+            cell.userPhoto?.sd_setImage(with: userImageRef, placeholderImage: userPlaceholderImage)
+            cell.userPhoto?.layer.masksToBounds = false
+            cell.userPhoto?.layer.cornerRadius = (cell.userPhoto?.frame.height)!/2
+            cell.userPhoto?.clipsToBounds = true
             cell.layer.shadowColor = UIColor.black.cgColor
             cell.layer.shadowOpacity = 0.5
             cell.layer.shadowOffset = CGSize(width: -10, height: 10)
@@ -174,6 +177,15 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let placeholderImage = UIImage(named: "angle-mask.png")
             webpageView?.sd_setImage(with: URL(string: "\((itemArray[indexPath.row] as! BoardWebpage).link)"), placeholderImage: placeholderImage)
             self.view.layoutIfNeeded()
+            let addedBy = (itemArray[indexPath.row] as! BoardWebpage).added_by
+            let storage = Storage.storage()
+            let storageRef = storage.reference()
+            let imageRef = storageRef.child("images/users/\(addedBy).jpg")
+            let userPlaceholderImage = UIImage(named: "angle-mask.png")
+            cell.userPhoto?.sd_setImage(with: imageRef, placeholderImage: userPlaceholderImage)
+            cell.userPhoto?.layer.masksToBounds = false
+            cell.userPhoto?.layer.cornerRadius = (cell.userPhoto?.frame.height)!/2
+            cell.userPhoto?.clipsToBounds = true
             cell.layer.shadowColor = UIColor.black.cgColor
             cell.layer.shadowOpacity = 0.8
             cell.layer.shadowOffset = CGSize(width: -5, height: 5)
@@ -220,7 +232,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         let noteItem = BoardNote()
                         noteItem.note_id = item["id"].stringValue
                         noteItem.itemType = item["type"].stringValue
-                        noteItem.added_by = item["added_by"]
+                        noteItem.added_by = item["added_by"].stringValue
                         noteItem.link = item["link"]
                         noteItem.content = item["content"].stringValue
                         noteItem.board_id = item["board_id"]

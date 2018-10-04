@@ -48,8 +48,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         cell.layer.shadowOpacity = 0.8
         cell.layer.shadowOffset = CGSize(width: -5, height: 5)
         cell.layer.shadowRadius = 1
-        cell.layer.cornerRadius = 10
-
         return cell
     }
     

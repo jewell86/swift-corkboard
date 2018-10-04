@@ -13,6 +13,7 @@ class WebpageCell: UICollectionViewCell {
     @IBOutlet var img: UIImageView!
     @IBOutlet var info: UITextView!
     
+    @IBOutlet var userPhoto: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         img.layer.cornerRadius = 15

@@ -15,6 +15,8 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
     
     @IBOutlet var content: UITextView!
     
+    @IBOutlet var userPhoto: UIImageView!
+    
     let defaults = UserDefaults.standard
 
     override func awakeFromNib() {
@@ -22,9 +24,9 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
         super.awakeFromNib()
         self.content.delegate = self
         content.isUserInteractionEnabled = true
-        var frameRect : CGRect = self.content.frame;
-        frameRect.size.height = 175;
-        content.frame = frameRect;
+//        var frameRect : CGRect = self.content.frame;
+//        frameRect.size.height = 175;
+//        content.frame = frameRect;
         randomUuid = UIDevice.current.identifierForVendor!.uuidString
         listenForChanges()
     }

@@ -18,6 +18,7 @@ class ImageCell: UICollectionViewCell {
     
     var imageId : String = ""
 
+    @IBOutlet var userPhoto: UIImageView!
     @IBOutlet var img: UIImageView!
     @IBOutlet var imageTitle: UITextView!
     

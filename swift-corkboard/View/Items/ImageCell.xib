@@ -13,14 +13,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="gTV-IL-0wX" customClass="ImageCell" customModule="swift_corkboard" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="150" height="175"/>
+            <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="150" height="175"/>
+                <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="f0bfc3a9cf41a284c7ed5d64ef52c34b" translatesAutoresizingMaskIntoConstraints="NO" id="zb6-P4-T1L">
-                        <rect key="frame" x="-9" y="-20" width="173" height="209"/>
+                        <rect key="frame" x="30" y="-20" width="160" height="195"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QcD-LE-3q9">
@@ -32,7 +32,7 @@
                         </connections>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wa3-jp-1Jl">
-                        <rect key="frame" x="8" y="9" width="135" height="129"/>
+                        <rect key="frame" x="45" y="9" width="124" height="118"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="red pin" translatesAutoresizingMaskIntoConstraints="NO" id="YA5-Tq-6yf">
@@ -40,11 +40,15 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" keyboardDismissMode="interactive" text="Add title" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="46N-Q9-fkP">
-                        <rect key="frame" x="4" y="139" width="143" height="36"/>
+                        <rect key="frame" x="41" y="124" width="134" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="15"/>
                         <textInputTraits key="textInputTraits"/>
                     </textView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AppIcon29x29-1" translatesAutoresizingMaskIntoConstraints="NO" id="LgV-EY-0H4">
+                        <rect key="frame" x="10" y="84" width="55" height="55"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
@@ -52,11 +56,13 @@
             <connections>
                 <outlet property="imageTitle" destination="46N-Q9-fkP" id="wXK-Wq-zhh"/>
                 <outlet property="img" destination="wa3-jp-1Jl" id="sbL-hg-tmz"/>
+                <outlet property="userPhoto" destination="LgV-EY-0H4" id="dBD-cl-i1R"/>
             </connections>
             <point key="canvasLocation" x="126" y="86.5"/>
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="AppIcon29x29-1" width="29" height="29"/>
         <image name="f0bfc3a9cf41a284c7ed5d64ef52c34b" width="407" height="512"/>
         <image name="red pin" width="880" height="1000"/>
     </resources>

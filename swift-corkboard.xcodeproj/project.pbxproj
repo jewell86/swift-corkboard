@@ -37,6 +37,8 @@
 		F1602D6021404602005DFA13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1602D5E21404602005DFA13 /* LaunchScreen.storyboard */; };
 		F1602D6B21404602005DFA13 /* swift_corkboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1602D6A21404602005DFA13 /* swift_corkboardTests.swift */; };
 		F1602D7621404602005DFA13 /* swift_corkboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1602D7521404602005DFA13 /* swift_corkboardUITests.swift */; };
+		F180BA67216668B0009A4339 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F180BA65216668B0009A4339 /* UserCell.swift */; };
+		F180BA6A21666C87009A4339 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F180BA6921666C87009A4339 /* UserModel.swift */; };
 		F19A0EFD214B0468007C1D31 /* BoardIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */; };
 		F19A0F04214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0F02214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift */; };
 		F19A0F05214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F19A0F03214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib */; };
@@ -105,6 +107,8 @@
 		F1602D7121404602005DFA13 /* swift-corkboardUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "swift-corkboardUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1602D7521404602005DFA13 /* swift_corkboardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swift_corkboardUITests.swift; sourceTree = "<group>"; };
 		F1602D7721404602005DFA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F180BA65216668B0009A4339 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		F180BA6921666C87009A4339 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardIconModel.swift; sourceTree = "<group>"; };
 		F19A0F02214DD6A2007C1D31 /* BoardCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		F19A0F03214DD6A2007C1D31 /* BoardCellCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BoardCellCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 				F13E81AF214FFBF2002BD58A /* WebpageCell.xib */,
 				F1A3E6C0215C1F200036A8FD /* MapViewCell.swift */,
 				F1A3E6C1215C1F200036A8FD /* MapViewCell.xib */,
+				F180BA65216668B0009A4339 /* UserCell.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -245,6 +250,7 @@
 				F13E819E214FFB19002BD58A /* VideoModel.swift */,
 				F13E81A0214FFB3E002BD58A /* WebpageModel.swift */,
 				F1A3E6C4215C22B70036A8FD /* MapModel.swift */,
+				F180BA6921666C87009A4339 /* UserModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -631,6 +637,7 @@
 				F1602D5621404601005DFA13 /* AppDelegate.swift in Sources */,
 				F1A3E6C5215C22B70036A8FD /* MapModel.swift in Sources */,
 				F12ADF852141B73100FAF011 /* RegisterViewController.swift in Sources */,
+				F180BA6A21666C87009A4339 /* UserModel.swift in Sources */,
 				F13E8196214F6944002BD58A /* NoteViewCell.swift in Sources */,
 				F106D7A52148BCC2008C51C4 /* UserSettingsViewController.swift in Sources */,
 				F106D7A32148BCB4008C51C4 /* BoardSettingsViewController.swift in Sources */,
@@ -643,6 +650,7 @@
 				F19A0EFD214B0468007C1D31 /* BoardIconModel.swift in Sources */,
 				F1A3E6C2215C1F200036A8FD /* MapViewCell.swift in Sources */,
 				F13E819F214FFB19002BD58A /* VideoModel.swift in Sources */,
+				F180BA67216668B0009A4339 /* UserCell.swift in Sources */,
 				F13E819D214FFB0A002BD58A /* ImageModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
