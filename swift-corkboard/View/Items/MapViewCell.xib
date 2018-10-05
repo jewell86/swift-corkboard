@@ -36,7 +36,7 @@
                         <rect key="frame" x="20" y="0.0" width="46" height="47"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k19-fi-fo0">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user-icon" translatesAutoresizingMaskIntoConstraints="NO" id="k19-fi-fo0">
                         <rect key="frame" x="6" y="82" width="55" height="55"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -61,5 +61,6 @@
     <resources>
         <image name="map-frame" width="600" height="421"/>
         <image name="red pin" width="880" height="1000"/>
+        <image name="user-icon" width="224" height="224"/>
     </resources>
 </document>

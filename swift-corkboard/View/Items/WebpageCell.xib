@@ -33,7 +33,7 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LYz-Qn-7io">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user-icon" translatesAutoresizingMaskIntoConstraints="NO" id="LYz-Qn-7io">
                         <rect key="frame" x="20" y="79" width="55" height="55"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -852,5 +852,6 @@ rbiwuLUAAAAAAAACAQAAAAAAAABZAAAAAAAAAAAAAAAAAAC4tw
 </mutableData>
         </image>
         <image name="sticky_note" width="300" height="311"/>
+        <image name="user-icon" width="224" height="224"/>
     </resources>
 </document>

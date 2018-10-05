@@ -45,7 +45,7 @@
                         <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="15"/>
                         <textInputTraits key="textInputTraits"/>
                     </textView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AppIcon29x29-1" translatesAutoresizingMaskIntoConstraints="NO" id="LgV-EY-0H4">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user-icon" translatesAutoresizingMaskIntoConstraints="NO" id="LgV-EY-0H4">
                         <rect key="frame" x="10" y="84" width="55" height="55"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -62,8 +62,8 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="AppIcon29x29-1" width="29" height="29"/>
         <image name="f0bfc3a9cf41a284c7ed5d64ef52c34b" width="407" height="512"/>
         <image name="red pin" width="880" height="1000"/>
+        <image name="user-icon" width="224" height="224"/>
     </resources>
 </document>

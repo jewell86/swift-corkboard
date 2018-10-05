@@ -32,9 +32,13 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         let token = defaults.string(forKey: "token")
         uploadUserImage()
         getUserInfo()
+        let userName = defaults.string(forKey: "username")
+        username.text = userName
+
     }
     
 
+    @IBOutlet var username: UILabel!
     
     //UPDATE INFORMATION FORM
     @IBOutlet var firstNameInput: UITextField!
@@ -78,8 +82,8 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let imageRef = storageRef.child("images/users/\(userId!).jpg")
-//        let placeholderImage = UIImage(named: "angle-mask.png")
-        self.userPhoto?.sd_setImage(with: imageRef)
+        let placeholderImage = UIImage(named: "user-icon")
+        self.userPhoto?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
         self.userPhoto?.layer.masksToBounds = false
         self.userPhoto?.layer.cornerRadius = (self.userPhoto?.frame.height)!/2
         self.userPhoto?.clipsToBounds = true

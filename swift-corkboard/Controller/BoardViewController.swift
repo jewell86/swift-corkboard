@@ -21,6 +21,7 @@ import YPImagePicker
 import GoogleMaps
 import GooglePlaces
 import Persei
+import SVProgressHUD
 
 class BoardViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, GMSMapViewDelegate, GMSAutocompleteResultsViewControllerDelegate, UICollectionViewDelegateFlowLayout {
     
@@ -70,8 +71,16 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         //MENU BUTTON CONFIG
         itemCollectionView.addSubview(menu)
-        var buttons = [ MenuItem(image: UIImage(named: "note-icon")!), MenuItem(image: UIImage(named: "photo-icon")!), MenuItem(image: UIImage(named: "map-icon")!), MenuItem(image: UIImage(named: "website-icon")!), MenuItem(image: UIImage(named: "settings-icon")!) ]
-        menu.items = buttons
+        var buttons = [ "note-icon", "photo-icon", "map-icon", "website-icon", "settings-icon" ]
+        
+        let items = buttons.map { button -> MenuItem in
+            var item = MenuItem(image: UIImage(named: button)!)
+            item.backgroundColor = UIColor(displayP3Red: 000, green: 000, blue: 000, alpha: 0.0)
+            item.highlightedBackgroundColor = UIColor(displayP3Red: 000, green: 000, blue: 000, alpha: 0.0)
+            return item
+        }
+        
+        menu.items = items
         menu.backgroundColor = UIColor(displayP3Red: 000, green: 000, blue: 000, alpha: 0.0)
         
         
@@ -130,20 +139,22 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 }
     }
     
-    ////////////////////////////////////////////////////////////////////////////////
-    ////////////////  RENDER CELLS FROM OBJECTS ARRAY ///////
-    ///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////  RENDER CELLS FROM OBJECTS ARRAY ///////
+///////////////////////////////////////////////////////////////////////////////
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //NOTE CELL
         if ((itemArray[indexPath.row] as? BoardNote) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteViewCell", for: indexPath) as! NoteViewCell
             cell.content.text = (itemArray[indexPath.row] as! BoardNote).content
             cell.noteId = (itemArray[indexPath.row] as! BoardNote).note_id
+            cell.randomUuid = NSUUID().uuidString
             let addedBy = (itemArray[indexPath.row] as! BoardNote).added_by
             let storage = Storage.storage()
             let storageRef = storage.reference()
             let imageRef = storageRef.child("images/users/\(addedBy).jpg")
-            cell.userPhoto?.sd_setImage(with: imageRef)
+            let placeholderImage = UIImage(named: "user-icon")
+            cell.userPhoto?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
             cell.userPhoto?.layer.masksToBounds = false
             cell.userPhoto?.layer.cornerRadius = (cell.userPhoto?.frame.height)!/2
             cell.userPhoto?.clipsToBounds = true
@@ -166,7 +177,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             imageView?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
             let addedBy = (itemArray[indexPath.row] as! BoardImage).added_by
             let userImageRef = storageRef.child("images/users/\(addedBy).jpg")
-            let userPlaceholderImage = UIImage(named: "AppIcon29x29-1")
+            let userPlaceholderImage = UIImage(named: "user-icon")
             cell.userPhoto?.sd_setImage(with: userImageRef, placeholderImage: userPlaceholderImage)
             cell.userPhoto?.layer.masksToBounds = false
             cell.userPhoto?.layer.cornerRadius = (cell.userPhoto?.frame.height)!/2
@@ -190,7 +201,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let storage = Storage.storage()
             let storageRef = storage.reference()
             let imageRef = storageRef.child("images/users/\(addedBy).jpg")
-            let userPlaceholderImage = UIImage(named: "angle-mask.png")
+            let userPlaceholderImage = UIImage(named: "user-icon")
             cell.userPhoto?.sd_setImage(with: imageRef, placeholderImage: userPlaceholderImage)
             cell.userPhoto?.layer.masksToBounds = false
             cell.userPhoto?.layer.cornerRadius = (cell.userPhoto?.frame.height)!/2
@@ -217,7 +228,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let storage = Storage.storage()
             let storageRef = storage.reference()
             let imageRef = storageRef.child("images/users/\(addedBy).jpg")
-            cell.userPhoto?.sd_setImage(with: imageRef)
+            let placeholderImage = UIImage(named: "user-icon")
+            cell.userPhoto?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
             cell.userPhoto?.layer.masksToBounds = false
             cell.userPhoto?.layer.cornerRadius = (cell.userPhoto?.frame.height)!/2
             cell.userPhoto?.clipsToBounds = true
@@ -236,7 +248,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     ////////////////  RENDER ALL ITEMS FROM POSTGRESQL DB INTO OBJECTS IN ARRAY///////
     ///////////////////////////////////////////////////////////////////////////////
     func renderItems() {
-        print("RENDER!!")
+        itemArray.removeAllObjects()
         itemArray = NSMutableArray()
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
@@ -302,6 +314,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                     }
                 }
             }
+            SVProgressHUD.dismiss()
             self.itemCollectionView.reloadData()
         }
     }
@@ -326,6 +339,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             newImageView.frame = UIScreen.main.bounds
             newImageView.contentMode = .scaleAspectFit
             newImageView.isUserInteractionEnabled = true
+            newImageView.backgroundColor = UIColor(displayP3Red: 000, green: 000, blue: 000, alpha: 0.8)
             let tap = UITapGestureRecognizer(target: self, action: #selector(dismissFullscreenImage))
             newImageView.addGestureRecognizer(tap)
             self.view.addSubview(newImageView)
@@ -355,17 +369,16 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     func addImage() {
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, _ in
+            
             if let photo = items.singlePhoto {
+                SVProgressHUD.show()
+
                 self.uploadImage(photo.image, progressBlock: { (percentage) in
                     print(percentage)
                 }, completionBlock: { (fileURL, errorMessage) in
                     print(errorMessage)
                 })
-                print(photo.fromCamera) // Image source (camera or library)
-                print(photo.image) // Final image selected by the user
-                print(photo.originalImage) // original image selected by the user, unfiltered
-                print(photo.modifiedImage) // Transformed image, can be nil
-                print(photo.exifMeta) // Print exif meta data of original image.
+                print(photo)
             }
             picker.dismiss(animated: true, completion: nil)
         }
@@ -376,10 +389,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     func addMap() {
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.delegate = self as! GMSAutocompleteResultsViewControllerDelegate
-        
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
-        
         subView.tag = 100
         subView.addSubview((searchController?.searchBar)!)
         view.addSubview(subView)
@@ -414,6 +425,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             guard let textField = alert?.textFields![0] else {
                 return
             }
+            SVProgressHUD.show()
             self.getWebsiteThumbnail(url: textField.text!)
             
             print("Text field: \(String(describing: textField.text!))")
@@ -451,6 +463,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             textField.text = ""
         }
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            SVProgressHUD.show()
             guard let textField = alert?.textFields![0] else {
                 return
             }
@@ -522,6 +535,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
     
     func getCaption(fileName: String) {
+        SVProgressHUD.dismiss()
         let alert = UIAlertController(title: "Add a caption!", message: nil, preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.text = ""
@@ -594,6 +608,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 let titleIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "title")!)
                 let urlIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "url")!)
                 let webpageUrl = result[urlIndex!].value
+                print("website")
+                print(image)
                 self.websiteInfo(image: image as! String, webpageUrl: webpageUrl as! URL)
             },
             onError: { error in
@@ -602,6 +618,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             )
         }
     func websiteInfo(image: String, webpageUrl: URL) {
+        SVProgressHUD.dismiss()
         let alert = UIAlertController(title: "Add website description", message: nil, preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.text = ""
@@ -642,9 +659,39 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let tempvalue1 = itemArray.object(at: sourceIndexPath.row)
-        print("MOVING!!!")
+//        print("MOVING!!!")
+//        print(tempvalue1)
+//        print(type(of: tempvalue1))
         itemArray.removeObject(at: sourceIndexPath.row)
         itemArray.insert(tempvalue1, at: destinationIndexPath.row)
+//        let ahead = itemArray.object(at: sourceIndexPath.row + 1)
+//        if (ahead as? BoardNote)?.note_id != nil {
+//            print("note ID")
+//            print((ahead as! BoardNote).note_id)
+//        }
+//
+//        if (ahead as? BoardWebpage)?.webpage_id != nil {
+//            print("webpage not nil")
+//            print((ahead as! BoardWebpage).webpage_id)
+//        }
+//
+//        if (ahead as? BoardMap)?.map_id != nil {
+//            print("mapnot nil")
+//            print((ahead as! BoardMap).map_id)
+//        }
+//
+//        if (ahead as? BoardImage)?.image_id != nil {
+//            print("photo not nil")
+//            print((ahead as! BoardImage).image_id)
+//        }
+//
+//        
+        //find id of sourceindexpath+1 & name idAhead
+            //SEND ONE CALL TO DB TO CHANGE ALL IDS
+            //In postgresql db
+        //change tempvalue.id to idAhead -1
+            //In postgresql db
+        //change id of all items below tempvalue id to -1 (for loop using sourceIndexPath.row
     }
     
     ////////////////////////////////////////////////////////////////////////////////

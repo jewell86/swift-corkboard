@@ -42,8 +42,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             let token = data["token"]
             let userId = data["user_id"]
             let error = data["error"]
+            let username = data["username"]
             self.defaults.set(token.stringValue, forKey: "token")
             self.defaults.set(userId.stringValue, forKey: "userId")
+            self.defaults.set(username.stringValue, forKey: "username")
             print(userId)
             print(token)
             let saveToken: Bool = KeychainWrapper.standard.set(token.stringValue, forKey: "token")
