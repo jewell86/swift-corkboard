@@ -126,6 +126,7 @@ PODS:
     - gRPC-RxLibrary (= 1.14.0)
   - GTMSessionFetcher/Core (1.2.0)
   - hkAlium (1.0.4)
+  - iOSDropDown (0.2.4)
   - leveldb-library (1.20)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
@@ -170,6 +171,7 @@ DEPENDENCIES:
   - GooglePlacePicker
   - GooglePlaces
   - hkAlium
+  - iOSDropDown
   - Nimble
   - Persei
   - PusherSwift
@@ -208,6 +210,7 @@ SPEC REPOS:
     - gRPC-RxLibrary
     - GTMSessionFetcher
     - hkAlium
+    - iOSDropDown
     - leveldb-library
     - nanopb
     - Nimble
@@ -254,6 +257,7 @@ SPEC CHECKSUMS:
   gRPC-RxLibrary: 3c305f32155024b116b780f389323c73a28197e6
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   hkAlium: f45d32ef3abec16a12826212202a9b25b97d26df
+  iOSDropDown: 6d928eddd336c7bc698ad0ba4b324ce3d2d43c59
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Nimble: c8d6a1f463701921c46de965c673e13cafa09196
@@ -274,6 +278,6 @@ SPEC CHECKSUMS:
   TaskQueue: 53a3cdaf817d9ce3cd50837ff6610aeb7b968997
   YPImagePicker: 2cc64e1b8b8bac827cf99865fcd1e304ab342315
 
-PODFILE CHECKSUM: 2c73f6e3a6f9536aa594c29f9950c5ee9eafedb1
+PODFILE CHECKSUM: df00efed797bae85aa8a18629bc9dd26fcd3740f
 
 COCOAPODS: 1.5.3

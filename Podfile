@@ -25,6 +25,7 @@ target 'swift-corkboard' do
     pod 'SCLAlertView'
     pod 'Eureka'
     pod 'hkAlium'
+    pod 'iOSDropDown'
     
   target 'swift-corkboardTests' do
     inherit! :search_paths

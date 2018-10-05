@@ -8,14 +8,22 @@
 
 import UIKit
 
+protocol UserCellDelegate: AnyObject {
+    func removeButton(cell: UserCell)
+}
+
 class UserCell: UITableViewCell {
 
+    @IBOutlet var removeButton: UIButton!
+    weak var delegate: UserCellDelegate?
+    
     var usersId : String = ""
     
     @IBOutlet var userPhoto: UIImageView!
     @IBOutlet var userName: UILabel!
     
     @IBAction func removeUser(_ sender: UIButton) {
+        delegate?.removeButton(cell: self)
     }
     
     override func awakeFromNib() {

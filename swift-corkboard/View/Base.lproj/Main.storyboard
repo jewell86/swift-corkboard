@@ -351,7 +351,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdV-t9-LdL">
-                                <rect key="frame" x="153" y="138" width="95" height="87"/>
+                                <rect key="frame" x="45" y="197" width="95" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Update Photo"/>
                                 <connections>
@@ -383,6 +383,13 @@
                                     <action selector="deleteAccountButton:" destination="Pfw-NS-Yee" eventType="touchUpInside" id="joD-Ui-nN9"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFI-oR-whO">
+                                <rect key="frame" x="159" y="122" width="184" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="M66-Z8-O6q"/>
@@ -403,51 +410,21 @@
             </objects>
             <point key="canvasLocation" x="5489.8550724637689" y="-200.54347826086959"/>
         </scene>
-        <!--Settings-->
+        <!--Board Settings-->
         <scene sceneID="0KM-UQ-Kcs">
             <objects>
-                <viewController storyboardIdentifier="BoardSettingsViewController" title="Settings" id="Vc4-LS-6tE" customClass="BoardSettingsViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BoardSettingsViewController" title="Board Settings" id="Vc4-LS-6tE" customClass="BoardSettingsViewController" customModule="swift_corkboard" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kc7-Wr-Ckl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Remove a user from this board" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z5N-NH-Coz">
-                                <rect key="frame" x="13" y="193" width="234" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rename this board" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SCS-N4-36v">
-                                <rect key="frame" x="13" y="284" width="144" height="21"/>
+                                <rect key="frame" x="13" y="178" width="144" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oJC-2O-LA8">
-                                <rect key="frame" x="314" y="144" width="22" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="addUserButton:" destination="Vc4-LS-6tE" eventType="touchUpInside" id="K0z-5v-8eP"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1y0-YO-PVf">
-                                <rect key="frame" x="314" y="227" width="92" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Remove User"/>
-                                <connections>
-                                    <action selector="removeUserButton:" destination="Vc4-LS-6tE" eventType="touchUpInside" id="bzH-0i-3ly"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxf-At-LlZ">
-                                <rect key="frame" x="314" y="313" width="56" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Rename"/>
-                                <connections>
-                                    <action selector="renameBoardButton:" destination="Vc4-LS-6tE" eventType="touchUpInside" id="fBg-8l-0Bw"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Board Users" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bDC-NS-kUD">
                                 <rect key="frame" x="0.0" y="378" width="414" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -463,29 +440,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="acl-78-eij">
-                                <rect key="frame" x="25" y="140" width="281" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RQ8-iC-6Zg">
-                                <rect key="frame" x="25" y="228" width="281" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="board title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8On-AR-MJw">
-                                <rect key="frame" x="25" y="314" width="281" height="30"/>
+                                <rect key="frame" x="20" y="219" width="281" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add a user to this board" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fkb-61-C8G">
-                                <rect key="frame" x="13" y="106" width="183" height="21"/>
+                                <rect key="frame" x="13" y="89" width="183" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -525,6 +488,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="removeButton" destination="wah-vW-DH9" id="VHz-15-JLG"/>
                                             <outlet property="userName" destination="cGs-h1-Ndu" id="jzG-1c-bnl"/>
                                             <outlet property="userPhoto" destination="1Xo-wx-e31" id="hsm-yd-zGO"/>
                                         </connections>
@@ -536,8 +500,23 @@
                                     <outlet property="delegate" destination="Vc4-LS-6tE" id="gg6-0d-5OW"/>
                                 </connections>
                             </tableView>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tTU-Ne-kDY" customClass="DropDown" customModule="iOSDropDown">
+                                <rect key="frame" x="20" y="127" width="226" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxf-At-LlZ">
+                                <rect key="frame" x="309" y="219" width="56" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Rename"/>
+                                <connections>
+                                    <action selector="renameBoardButton:" destination="Vc4-LS-6tE" eventType="touchUpInside" id="fBg-8l-0Bw"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZXH-tU-8od">
-                                <rect key="frame" x="305" y="75" width="89" height="30"/>
+                                <rect key="frame" x="13" y="287" width="89" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Delete Board"/>
                                 <connections>
@@ -552,13 +531,21 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="addUserTextField" destination="acl-78-eij" id="k50-6e-nmN"/>
-                        <outlet property="removeUserInput" destination="RQ8-iC-6Zg" id="la4-zN-O2T"/>
+                        <outlet property="dropDown" destination="tTU-Ne-kDY" id="Mo8-bp-D3b"/>
                         <outlet property="renameBoardInput" destination="8On-AR-MJw" id="sno-jn-K18"/>
+                        <outlet property="searchDisplayController" destination="IU6-go-6j4" id="r2q-2r-ZuS"/>
                         <outlet property="tableView" destination="46Z-LA-Wvj" id="kxi-Zs-qus"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhp-9i-80s" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="IU6-go-6j4">
+                    <connections>
+                        <outlet property="delegate" destination="Vc4-LS-6tE" id="JNU-jM-q1Q"/>
+                        <outlet property="searchContentsController" destination="Vc4-LS-6tE" id="Wz8-7U-9yz"/>
+                        <outlet property="searchResultsDataSource" destination="Vc4-LS-6tE" id="05n-QZ-0L1"/>
+                        <outlet property="searchResultsDelegate" destination="Vc4-LS-6tE" id="Jid-Vv-1lC"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="6331.884057971015" y="-200.54347826086959"/>
         </scene>

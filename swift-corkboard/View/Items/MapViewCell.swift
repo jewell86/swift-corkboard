@@ -15,6 +15,7 @@ class MapViewCell: UICollectionViewCell, GMSMapViewDelegate {
     
     var locationId : String = ""
 
+    @IBOutlet var userPhoto: UIImageView!
     @IBOutlet var mapTitle: UITextView!
     
     override func awakeFromNib() {

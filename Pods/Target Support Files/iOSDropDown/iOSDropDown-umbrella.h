@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double WaterfallLayoutVersionNumber;
-FOUNDATION_EXPORT const unsigned char WaterfallLayoutVersionString[];
+FOUNDATION_EXPORT double iOSDropDownVersionNumber;
+FOUNDATION_EXPORT const unsigned char iOSDropDownVersionString[];
 

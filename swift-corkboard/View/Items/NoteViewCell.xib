@@ -24,27 +24,27 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sticky_note" translatesAutoresizingMaskIntoConstraints="NO" id="AFF-3O-veA">
-                        <rect key="frame" x="20" y="0.0" width="175" height="175"/>
+                        <rect key="frame" x="10" y="0.0" width="175" height="175"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="interactive" text="Lorem ipsum dolor sit er elit lamet." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ttz-fn-EI9">
-                        <rect key="frame" x="40" y="17" width="148" height="141"/>
+                        <rect key="frame" x="25" y="17" width="148" height="141"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="13"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                     </textView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="angle-mask.png" translatesAutoresizingMaskIntoConstraints="NO" id="jkC-jT-GFH">
+                        <rect key="frame" x="7" y="100" width="55" height="55"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vEr-LW-yar">
-                        <rect key="frame" x="150" y="125" width="30" height="30"/>
+                        <rect key="frame" x="144" y="128" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="+"/>
                         <connections>
                             <action selector="saveNote:" destination="gTV-IL-0wX" eventType="touchUpInside" id="iCi-In-Cwc"/>
                         </connections>
                     </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="angle-mask.png" translatesAutoresizingMaskIntoConstraints="NO" id="jkC-jT-GFH">
-                        <rect key="frame" x="7" y="100" width="55" height="55"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </imageView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>

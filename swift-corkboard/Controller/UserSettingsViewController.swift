@@ -31,7 +31,10 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         super.viewDidLoad()
         let token = defaults.string(forKey: "token")
         uploadUserImage()
+        getUserInfo()
     }
+    
+
     
     //UPDATE INFORMATION FORM
     @IBOutlet var firstNameInput: UITextField!
@@ -53,6 +56,16 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
             let alert = UIAlertController(title: "Update Successful!", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
             self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func getUserInfo() {
+        print("USERINFO")
+        let userId = defaults.string(forKey: "userId")
+        let url = "http://localhost:5000/byId/\(userId!)"
+        Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
+            response in
+            print(response)
         }
     }
     

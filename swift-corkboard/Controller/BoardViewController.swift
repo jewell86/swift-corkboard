@@ -43,6 +43,15 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     var menuOpen = false
     var locationManager = CLLocationManager()
     
+    func navigationController(_ navigationController: UINavigationController, willShow BoardViewController: UIViewController, animated: Bool) {
+        print("HII")
+        self.renderItems()
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, didShow BoardViewController: UIViewController, animated: Bool) {
+        print("DONE")
+    }
+    
     //VIEW DID LOAD
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +60,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         itemCollectionView.delegate = self
         itemCollectionView.dataSource = self
         menu.delegate = self
+        navigationController?.delegate = self
         
         //DECLARE VARIABLES
         itemCollectionView.dragInteractionEnabled = true
@@ -133,8 +143,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let storage = Storage.storage()
             let storageRef = storage.reference()
             let imageRef = storageRef.child("images/users/\(addedBy).jpg")
-            let placeholderImage = UIImage(named: "angle-mask.png")
-            cell.userPhoto?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
+            cell.userPhoto?.sd_setImage(with: imageRef)
             cell.userPhoto?.layer.masksToBounds = false
             cell.userPhoto?.layer.cornerRadius = (cell.userPhoto?.frame.height)!/2
             cell.userPhoto?.clipsToBounds = true
@@ -204,6 +213,14 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             marker.map = cell.myMapView
             cell.mapTitle.text = "\((itemArray[indexPath.row] as! BoardMap).content)"
             cell.locationId = "\((itemArray[indexPath.row] as! BoardMap).location)"
+            let addedBy = (itemArray[indexPath.row] as! BoardMap).added_by
+            let storage = Storage.storage()
+            let storageRef = storage.reference()
+            let imageRef = storageRef.child("images/users/\(addedBy).jpg")
+            cell.userPhoto?.sd_setImage(with: imageRef)
+            cell.userPhoto?.layer.masksToBounds = false
+            cell.userPhoto?.layer.cornerRadius = (cell.userPhoto?.frame.height)!/2
+            cell.userPhoto?.clipsToBounds = true
             cell.layer.shadowColor = UIColor.black.cgColor
             cell.layer.shadowOpacity = 0.8
             cell.layer.shadowOffset = CGSize(width: -5, height: 5)
@@ -219,6 +236,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     ////////////////  RENDER ALL ITEMS FROM POSTGRESQL DB INTO OBJECTS IN ARRAY///////
     ///////////////////////////////////////////////////////////////////////////////
     func renderItems() {
+        print("RENDER!!")
         itemArray = NSMutableArray()
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
@@ -483,7 +501,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                     if let metadata = metadata {
                         print("here's metadata")
                         print(metadata)
-                        self.addImageToDB(filename: fileName)
+                        self.getCaption(fileName: fileName)
                         return completionBlock( url, nil)
                     } else {
                         completionBlock(nil, error?.localizedDescription)
@@ -502,6 +520,23 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 completionBlock(nil, "Image not converted to data")
             }
         }
+    
+    func getCaption(fileName: String) {
+        let alert = UIAlertController(title: "Add a caption!", message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.text = ""
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            guard let textField = alert?.textFields![0] else {
+                return
+            }
+            let content = textField.text!
+            self.addImageToDB(filename: fileName, content: content)
+        }))
+        self.present(alert, animated: true, completion: nil)
+
+    }
+    
     //ADD LIST TO POSTGRESQL DB
     func addListItem(item: String, listId: String) {
         let url = "http://localhost:5000/updateItem"
@@ -515,15 +550,16 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
     }
     //ADD IMAGE TO POSTGRESSQL DB
-    func addImageToDB(filename : String) {
+    func addImageToDB(filename : String, content : String) {
         let name = filename
+        let caption  = content
         let boardId = defaults.string(forKey: "boardId")
         let userId = defaults.string(forKey: "userId")
-        let params = [
+            let params = [
             "itemType": "image",
             "added_by": Int(userId!),
             "link": "images/\(String(describing: boardId!))/\(String(describing: name)).jpg",
-            "content": "",
+            "content": "\(caption)",
             "board_id": Int(boardId!)
             ] as [String : Any]
         let url = "http://localhost:5000/addItem"
@@ -531,6 +567,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             self.renderItems()
             }
     }
+    
     //ADD VIDEO TO FIREBASE DB
     func uploadVideo(video: URL) {
         let fileName = NSUUID().uuidString

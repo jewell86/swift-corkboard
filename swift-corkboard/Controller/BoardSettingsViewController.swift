@@ -13,15 +13,19 @@ import FirebaseFirestore
 import Firebase
 import FirebaseStorage
 import FirebaseUI
+import iOSDropDown
 
-class BoardSettingsViewController: UIViewController, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource
+class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource
 {
+ 
+    @IBOutlet var dropDown: DropDown!
     
     @IBOutlet var tableView: UITableView!
     let defaults = UserDefaults.standard
     var userNameArray : [String] = [String]()
     var userPhotoArray : [String] = [String]()
     var userIdArray : [String] = [String]()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +35,39 @@ class BoardSettingsViewController: UIViewController, UINavigationControllerDeleg
         tableView.delegate = self
         tableView.dataSource = self
         listAllUsers()
-    }
+        populateUsers()
+
+        dropDown.optionArray = [String]()
+        dropDown.optionIds = [Int]()
+        dropDown.didSelect { (selectedText, index, id) in
+            print("SELECTED")
+            print(selectedText)
+            print(id)
+            
+            let boardId = self.defaults.string(forKey: "boardId")
+            let userId = id
+            let url = "http://localhost:5000/\(boardId!)/addUser"
+            Alamofire.request(url, method: .post, parameters: ["id" : userId]).responseJSON { response in
+                switch response.result {
+                case .success:
+                    print("Succeeded")
+                    let alert = UIAlertController(title: "Success!", message: "\(String(describing: selectedText)) added!", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                        self.listAllUsers()
+                    }))
+                    self.present(alert, animated: true, completion: nil)
+                case .failure(let error):
+                    print(error)
+                    let alert = UIAlertController(title: "Ut oh!", message: "\(String(describing: selectedText)) could not be added!", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    self.dropDown.hideList()
+                }
+            }
+                }
+            }
+//        }
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         self.tableView.reloadData()
@@ -50,12 +86,7 @@ class BoardSettingsViewController: UIViewController, UINavigationControllerDeleg
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("IN THE CELLS")
-        print(userNameArray.count)
-        print(indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! UserCell
-        print(userNameArray[indexPath.row])
-        print(cell)
         cell.userName.text = userNameArray[indexPath.row]
         cell.usersId = userIdArray[indexPath.row]
         let id = userIdArray[indexPath.row]
@@ -66,71 +97,87 @@ class BoardSettingsViewController: UIViewController, UINavigationControllerDeleg
         cell.userPhoto?.layer.masksToBounds = false
         cell.userPhoto?.layer.cornerRadius = (cell.userPhoto?.frame.height)!/2
         cell.userPhoto?.clipsToBounds = true
+        cell.delegate = self
         return cell
     }
     
-
-    //ADD USER TO BOARD
-    @IBOutlet var addUserTextField: UITextField!
-    @IBAction func addUserButton(_ sender: UIButton) {
+    func removeButton(cell: UserCell) {
+        let indexPath = self.tableView.indexPath(for: cell)
         let boardId = defaults.string(forKey: "boardId")
-        let username = addUserTextField.text
-        let params : [String : Any] = ["username": username]
-        let url = "http://localhost:5000/\(boardId!)/addUser"
-        let newUrl = "http://localhost:5000/byUsername/\(username!)"
-        Alamofire.request(newUrl, method: .get).responseJSON { response in
-            if let data : JSON = JSON(response.result.value) {
-                let user = data["response"]
-                let userId = user["id"]
-                Alamofire.request(url, method: .post, parameters: ["id" : userId]).responseJSON { response in
-                    switch response.result {
-                    case .success:
-                        print("Succeeded")
-                        let alert = UIAlertController(title: "Success!", message: "\(String(describing: username!)) added!", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                        self.viewDidLoad()
-                    case .failure(let error):
-                        print(error)
-                        let alert = UIAlertController(title: "Ut oh!", message: "\(String(describing: username!)) could not be added!", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    }
-                }
+        let userId = cell.usersId
+        let url = "http://localhost:5000/\(boardId!)/\(userId)/removeUser"
+        Alamofire.request(url, method: .delete).responseJSON { response in
+            self.listAllUsers()
+            switch response.result {
+            case .success:
+                print("Succeeded")
+                let alert = UIAlertController(title: "Success!", message: "User deleted", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+//                    return self.listAllUsers()
+                }))
+                self.present(alert, animated: true, completion: nil)
+
+            case .failure(let error):
+                print(error)
             }
-            self.addUserTextField.text = ""
-            self.viewDidLoad()
         }
 
     }
     
-    //REMOVE USER FROM BOARD
-    @IBOutlet var removeUserInput: UITextField!
-    @IBAction func removeUserButton(_ sender: UIButton) {
-        let boardId = defaults.string(forKey: "boardId")
-        let username = removeUserInput.text
-        let params : [String : Any] = ["username": username]
-        let newUrl = "http://localhost:5000/byUsername/\(username!)"
-        Alamofire.request(newUrl, method: .get).responseJSON { response in
+    func populateUsers() {
+        let url = "http://localhost:5000/getAll"
+        Alamofire.request(url, method: .get).responseJSON { response in
             if let data : JSON = JSON(response.result.value) {
-                let user = data["response"]
-                let userId = user["id"]
-                let url = "http://localhost:5000/\(boardId!)/\(userId)/removeUser"
-//                let params : [String : Any] = ["id": userId]
-                Alamofire.request(url, method: .delete).responseJSON { response in
-                    switch response.result {
-                    case .success:
-                        print("Succeeded")
-                    case .failure(let error):
-                        print(error)
-                    }
+                let users = data["response"]
+                for user in users.arrayValue {
+                    print("USER")
+                    print(user)
+                    print(type(of: user))
+                    print(user["username"])
+                    let thisUser = user["username"]
+                    let id = user["id"]
+                    self.dropDown.optionArray.append(thisUser.string!)
+                    self.dropDown.optionIds?.append(id.int!) 
                 }
             }
-            self.removeUserInput.text = ""
-            self.viewDidLoad()
         }
-
     }
+
+    
+
+    //ADD USER TO BOARD
+
+    @IBAction func addUserButton(_ sender: UIButton) {
+//        let boardId = defaults.string(forKey: "boardId")
+//        let username = addUserTextField.text
+//        let params : [String : Any] = ["username": username]
+//        let url = "http://localhost:5000/\(boardId!)/addUser"
+//        let newUrl = "http://localhost:5000/byUsername/\(username!)"
+//        Alamofire.request(newUrl, method: .get).responseJSON { response in
+//            if let data : JSON = JSON(response.result.value) {
+//                let user = data["response"]
+//                let userId = user["id"].intValue
+//                Alamofire.request(url, method: .post, parameters: ["id" : userId]).responseJSON { response in
+//                    switch response.result {
+//                    case .success:
+//                        print("Succeeded")
+//                        let alert = UIAlertController(title: "Success!", message: "\(String(describing: username!)) added!", preferredStyle: .alert)
+//                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+//                                self.listAllUsers()
+//                            }))
+//                        self.present(alert, animated: true, completion: nil)
+//                    case .failure(let error):
+//                        print(error)
+//                        let alert = UIAlertController(title: "Ut oh!", message: "\(String(describing: username!)) could not be added!", preferredStyle: .alert)
+//                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
+//                        self.present(alert, animated: true, completion: nil)
+//                    }
+//                }
+//            }
+//            self.addUserTextField.text = ""
+//        }
+    }
+
     
     //RENAME BOARD
     @IBOutlet var renameBoardInput: UITextField!
@@ -150,15 +197,13 @@ class BoardSettingsViewController: UIViewController, UINavigationControllerDeleg
             self.defaults.set("\(self.renameBoardInput.text!)", forKey: "title")
             self.renameBoardInput.text = ""
         }
-
     }
     
-    //ALL BOARD-USERS LIST
-//    @IBOutlet var allUsersLabel: UILabel!
-    
-    
+    //POPULATE ALL BOARD USERS
     func listAllUsers() {
+        print("LIST!")
         userNameArray = [String]()
+        print(userNameArray.count)
         userPhotoArray = [String]()
         userIdArray = [String]()
         let userId = defaults.string(forKey: "userId")
@@ -177,20 +222,22 @@ class BoardSettingsViewController: UIViewController, UINavigationControllerDeleg
                             if let data : JSON = JSON(response.result.value) {
                                 let response = data["response"]
                                 let user = response["username"]
-                                print(user)
-                                print(thisUser)
                                 self.userNameArray.append(user.stringValue)
                                 self.userIdArray.append(thisUser)
                                 self.userPhotoArray.append("images/users/\(thisUser).jpg")
+                                self.tableView.reloadData()
 
                             }
                         }
                     }
                 }
+                self.tableView.reloadData()
+
             }
+            self.tableView.reloadData()
+
         }
-     
-        
+        self.tableView.reloadData()
     }
         
     
@@ -199,14 +246,9 @@ class BoardSettingsViewController: UIViewController, UINavigationControllerDeleg
     
     //DELETE BOARD
     @IBAction func deleteBoardButton(_ sender: UIButton) {
-        //ALERT _ ARE YOU SURE?
-        //IF YES:
         let alert = UIAlertController(title: "Are you sure?", message: "This will delete board permanently", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Nevermind", style: UIAlertActionStyle.default,handler: nil))
         alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak alert] (_) in
-            guard let textField = alert?.textFields![0] else {
-                return
-            }
             let boardId = self.defaults.string(forKey: "boardId")
             let url = "http://localhost:5000/\(boardId!)/deleteBoard"
             Alamofire.request(url, method: .delete).responseJSON { response in
@@ -216,18 +258,31 @@ class BoardSettingsViewController: UIViewController, UINavigationControllerDeleg
                 case .failure(let error):
                     print(error)
                 }
-//                let vc = self.navigationController?.viewControllers.filter({$0 is BoardViewController}).first
-//                self.navigationController?.popToViewController(vc!, animated: true)
             }
-
+//            self.navigationController?.popViewController(animated: true);
+            let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+            self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
         }))
         self.present(alert, animated: true, completion: nil)
-        
     }
     
     @IBAction func backButton(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
-    
-    
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
