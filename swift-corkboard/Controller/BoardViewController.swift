@@ -41,7 +41,13 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     var resultView: UITextView?
     let subView = UIView(frame: CGRect(x: 0, y: 65.0, width: 350.0, height: 45.0))
     let menu = MenuView()
-    var menuOpen = false
+    var buttonOpen = false
+    
+    //PULL DOWN BUTTON
+    let pullButton = UIButton()
+
+
+//    var menuOpen = false
     var locationManager = CLLocationManager()
     
     func navigationController(_ navigationController: UINavigationController, willShow BoardViewController: UIViewController, animated: Bool) {
@@ -67,10 +73,11 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         itemCollectionView.dragInteractionEnabled = true
         let title = defaults.string(forKey: "title")
         itemArray = NSMutableArray()
-        self.title = "\(name)"
+        self.title = "\(title!)"
         
         //MENU BUTTON CONFIG
         itemCollectionView.addSubview(menu)
+        
         var buttons = [ "note-icon", "photo-icon", "map-icon", "website-icon", "settings-icon" ]
         
         let items = buttons.map { button -> MenuItem in
@@ -79,7 +86,15 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             item.highlightedBackgroundColor = UIColor(displayP3Red: 000, green: 000, blue: 000, alpha: 0.0)
             return item
         }
-        
+        //PULL DOWN BUTTON
+        pullButton.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        pullButton.setBackgroundImage(UIImage(named:"down-arrow"), for: .normal)
+        pullButton.addTarget(self, action: #selector(self.dropMenu), for: UIControlEvents.touchUpInside)
+        pullButton.translatesAutoresizingMaskIntoConstraints = false
+        self.itemCollectionView.addSubview(pullButton)
+        pullButton.center = CGPoint(x: itemCollectionView.frame.size.width  / 2,
+                                    y: 10)
+        //MENU ITEMS
         menu.items = items
         menu.backgroundColor = UIColor(displayP3Red: 000, green: 000, blue: 000, alpha: 0.0)
         
@@ -444,11 +459,11 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         navigationController?.popViewController(animated: true)
     }
     
-    func settingsButton() {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = self.storyboard?.instantiateViewController(withIdentifier: "BoardSettingsViewController")
-        self.navigationController!.pushViewController(controller!, animated: true)
-    }
+//    func settingsButton() {
+//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let controller = self.storyboard?.instantiateViewController(withIdentifier: "BoardSettingsViewController")
+//        self.navigationController!.pushViewController(controller!, animated: true)
+//    }
     
     
 ////////////////////////////////////////////////////////////////////////////////
@@ -694,10 +709,10 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //change id of all items below tempvalue id to -1 (for loop using sourceIndexPath.row
     }
     
-    ////////////////////////////////////////////////////////////////////////////////
-    //////////////////// GESTURE METHODS/////////
-    ////////////////////////////////////////////////////////////////////////////////
-    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+////////////////////////////////////////////////////////////////////////////////
+//////////////////// GESTURE METHODS/////////
+////////////////////////////////////////////////////////////////////////////////
+@objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
         switch(gesture.state) {
         case UIGestureRecognizerState.began:
             guard let selectedIndexPath = itemCollectionView.indexPathForItem(at: gesture.location(in: itemCollectionView)) else {
@@ -717,21 +732,36 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
 ////////////////////////////////////////////////////////////////////////////////
 //////////////// DROP MENU METHODS ///////
 ///////////////////////////////////////////////////////////////////////////////
-@IBAction func dropMenu(_ sender: UIBarButtonItem) {
-    if menuOpen == false {
+@objc func dropMenu() {
+    if menu.revealed == false {
         menu.setRevealed(true, animated: true)
-        menuOpen = true
+        menu.revealed = true
     } else {
         menu.setRevealed(false, animated: true)
-        menuOpen = false
+        menu.revealed = false
     }
+    if buttonOpen == true {
+        buttonOpen = false
+        self.pullButton.setBackgroundImage(UIImage(named:"down-arrow"), for: .normal)
+    } else {
+        buttonOpen = true
+        self.pullButton.setBackgroundImage(UIImage(named:"x-icon"), for: .normal)
+    }
+}
+    
+    
+
+@IBAction func settingsButton(_ sender: UIBarButtonItem) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = self.storyboard?.instantiateViewController(withIdentifier: "BoardSettingsViewController")
+        self.navigationController!.pushViewController(controller!, animated: true)
     }
     
 }
 
 extension BoardViewController: MenuViewDelegate {
     func menu(_ menu: MenuView, didSelectItemAt index: Int) {
-        menuOpen = false
+        menu.revealed = false
         if index == 0 {
             addNote()
         } else if index == 1 {
@@ -740,8 +770,8 @@ extension BoardViewController: MenuViewDelegate {
             addMap()
         } else if index == 3 {
             addWebsite()
-        } else if index == 4 {
-            settingsButton()
+//        } else if index == 4 {
+//            settingsButton()
         }
     }
 }

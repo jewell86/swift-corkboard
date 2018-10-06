@@ -350,6 +350,14 @@
                                     <action selector="saveUserChangesButton:" destination="Pfw-NS-Yee" eventType="touchUpInside" id="rCD-Cc-g9v"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdV-t9-LdL">
+                                <rect key="frame" x="45" y="197" width="95" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Update Photo"/>
+                                <connections>
+                                    <action selector="updatePhotoButton:" destination="Pfw-NS-Yee" eventType="touchUpInside" id="8IK-9C-OnE"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pwl-jL-Dms">
                                 <rect key="frame" x="325" y="31" width="48" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -376,20 +384,12 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFI-oR-whO">
-                                <rect key="frame" x="159" y="122" width="184" height="42"/>
+                                <rect key="frame" x="148" y="108" width="184" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdV-t9-LdL">
-                                <rect key="frame" x="45" y="197" width="95" height="15"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Update Photo"/>
-                                <connections>
-                                    <action selector="updatePhotoButton:" destination="Pfw-NS-Yee" eventType="touchUpInside" id="8IK-9C-OnE"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="M66-Z8-O6q"/>
@@ -624,15 +624,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eFz-Qn-F54">
+                            <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eFz-Qn-F54">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="7" minimumInteritemSpacing="7" id="Itf-Yk-Qzb">
                                     <size key="itemSize" width="185" height="175"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="13" minY="10" maxX="13" maxY="0.0"/>
                                 </collectionViewFlowLayout>
-                                <imageView key="backgroundView" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="new-wallpaper" id="OYK-tC-uoH">
+                                <imageView key="backgroundView" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="corkboard" id="OYK-tC-uoH">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
@@ -640,20 +641,14 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="eFz-Qn-F54" firstAttribute="leading" secondItem="utb-om-YhQ" secondAttribute="leading" id="9lX-IT-ASU"/>
-                            <constraint firstItem="eFz-Qn-F54" firstAttribute="top" secondItem="utb-om-YhQ" secondAttribute="top" id="Hwa-tH-Tnw"/>
-                            <constraint firstItem="eFz-Qn-F54" firstAttribute="trailing" secondItem="utb-om-YhQ" secondAttribute="trailing" id="SDa-ug-zZ3"/>
-                            <constraint firstItem="eFz-Qn-F54" firstAttribute="bottom" secondItem="utb-om-YhQ" secondAttribute="bottom" id="xQ2-7s-ku2"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="utb-om-YhQ"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="My Board" id="hSK-kB-1F6">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Obi-V3-YvX"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="aK0-Ub-1ZQ">
+                        <barButtonItem key="rightBarButtonItem" title="Settings" id="aK0-Ub-1ZQ">
                             <connections>
-                                <action selector="dropMenu:" destination="6KO-rH-v0K" id="8t8-Zr-Lsr"/>
+                                <action selector="settingsButton:" destination="6KO-rH-v0K" id="sHR-lA-l16"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -691,7 +686,7 @@
     <resources>
         <image name="Fotoram.io" width="644" height="862"/>
         <image name="cacti-wallpaper" width="832" height="1100"/>
-        <image name="new-wallpaper" width="1920" height="1080"/>
+        <image name="corkboard" width="2533" height="1737"/>
         <image name="user-icon" width="224" height="224"/>
     </resources>
 </document>

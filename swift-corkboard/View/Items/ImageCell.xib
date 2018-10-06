@@ -39,16 +39,16 @@
                         <rect key="frame" x="55" y="-5" width="32" height="38"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" keyboardDismissMode="interactive" text="Add title" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="46N-Q9-fkP">
-                        <rect key="frame" x="41" y="124" width="134" height="31"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="15"/>
-                        <textInputTraits key="textInputTraits"/>
-                    </textView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user-icon" translatesAutoresizingMaskIntoConstraints="NO" id="LgV-EY-0H4">
                         <rect key="frame" x="10" y="84" width="55" height="55"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" keyboardDismissMode="interactive" text="Add title" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="46N-Q9-fkP">
+                        <rect key="frame" x="41" y="120" width="134" height="35"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="18"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
@@ -58,7 +58,7 @@
                 <outlet property="img" destination="wa3-jp-1Jl" id="sbL-hg-tmz"/>
                 <outlet property="userPhoto" destination="LgV-EY-0H4" id="dBD-cl-i1R"/>
             </connections>
-            <point key="canvasLocation" x="126" y="86.5"/>
+            <point key="canvasLocation" x="125.5" y="86.5"/>
         </collectionViewCell>
     </objects>
     <resources>

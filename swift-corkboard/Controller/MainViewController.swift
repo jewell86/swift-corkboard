@@ -24,6 +24,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let username = defaults.string(forKey: "username")
+        self.title = "\(username!)'s Boards"
+        
         //SET DELEGATES
         allBoardsTableView.delegate = self
         allBoardsTableView.dataSource = self

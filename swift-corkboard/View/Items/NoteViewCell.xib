@@ -28,9 +28,9 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="interactive" text="Lorem ipsum dolor sit er elit lamet." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ttz-fn-EI9">
-                        <rect key="frame" x="15" y="17" width="148" height="141"/>
+                        <rect key="frame" x="15" y="12" width="148" height="146"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="13"/>
+                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="15"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                     </textView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user-icon" translatesAutoresizingMaskIntoConstraints="NO" id="jkC-jT-GFH">
