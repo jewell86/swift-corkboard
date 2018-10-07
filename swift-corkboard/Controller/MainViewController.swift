@@ -25,7 +25,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         super.viewDidLoad()
         
         let username = defaults.string(forKey: "username")
-        self.title = "\(username!)'s Boards"
+        self.title = "\(username!)'s boards"
         
         //SET DELEGATES
         allBoardsTableView.delegate = self
@@ -39,7 +39,12 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         allBoardsTableView.addGestureRecognizer(longPressGesture)
         
         //CALL OTHER FUNCS
-        renderBoards()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.viewDidLoad()
+        self.renderBoards()
     }
     
     //CREATE CELLS BY PASSING DATA FROM BOARD ARRAY INTO BOARD CELLS
@@ -83,6 +88,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func renderBoards() {
         let userId = defaults.string(forKey: "userId")
         let url = "https://powerful-earth-36700.herokuapp.com/\(userId!)/main"
+        
         self.boardArray = [BoardIcon]()
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in

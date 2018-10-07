@@ -146,40 +146,38 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
         let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/renameBoard"
         let params : [String : Any] = ["title" : newName]
         Alamofire.request(url, method: .patch, parameters: params).responseJSON { response in
-            print(response)
-            switch response.result {
-            case .success:
-                print("Succeeded")
-            case .failure(let error):
-                print(error)
-            }
-            self.defaults.set("\(self.renameBoardInput.text!)", forKey: "title")
-            self.renameBoardInput.text = ""
+            if let data : JSON = JSON(response.result.value) {
+                let data = data["response"]
+                let title = data["title"]
+                self.defaults.set("\(title)", forKey: "title")
+                switch response.result {
+                case .success:
+                    self.navigationController?.popViewController(animated: true);
+                    print("Succeeded")
+                case .failure(let error):
+                    print(error)
+                }
+                self.renameBoardInput.text = ""
+        }
         }
     }
     
     //POPULATE ALL BOARD USERS
     func listAllUsers() {
-        print("LIST!")
         userNameArray = [String]()
         print(userNameArray.count)
         userPhotoArray = [String]()
         userIdArray = [String]()
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
-//        var thisUser : String = ""
         let params : [String : Any] = ["boards_id": boardId]
         let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/getAllUsers"
         Alamofire.request(url, method: .get).responseJSON { response in
             if let data : JSON = JSON(response.result.value) {
                 let allUsers = data["response"]
-                print("allUsers")
-                print(allUsers)
                 for user in allUsers.arrayValue {
                     if user["users_id"].stringValue != userId {
                         var thisUser = user["users_id"].stringValue
-                        print("users ID")
-                        print(user["users_id"].intValue)
                         let newUrl = "https://powerful-earth-36700.herokuapp.com/byId/\(user["users_id"].intValue)"
                         Alamofire.request(newUrl, method: .get).responseJSON { response in
                             if let data : JSON = JSON(response.result.value) {
@@ -187,8 +185,6 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
                                 let user = response["username"]
                                 self.userNameArray.append(user.stringValue)
                                 self.userIdArray.append(thisUser)
-                                print("THIS USER ID")
-                                print(thisUser)
                                 self.userPhotoArray.append("images/users/\(thisUser).jpg")
                                 self.tableView.reloadData()
                             }
@@ -196,16 +192,9 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
                     }
                 }
                 self.tableView.reloadData()
-
             }
-            self.tableView.reloadData()
-
         }
-        self.tableView.reloadData()
     }
-        
-    
-    //CODE TO EXTRACT OUT ALL USERS_ID MINUS THIS USER, LOOP THRU ALL & PRINT
         
     
     //DELETE BOARD
@@ -223,7 +212,6 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
                     print(error)
                 }
             }
-//            self.navigationController?.popViewController(animated: true);
             let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
             self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
         }))

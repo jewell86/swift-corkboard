@@ -77,7 +77,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //MENU BUTTON CONFIG
         itemCollectionView.addSubview(menu)
         
-        var buttons = [ "note-icon", "photo-icon", "map-icon", "website-icon", "settings-icon" ]
+        var buttons = [ "note-icon", "photo-icon", "map-icon", "website-icon" ]
         
         let items = buttons.map { button -> MenuItem in
             var item = MenuItem(image: UIImage(named: button)!)
@@ -121,12 +121,17 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
 
         //INVOKE FUNCTIONS
         configureCollectionView()
-        renderItems()
         print("VIEW DID LOAD, ITEMS:")
         print(itemArray.count)
         print(itemArray)
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.viewDidLoad()
+        self.renderItems()
+    }
+    
     
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////  CONFIGURE COLLECTION VIEW ///////

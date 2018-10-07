@@ -115,6 +115,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
     }
     //UPLOAD IMAGE TO FIREBASE
     func uploadImage(_ image: UIImage, progressBlock: @escaping (_ percentage: Double) -> Void, completionBlock: @escaping (_ url: URL?, _ errorMessage: String?) -> Void) {
+        SVProgressHUD.dismiss()
         print("UPLOAD!!!")
         let storage = Storage.storage()
         let storageRef = storage.reference()
@@ -163,19 +164,20 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
             response in
                 switch response.result {
                 case .success:
-                    let alert = UIAlertController(title: "Your Account Has Been Deleted", message: nil, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-                        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                        let welcomeViewController = storyBoard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-                        self.present(welcomeViewController, animated: true, completion: nil)
+                    let alert = UIAlertController(title: "Are you sure?", message: "Deleting your account cannot be reversed", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+                    alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak alert] (_) in
+                        KeychainWrapper.standard.removeObject(forKey: "token")
+                        KeychainWrapper.standard.removeObject(forKey: "token")
+                        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+                        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 4], animated: true)
                     }))
                     self.present(alert, animated: true, completion: nil)
                     print("Succeeded")
                 case .failure(let error):
-        
                     let alert = UIAlertController(title: "Account could not be deleted", message: nil, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-                    }))
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
+                
                     self.present(alert, animated: true, completion: nil)
                     print(error)
                 }

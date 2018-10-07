@@ -47,8 +47,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, UINavigatio
             let token = data["token"]
             let userId = data["user_id"]
             let error = data["error"]
+            let username = "\(self.username.text!)"
+
             self.defaults.set(token.stringValue, forKey: "token")
             self.defaults.set(userId.stringValue, forKey: "userId")
+            self.defaults.set(username, forKey: "username")
+
             print(token)
             if token == JSON.null {
                 SVProgressHUD.dismiss()
@@ -58,19 +62,16 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, UINavigatio
                 print("Error: \(error)")
             } else {
                 print("Registration Success!")
-                let alert = UIAlertController(title: "Success", message: "You are registered!", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Go to my boards", style: UIAlertActionStyle.default,handler: nil))
-                self.present(alert, animated: true, completion: nil)
                 SVProgressHUD.dismiss()
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let controller = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController")
-                self.navigationController!.pushViewController(controller!, animated: true)
+                let alert = UIAlertController(title: "Success", message: "You are registered!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Login", style: .default, handler: { [weak alert] (_) in
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let controller = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController")
+                    self.navigationController!.pushViewController(controller!, animated: true)
+                }))
+                self.present(alert, animated: true, completion: nil)
 
+            }
         }
-    }
-
      }
-
-
-
 }
