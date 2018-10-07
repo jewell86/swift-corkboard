@@ -58,6 +58,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let id = boardArray[indexPath.row]
         let title = id.title
+        let addedBy = id.added_by
         let boardId = id.boards_id
         self.defaults.set("\(boardId)", forKey: "boardId")
         self.defaults.set("\(title)", forKey: "title")
@@ -81,7 +82,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     //RENDER ALL BOARDS FROM DB TO SELF.BOARD ARRAY
     func renderBoards() {
         let userId = defaults.string(forKey: "userId")
-        let url = "http://localhost:5000/\(userId!)/main"
+        let url = "https://powerful-earth-36700.herokuapp.com/\(userId!)/main"
         self.boardArray = [BoardIcon]()
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
@@ -126,7 +127,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     //ADD NEW BOARD DB CALL
     func addNewBoard(title: String) {
         let userId = defaults.string(forKey: "userId")
-        let url = "http://localhost:5000/\(userId!)"
+        let url = "https://powerful-earth-36700.herokuapp.com/\(userId!)"
         Alamofire.request(url, method: .post, parameters: ["title" : title], encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             self.renderBoards()

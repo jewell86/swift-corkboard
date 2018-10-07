@@ -12,7 +12,6 @@ import Alamofire
 //SAVE BUTTON
 //MAKE LIST TITLE A LABEL
 class ListCell: UICollectionViewCell, UITextViewDelegate {
-    static let API_ENDPOINT = "http://localhost:5000"
 
     @IBOutlet var listItemsTable: [UITableView]!
 
@@ -35,7 +34,7 @@ class ListCell: UICollectionViewCell, UITextViewDelegate {
 
     @IBAction func saveList(_ sender: UIButton) {
         let id = self.listId
-        let url = "http://localhost:5000/updateItem"
+        let url = "https://powerful-earth-36700.herokuapp.com/updateItem"
 //        let params = ["content": self.listItems.text!, "id": id]
 //        Alamofire.request(url, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON { response in
 //            switch response.result {
@@ -54,9 +53,7 @@ class ListCell: UICollectionViewCell, UITextViewDelegate {
     }
     
     func sendToPusher(text: String) {
-        let params : Parameters = ["text": text, "from": self.randomUuid]
-        let url = "http://localhost:5000/update_text"
-        Alamofire.request(NoteViewCell.API_ENDPOINT + "/update_text", method: .post, parameters: params).validate().responseJSON { response in
+        Alamofire.request("https://powerful-earth-36700.herokuapp.com/update_text", method: .post, parameters: ["text": text, "from": self.randomUuid]).validate().responseJSON { response in
             switch response.result {
             case .success:
                 print("Succeeded")
@@ -85,7 +82,9 @@ class ListCell: UICollectionViewCell, UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         print("entered text")
-//        sendToPusher(text: listItems.text!)
+        if textView.text.characters.count >= 2 {
+            sendToPusher(text: textView.text)
+        }
     }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {

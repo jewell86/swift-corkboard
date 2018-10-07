@@ -23,7 +23,7 @@ class ImageCell: UICollectionViewCell {
     @IBOutlet var imageTitle: UITextView!
     
     @IBAction func saveImageTitle(_ sender: UIButton) {
-        let url = "http://localhost:5000/updateItem"
+        let url = "https://powerful-earth-36700.herokuapp.com/updateItem"
         Alamofire.request(url, method: .patch, parameters: ["content": self.imageTitle.text!, "id": self.imageId], encoding: JSONEncoding.default, headers: nil).responseJSON { response in
             switch response.result {
             case .success:

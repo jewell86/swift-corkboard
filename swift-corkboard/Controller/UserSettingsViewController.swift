@@ -53,7 +53,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         let password = newPasswordInput.text
         let email = passwordInput.text
         let userId = defaults.string(forKey: "userId")
-        let url = "http://localhost:5000/updateUser/\(userId!)"
+        let url = "https://powerful-earth-36700.herokuapp.com/updateUser/\(userId!)"
         let params = [ "first_name": first_name, "last_name": last_name, "username": username, "password": password, "email": email]
         Alamofire.request(url, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
@@ -66,7 +66,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
     func getUserInfo() {
         print("USERINFO")
         let userId = defaults.string(forKey: "userId")
-        let url = "http://localhost:5000/byId/\(userId!)"
+        let url = "https://powerful-earth-36700.herokuapp.com/\(userId!)"
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             print(response)
@@ -157,7 +157,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
     @IBAction func deleteAccountButton(_ sender: UIButton) {
         let token = defaults.string(forKey: "token")
         let userId = defaults.string(forKey: "userId")
-        let url = "http://localhost:5000/deleteUser/\(userId!)"
+        let url = "https://powerful-earth-36700.herokuapp.com/deleteUser/\(userId!)"
         let params = ["token" : token]
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in

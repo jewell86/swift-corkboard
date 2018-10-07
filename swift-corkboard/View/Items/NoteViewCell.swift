@@ -11,35 +11,27 @@ import PusherSwift
 import Alamofire
 
 class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
-    static let API_ENDPOINT = "http://localhost:5000"
+    static let API_ENDPOINT = "https://powerful-earth-36700.herokuapp.com"
     
     @IBOutlet var content: UITextView!
-    
     @IBOutlet var userPhoto: UIImageView!
     
     let defaults = UserDefaults.standard
-
-    override func awakeFromNib() {
-
-        super.awakeFromNib()
-        self.content.delegate = self
-        content.isUserInteractionEnabled = true
-//        var frameRect : CGRect = self.content.frame;
-//        frameRect.size.height = 175;
-//        content.frame = frameRect;
-        randomUuid = UIDevice.current.identifierForVendor!.uuidString
-        listenForChanges()
-    }
-    
     var pusher : Pusher!
     var chillPill = true
     var randomUuid : String = ""
     var noteId : String = ""
-    
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.content.delegate = self
+        content.isUserInteractionEnabled = true
+        listenForChanges()
+    }
     
     @IBAction func saveNote(_ sender: UIButton) {
         let id = self.noteId
-        let url = "http://localhost:5000/updateItem"
+        let url = "https://powerful-earth-36700.herokuapp.com/updateItem/"
         Alamofire.request(url, method: .patch, parameters: ["content": self.content.text!, "id": id], encoding: JSONEncoding.default, headers: nil).responseJSON { response in
             switch response.result {
             case .success:
@@ -49,12 +41,10 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
             }
         }
     }
-
-
     
     func sendToPusher(text: String) {
         let params : Parameters = ["text": text, "from": self.randomUuid]
-        let url = "http://localhost:5000/update_text"
+        let url = "https://powerful-earth-36700.herokuapp.com/update_text"
         Alamofire.request(NoteViewCell.API_ENDPOINT + "/update_text", method: .post, parameters: params).validate().responseJSON { response in
             switch response.result {
             case .success:

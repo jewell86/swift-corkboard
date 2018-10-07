@@ -41,7 +41,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, UINavigatio
     
      @IBAction func registerPressed(_ sender: Any) {
         SVProgressHUD.show()
-        Alamofire.request("http://localhost:5000/register", method: .post, parameters: [ "first_name": firstName.text!, "last_name": lastName.text!, "username": username.text!, "email": email.text!,  "password": password.text! ],encoding: JSONEncoding.default, headers: nil).responseJSON {
+        Alamofire.request("https://powerful-earth-36700.herokuapp.com/register", method: .post, parameters: [ "first_name": firstName.text!, "last_name": lastName.text!, "username": username.text!, "email": email.text!,  "password": password.text! ],encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             let data : JSON = JSON(response.result.value!)
             let token = data["token"]

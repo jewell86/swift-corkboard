@@ -51,8 +51,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     var locationManager = CLLocationManager()
     
     func navigationController(_ navigationController: UINavigationController, willShow BoardViewController: UIViewController, animated: Bool) {
-        print("HII")
-        self.renderItems()
+//        self.renderItems()
     }
     
     func navigationController(_ navigationController: UINavigationController, didShow BoardViewController: UIViewController, animated: Bool) {
@@ -103,6 +102,10 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture))
         itemCollectionView.addGestureRecognizer(longPressGesture)
         
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(self.deleteItem))
+        doubleTap.numberOfTapsRequired = 2
+        itemCollectionView.addGestureRecognizer(doubleTap)
+        
         //REGISTER CELL XIBS
         itemCollectionView.register(UINib(nibName: "NoteViewCell", bundle: nil), forCellWithReuseIdentifier: "noteViewCell")
         itemCollectionView.register(UINib(nibName: "ListCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
@@ -119,6 +122,9 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //INVOKE FUNCTIONS
         configureCollectionView()
         renderItems()
+        print("VIEW DID LOAD, ITEMS:")
+        print(itemArray.count)
+        print(itemArray)
     }
 
     
@@ -129,6 +135,26 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemArray.count
     }
+    
+    @objc func deleteItem(_ gesture: UITapGestureRecognizer) {
+        let selectedIndexPath = (itemCollectionView.indexPathForItem(at: gesture.location(in: itemCollectionView)))
+        let item = self.itemArray[selectedIndexPath![1]] as! BoardNote
+        let notesId = item.note_id
+            let alert = UIAlertController(title: "Delete this item?", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak alert] (_) in
+                SVProgressHUD.show()
+                let url = "https://powerful-earth-36700.herokuapp.com/deleteItem/\(notesId)"
+                Alamofire.request(url, method: .delete, encoding: JSONEncoding.default, headers: nil).responseJSON {
+                    response in
+                    if let data : JSON = JSON(response.result.value) {
+                        print(data)
+                    }
+                    self.viewDidLoad()
+                }
+            }))
+            self.present(alert, animated: true, completion: nil)
+            }
     
     //OVERRIDE MEMORY
     override func didReceiveMemoryWarning() {
@@ -162,8 +188,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         if ((itemArray[indexPath.row] as? BoardNote) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteViewCell", for: indexPath) as! NoteViewCell
             cell.content.text = (itemArray[indexPath.row] as! BoardNote).content
-            cell.noteId = (itemArray[indexPath.row] as! BoardNote).note_id
-            cell.randomUuid = NSUUID().uuidString
+            cell.noteId = NSUUID().uuidString
+            cell.randomUuid = (itemArray[indexPath.row] as! BoardNote).note_id
             let addedBy = (itemArray[indexPath.row] as! BoardNote).added_by
             let storage = Storage.storage()
             let storageRef = storage.reference()
@@ -177,7 +203,10 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.layer.shadowOpacity = 0.5
             cell.layer.shadowOffset = CGSize(width: -10, height: 10)
             cell.layer.shadowRadius = 1
-            print("made note cell")
+            let imagePath = UIBezierPath(rect: CGRect(x: 7, y: 100 , width: (cell.userPhoto?.frame.width)!, height: (cell.userPhoto?.frame.height)!))
+            cell.content.textContainer.exclusionPaths = [imagePath]
+
+
             return cell
             //IMAGE CELL
         } else if ((itemArray[indexPath.row] as? BoardImage) != nil) {
@@ -263,11 +292,12 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     ////////////////  RENDER ALL ITEMS FROM POSTGRESQL DB INTO OBJECTS IN ARRAY///////
     ///////////////////////////////////////////////////////////////////////////////
     func renderItems() {
+        SVProgressHUD.dismiss()
         itemArray.removeAllObjects()
         itemArray = NSMutableArray()
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
-        let url = "http://localhost:5000/\(userId!)/\(boardId!)"
+        let url = "https://powerful-earth-36700.herokuapp.com/\(userId!)/\(boardId!)"
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             if let data : JSON = JSON(response.result.value) {
@@ -323,8 +353,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                         mapItem.board_id = item["board_id"].stringValue
                         mapItem.webpage_url = item["webpage_url"].stringValue
                         mapItem.location = item["location"].stringValue
-                        print("location from renderITems")
-                        print(item["location"].stringValue)
                         self.itemArray.add(mapItem)
                     }
                 }
@@ -347,7 +375,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             UIApplication.shared.open(url!, options: [:])
         //IF IMAGE
         } else if (cell as? ImageCell) != nil {
-            print("selected image")
             let cell = collectionView.cellForItem(at: indexPath) as! ImageCell
             let imageView = cell.img as! UIImageView
             let newImageView = UIImageView(image: imageView.image)
@@ -362,10 +389,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             self.tabBarController?.tabBar.isHidden = true
          //IF MAP
         } else if (cell as? MapViewCell) != nil {
-            print("map cell")
             let cell = collectionView.cellForItem(at: indexPath) as! MapViewCell
             let locationId = cell.locationId
-            print(cell.locationId)
             let url = URL(string: "https://www.google.com/maps/dir/?api=1&origin=Puyallup+WA&destination=QVB&destination_place_id=\(cell.locationId)")
             UIApplication.shared.open(url!, options: [:])
         }
@@ -415,7 +440,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     //NOTE BUTTON
     func addNote() {
-        let url = "http://localhost:5000/addItem"
+        let url = "https://powerful-earth-36700.herokuapp.com/addItem"
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
         let params = [
@@ -442,8 +467,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
             SVProgressHUD.show()
             self.getWebsiteThumbnail(url: textField.text!)
-            
-            print("Text field: \(String(describing: textField.text!))")
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -483,7 +506,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 return
             }
             let content = textField.text
-            let url = "http://localhost:5000/addItem"
+            let url = "https://powerful-earth-36700.herokuapp.com/addItem"
             let userId = self.defaults.string(forKey: "userId")
             let boardId = self.defaults.string(forKey: "boardId")
             let params = [
@@ -527,8 +550,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let uploadTask = imageRef.putData(imageData, metadata: metadata, completion: { (metadata, error) in
                 imageRef.downloadURL(completion: { (url, error) in
                     if let metadata = metadata {
-                        print("here's metadata")
-                        print(metadata)
                         self.getCaption(fileName: fileName)
                         return completionBlock( url, nil)
                     } else {
@@ -568,7 +589,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     //ADD LIST TO POSTGRESQL DB
     func addListItem(item: String, listId: String) {
-        let url = "http://localhost:5000/updateItem"
+        let url = "https://powerful-earth-36700.herokuapp.com/updateItem"
         let listItem = "\(item) \n"
         let params = [
             "content": listItem,
@@ -591,7 +612,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             "content": "\(caption)",
             "board_id": Int(boardId!)
             ] as [String : Any]
-        let url = "http://localhost:5000/addItem"
+        let url = "https://powerful-earth-36700.herokuapp.com/addItem"
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
             self.renderItems()
             }
@@ -617,14 +638,11 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         slp.preview(
             "\(url)",
             onSuccess: { result in
-                print(result)
                 let imageIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "image")!)
                 let image = result[imageIndex!].value
                 let titleIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "title")!)
                 let urlIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "url")!)
                 let webpageUrl = result[urlIndex!].value
-                print("website")
-                print(image)
                 self.websiteInfo(image: image as! String, webpageUrl: webpageUrl as! URL)
             },
             onError: { error in
@@ -649,7 +667,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     //ADD WEBSITE TO POSTGRESQL DB
     func addWebsiteToDatabase(title: String, image: String, webpageUrl: URL) {
-        let url = "http://localhost:5000/addItem"
+        let url = "https://powerful-earth-36700.herokuapp.com/addItem"
         let userId = self.defaults.string(forKey: "userId")
         let boardId = self.defaults.string(forKey: "boardId")
         let params = [
@@ -674,9 +692,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let tempvalue1 = itemArray.object(at: sourceIndexPath.row)
-//        print("MOVING!!!")
-//        print(tempvalue1)
-//        print(type(of: tempvalue1))
         itemArray.removeObject(at: sourceIndexPath.row)
         itemArray.insert(tempvalue1, at: destinationIndexPath.row)
 //        let ahead = itemArray.object(at: sourceIndexPath.row + 1)
@@ -785,11 +800,6 @@ extension BoardViewController {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
-        print("Place coordinates: \(place.coordinate.latitude)")
-        print("Place coordinates: \(place.coordinate.longitude)")
-        print("Place address: \(place.formattedAddress)")
-        print("Place attributions: \(place.attributions)")
-        print(place.placeID)
         self.addMapToDB(latitude: "\(place.coordinate.latitude)", longitude: "\(place.coordinate.longitude)", locationId: "\(place.placeID)")
     
     }

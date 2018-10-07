@@ -46,7 +46,7 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
             
             let boardId = self.defaults.string(forKey: "boardId")
             let userId = id
-            let url = "http://localhost:5000/\(boardId!)/addUser"
+            let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/addUser"
             Alamofire.request(url, method: .post, parameters: ["id" : userId]).responseJSON { response in
                 switch response.result {
                 case .success:
@@ -63,11 +63,10 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
                     self.present(alert, animated: true, completion: nil)
                     self.dropDown.hideList()
                 }
-            }
+                }
                 }
             }
-//        }
-//    }
+
     
     override func viewDidAppear(_ animated: Bool) {
         self.tableView.reloadData()
@@ -105,7 +104,7 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
         let indexPath = self.tableView.indexPath(for: cell)
         let boardId = defaults.string(forKey: "boardId")
         let userId = cell.usersId
-        let url = "http://localhost:5000/\(boardId!)/\(userId)/removeUser"
+        let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/\(userId)/removeUser"
         Alamofire.request(url, method: .delete).responseJSON { response in
             self.listAllUsers()
             switch response.result {
@@ -113,7 +112,6 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
                 print("Succeeded")
                 let alert = UIAlertController(title: "Success!", message: "User deleted", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-//                    return self.listAllUsers()
                 }))
                 self.present(alert, animated: true, completion: nil)
 
@@ -125,15 +123,11 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
     }
     
     func populateUsers() {
-        let url = "http://localhost:5000/getAll"
+        let url = "https://powerful-earth-36700.herokuapp.com/getAll"
         Alamofire.request(url, method: .get).responseJSON { response in
             if let data : JSON = JSON(response.result.value) {
                 let users = data["response"]
                 for user in users.arrayValue {
-                    print("USER")
-                    print(user)
-                    print(type(of: user))
-                    print(user["username"])
                     let thisUser = user["username"]
                     let id = user["id"]
                     self.dropDown.optionArray.append(thisUser.string!)
@@ -143,48 +137,13 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
         }
     }
 
-    
 
-    //ADD USER TO BOARD
-
-    @IBAction func addUserButton(_ sender: UIButton) {
-//        let boardId = defaults.string(forKey: "boardId")
-//        let username = addUserTextField.text
-//        let params : [String : Any] = ["username": username]
-//        let url = "http://localhost:5000/\(boardId!)/addUser"
-//        let newUrl = "http://localhost:5000/byUsername/\(username!)"
-//        Alamofire.request(newUrl, method: .get).responseJSON { response in
-//            if let data : JSON = JSON(response.result.value) {
-//                let user = data["response"]
-//                let userId = user["id"].intValue
-//                Alamofire.request(url, method: .post, parameters: ["id" : userId]).responseJSON { response in
-//                    switch response.result {
-//                    case .success:
-//                        print("Succeeded")
-//                        let alert = UIAlertController(title: "Success!", message: "\(String(describing: username!)) added!", preferredStyle: .alert)
-//                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-//                                self.listAllUsers()
-//                            }))
-//                        self.present(alert, animated: true, completion: nil)
-//                    case .failure(let error):
-//                        print(error)
-//                        let alert = UIAlertController(title: "Ut oh!", message: "\(String(describing: username!)) could not be added!", preferredStyle: .alert)
-//                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
-//                        self.present(alert, animated: true, completion: nil)
-//                    }
-//                }
-//            }
-//            self.addUserTextField.text = ""
-//        }
-    }
-
-    
     //RENAME BOARD
     @IBOutlet var renameBoardInput: UITextField!
     @IBAction func renameBoardButton(_ sender: UIButton) {
         let boardId = defaults.string(forKey: "boardId")
         let newName = renameBoardInput.text!
-        let url = "http://localhost:5000/\(boardId!)/renameBoard"
+        let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/renameBoard"
         let params : [String : Any] = ["title" : newName]
         Alamofire.request(url, method: .patch, parameters: params).responseJSON { response in
             print(response)
@@ -208,25 +167,30 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
         userIdArray = [String]()
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
-        var thisUser : String = ""
+//        var thisUser : String = ""
         let params : [String : Any] = ["boards_id": boardId]
-        let url = "http://localhost:5000/\(boardId!)/getAllUsers"
+        let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/getAllUsers"
         Alamofire.request(url, method: .get).responseJSON { response in
             if let data : JSON = JSON(response.result.value) {
                 let allUsers = data["response"]
+                print("allUsers")
+                print(allUsers)
                 for user in allUsers.arrayValue {
                     if user["users_id"].stringValue != userId {
-                        thisUser = user["users_id"].stringValue
-                        let newUrl = "http://localhost:5000/byId/\(user["users_id"].intValue)"
+                        var thisUser = user["users_id"].stringValue
+                        print("users ID")
+                        print(user["users_id"].intValue)
+                        let newUrl = "https://powerful-earth-36700.herokuapp.com/byId/\(user["users_id"].intValue)"
                         Alamofire.request(newUrl, method: .get).responseJSON { response in
                             if let data : JSON = JSON(response.result.value) {
                                 let response = data["response"]
                                 let user = response["username"]
                                 self.userNameArray.append(user.stringValue)
                                 self.userIdArray.append(thisUser)
+                                print("THIS USER ID")
+                                print(thisUser)
                                 self.userPhotoArray.append("images/users/\(thisUser).jpg")
                                 self.tableView.reloadData()
-
                             }
                         }
                     }
@@ -250,7 +214,7 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
         alert.addAction(UIAlertAction(title: "Nevermind", style: UIAlertActionStyle.default,handler: nil))
         alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak alert] (_) in
             let boardId = self.defaults.string(forKey: "boardId")
-            let url = "http://localhost:5000/\(boardId!)/deleteBoard"
+            let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/deleteBoard"
             Alamofire.request(url, method: .delete).responseJSON { response in
                 switch response.result {
                 case .success:
