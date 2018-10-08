@@ -20,6 +20,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, UINavigatio
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
+    @IBOutlet var secondPassword: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +66,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, UINavigatio
                 SVProgressHUD.dismiss()
                 let alert = UIAlertController(title: "Success", message: "You are registered!", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Login", style: .default, handler: { [weak alert] (_) in
+                    self.lastName.text = ""
+                    self.firstName.text = ""
+                    self.email.text = ""
+                    self.password.text = ""
+                    self.username.text = ""
+                    self.secondPassword.text = ""
                     let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let controller = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController")
                     self.navigationController!.pushViewController(controller!, animated: true)

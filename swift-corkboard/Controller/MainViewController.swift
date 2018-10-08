@@ -43,7 +43,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.viewDidLoad()
         self.renderBoards()
     }
     

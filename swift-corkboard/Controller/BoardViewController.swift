@@ -41,21 +41,16 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     var resultView: UITextView?
     let subView = UIView(frame: CGRect(x: 0, y: 65.0, width: 350.0, height: 45.0))
     let menu = MenuView()
-    var buttonOpen = false
     
     //PULL DOWN BUTTON
     let pullButton = UIButton()
 
-
-//    var menuOpen = false
     var locationManager = CLLocationManager()
     
     func navigationController(_ navigationController: UINavigationController, willShow BoardViewController: UIViewController, animated: Bool) {
-//        self.renderItems()
     }
     
     func navigationController(_ navigationController: UINavigationController, didShow BoardViewController: UIViewController, animated: Bool) {
-        print("DONE")
     }
     
     //VIEW DID LOAD
@@ -128,15 +123,14 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.viewDidLoad()
         self.renderItems()
     }
     
     
-    ////////////////////////////////////////////////////////////////////////////////
-    ////////////////  CONFIGURE COLLECTION VIEW ///////
-    ///////////////////////////////////////////////////////////////////////////////
-    //DETERMINE CELL COUNT
+////////////////////////////////////////////////////////////////////////////////
+////////////////  CONFIGURE COLLECTION VIEW ///////
+///////////////////////////////////////////////////////////////////////////////
+//DETERMINE CELL COUNT
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return itemArray.count
     }
@@ -193,8 +187,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         if ((itemArray[indexPath.row] as? BoardNote) != nil) {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteViewCell", for: indexPath) as! NoteViewCell
             cell.content.text = (itemArray[indexPath.row] as! BoardNote).content
-            cell.noteId = NSUUID().uuidString
-            cell.randomUuid = (itemArray[indexPath.row] as! BoardNote).note_id
+            cell.noteId = (itemArray[indexPath.row] as! BoardNote).note_id
             let addedBy = (itemArray[indexPath.row] as! BoardNote).added_by
             let storage = Storage.storage()
             let storageRef = storage.reference()
@@ -210,8 +203,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.layer.shadowRadius = 1
             let imagePath = UIBezierPath(rect: CGRect(x: 7, y: 100 , width: (cell.userPhoto?.frame.width)!, height: (cell.userPhoto?.frame.height)!))
             cell.content.textContainer.exclusionPaths = [imagePath]
-
-
             return cell
             //IMAGE CELL
         } else if ((itemArray[indexPath.row] as? BoardImage) != nil) {
@@ -293,9 +284,9 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         return cell
     }
     
-    ////////////////////////////////////////////////////////////////////////////////
-    ////////////////  RENDER ALL ITEMS FROM POSTGRESQL DB INTO OBJECTS IN ARRAY///////
-    ///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////  RENDER ALL ITEMS FROM POSTGRESQL DB INTO OBJECTS IN ARRAY///////
+///////////////////////////////////////////////////////////////////////////////
     func renderItems() {
         SVProgressHUD.dismiss()
         itemArray.removeAllObjects()
@@ -367,9 +358,9 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
     }
     
-    ////////////////////////////////////////////////////////////////////////////////
-    //////////////// SELECT ITEM AT METHODS ///////
-    ///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//////////////// SELECT ITEM AT METHODS ///////
+///////////////////////////////////////////////////////////////////////////////
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath)
         //IF WEBPAGE
@@ -404,6 +395,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     //TAPPED AWAY
         @objc func tappedAwayFunction(_ sender: UITapGestureRecognizer) {
             print("tapped away")
+            view.willRemoveSubview(subView)
             self.resignFirstResponder()
         }
 
@@ -486,12 +478,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBAction func backButton(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
-    
-//    func settingsButton() {
-//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let controller = self.storyboard?.instantiateViewController(withIdentifier: "BoardSettingsViewController")
-//        self.navigationController!.pushViewController(controller!, animated: true)
-//    }
     
     
 ////////////////////////////////////////////////////////////////////////////////
@@ -759,13 +745,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     } else {
         menu.setRevealed(false, animated: true)
         menu.revealed = false
-    }
-    if buttonOpen == true {
-        buttonOpen = false
-        self.pullButton.setBackgroundImage(UIImage(named:"down-arrow"), for: .normal)
-    } else {
-        buttonOpen = true
-        self.pullButton.setBackgroundImage(UIImage(named:"x-icon"), for: .normal)
     }
 }
     

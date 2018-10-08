@@ -32,7 +32,7 @@
                         </connections>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wa3-jp-1Jl">
-                        <rect key="frame" x="45" y="9" width="124" height="118"/>
+                        <rect key="frame" x="45" y="9" width="126" height="118"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="red pin" translatesAutoresizingMaskIntoConstraints="NO" id="YA5-Tq-6yf">
@@ -43,10 +43,10 @@
                         <rect key="frame" x="10" y="84" width="55" height="55"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" keyboardDismissMode="interactive" text="Add title" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="46N-Q9-fkP">
-                        <rect key="frame" x="41" y="120" width="134" height="35"/>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" keyboardDismissMode="interactive" text="asdfadadgadgdfgsdfgsdfgsfgdfgdfgsdfsdfsdfsdfsdf" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="46N-Q9-fkP">
+                        <rect key="frame" x="41" y="114" width="134" height="61"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="18"/>
+                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="11"/>
                         <textInputTraits key="textInputTraits"/>
                     </textView>
                 </subviews>

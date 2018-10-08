@@ -25,12 +25,16 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.content.delegate = self
+//        self.randomUuid = UIDevice.current.identifierForVendor!.uuidString
+        self.randomUuid = NSUUID().uuidString
         content.isUserInteractionEnabled = true
         listenForChanges()
     }
     
     @IBAction func saveNote(_ sender: UIButton) {
         let id = self.noteId
+        print("noteId")
+        print(id)
         let url = "https://powerful-earth-36700.herokuapp.com/updateItem/"
         Alamofire.request(url, method: .patch, parameters: ["content": self.content.text!, "id": id], encoding: JSONEncoding.default, headers: nil).responseJSON { response in
             switch response.result {
@@ -45,7 +49,7 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
     func sendToPusher(text: String) {
         let params : Parameters = ["text": text, "from": self.randomUuid]
         let url = "https://powerful-earth-36700.herokuapp.com/update_text"
-        Alamofire.request(NoteViewCell.API_ENDPOINT + "/update_text", method: .post, parameters: params).validate().responseJSON { response in
+        Alamofire.request(url, method: .post, parameters: params).validate().responseJSON { response in
             switch response.result {
             case .success:
                 print("Succeeded")

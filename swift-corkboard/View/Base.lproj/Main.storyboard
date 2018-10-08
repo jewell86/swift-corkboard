@@ -249,6 +249,7 @@
                         <outlet property="firstName" destination="VXM-9h-eZn" id="p93-ea-C7l"/>
                         <outlet property="lastName" destination="abk-QW-2p2" id="0Jm-Qh-q7Q"/>
                         <outlet property="password" destination="rwJ-3Y-XOU" id="d8a-sm-HbR"/>
+                        <outlet property="secondPassword" destination="VcH-wv-EXN" id="jag-CW-a3M"/>
                         <outlet property="username" destination="Cxz-Aw-Uv1" id="HRe-uS-Pck"/>
                     </connections>
                 </viewController>
@@ -517,7 +518,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZXH-tU-8od">
-                                <rect key="frame" x="13" y="287" width="89" height="30"/>
+                                <rect key="frame" x="13" y="329" width="89" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Delete Board"/>
                                 <connections>
