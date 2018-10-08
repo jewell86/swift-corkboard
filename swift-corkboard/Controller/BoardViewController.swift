@@ -29,7 +29,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBOutlet var itemCollectionView: UICollectionView!
     
     //DECLARE GLOBAL VARIABLES
-    var itemArray : NSMutableArray!
+    var itemArray = [BoardItem]()
     let defaults = UserDefaults.standard
     let slp = SwiftLinkPreview()
     var name : String = ""
@@ -66,13 +66,13 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //DECLARE VARIABLES
         itemCollectionView.dragInteractionEnabled = true
         let title = defaults.string(forKey: "title")
-        itemArray = NSMutableArray()
+        itemArray = [BoardItem]()
         self.title = "\(title!)"
         
         //MENU BUTTON CONFIG
         itemCollectionView.addSubview(menu)
         
-        var buttons = [ "NOTE", "CAMERA", "MAP", "WEBPAGE" ]
+        let buttons = [ "NOTE", "CAMERA", "MAP", "WEBPAGE" ]
         
         let items = buttons.map { button -> MenuItem in
             var item = MenuItem(image: UIImage(named: button)!)
@@ -156,11 +156,11 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
 ///////////////////////////////////////////////////////////////////////////////
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //NOTE CELL
-        if ((itemArray[indexPath.row] as! BoardItem).type == "note") {
+        if (itemArray[indexPath.row].type == "note") {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noteViewCell", for: indexPath) as! NoteViewCell
-            cell.content.text = (itemArray[indexPath.row] as! BoardItem).content
-            cell.noteId = (itemArray[indexPath.row] as! BoardItem).id
-            let addedBy = (itemArray[indexPath.row] as! BoardItem).addedBy
+            cell.content.text = itemArray[indexPath.row].content
+            cell.noteId = itemArray[indexPath.row].id
+            let addedBy = itemArray[indexPath.row].addedBy
             let storage = Storage.storage()
             let storageRef = storage.reference()
             let imageRef = storageRef.child("images/users/\(addedBy).jpg")
@@ -177,17 +177,17 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.content.textContainer.exclusionPaths = [imagePath]
             return cell
             //IMAGE CELL
-        } else if ((itemArray[indexPath.row] as! BoardItem).type == "image") {
+        } else if (itemArray[indexPath.row].type == "image") {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCell
-            cell.imageTitle.text = (itemArray[indexPath.row] as! BoardItem).content
-            cell.imageId = (itemArray[indexPath.row] as! BoardItem).id
+            cell.imageTitle.text = itemArray[indexPath.row].content
+            cell.imageId = itemArray[indexPath.row].id
             let storage = Storage.storage()
             let storageRef = storage.reference()
-            let imageRef = storageRef.child("\((itemArray[indexPath.row] as! BoardItem).link)")
+            let imageRef = storageRef.child("\(itemArray[indexPath.row].link)")
             let imageView = cell.img
             let placeholderImage = UIImage(named: "angle-mask.png")
             imageView?.sd_setImage(with: imageRef, placeholderImage: placeholderImage)
-            let addedBy = (itemArray[indexPath.row] as! BoardItem).addedBy
+            let addedBy = itemArray[indexPath.row].addedBy
             let userImageRef = storageRef.child("images/users/\(addedBy).jpg")
             let userPlaceholderImage = UIImage(named: "user-icon")
             cell.userPhoto?.sd_setImage(with: userImageRef, placeholderImage: userPlaceholderImage)
@@ -200,17 +200,17 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.layer.shadowRadius = 1
             return cell
             //WEBPAGE CELL
-        } else if ((itemArray[indexPath.row] as! BoardItem).type == "webpage") {
+        } else if (itemArray[indexPath.row].type == "webpage") {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "webpageCell", for: indexPath) as! WebpageCell
-            cell.webpageId = (itemArray[indexPath.row] as! BoardItem).id
-            cell.webpageUrl = (itemArray[indexPath.row] as! BoardItem).url
+            cell.webpageId = itemArray[indexPath.row].id
+            cell.webpageUrl = itemArray[indexPath.row].url
             
-            cell.info.text = (itemArray[indexPath.row] as! BoardItem).content
+            cell.info.text = itemArray[indexPath.row].content
             let webpageView = cell.img
             let placeholderImage = UIImage(named: "angle-mask.png")
-            webpageView?.sd_setImage(with: URL(string: "\((itemArray[indexPath.row] as! BoardItem).link)"), placeholderImage: placeholderImage)
+            webpageView?.sd_setImage(with: URL(string: "\(itemArray[indexPath.row].link)"), placeholderImage: placeholderImage)
             self.view.layoutIfNeeded()
-            let addedBy = (itemArray[indexPath.row] as! BoardItem).addedBy
+            let addedBy = itemArray[indexPath.row].addedBy
             let storage = Storage.storage()
             let storageRef = storage.reference()
             let imageRef = storageRef.child("images/users/\(addedBy).jpg")
@@ -225,19 +225,19 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.layer.shadowRadius = 1
             return cell
             //MAP CELL
-        } else if ((itemArray[indexPath.row] as! BoardItem).type == "map") {
+        } else if (itemArray[indexPath.row].type == "map") {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mapViewCell", for: indexPath) as! MapViewCell
-            let lat = (itemArray[indexPath.row] as! BoardItem).link
-            let long = (itemArray[indexPath.row] as! BoardItem).url
+            let lat = itemArray[indexPath.row].link
+            let long = itemArray[indexPath.row].url
             let camera = GMSCameraPosition.camera(withLatitude: Double(lat)!, longitude: Double(long)!, zoom: 12.5)
             cell.myMapView.camera = camera
             let marker = GMSMarker()
             marker.position = CLLocationCoordinate2D(latitude: Double(lat)!, longitude: Double(long)!)
-            marker.snippet = "\((itemArray[indexPath.row] as! BoardItem).content)"
+            marker.snippet = "\(itemArray[indexPath.row].content)"
             marker.map = cell.myMapView
-            cell.mapTitle.text = "\((itemArray[indexPath.row] as! BoardItem).content)"
-            cell.locationId = "\((itemArray[indexPath.row] as! BoardItem).coordinates)"
-            let addedBy = (itemArray[indexPath.row] as! BoardItem).addedBy
+            cell.mapTitle.text = "\(itemArray[indexPath.row].content)"
+            cell.locationId = "\(itemArray[indexPath.row].coordinates)"
+            let addedBy = itemArray[indexPath.row].addedBy
             let storage = Storage.storage()
             let storageRef = storage.reference()
             let imageRef = storageRef.child("images/users/\(addedBy).jpg")
@@ -262,14 +262,14 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
 ///////////////////////////////////////////////////////////////////////////////
     func renderItems() {
         SVProgressHUD.dismiss()
-        itemArray.removeAllObjects()
-        itemArray = NSMutableArray()
+//        itemArray.removeAllObjects()
+        itemArray = [BoardItem]()
         let userId = defaults.string(forKey: "userId")
         let boardId = defaults.string(forKey: "boardId")
         let url = "https://powerful-earth-36700.herokuapp.com/\(userId!)/\(boardId!)"
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-            if let data : JSON = JSON(response.result.value) {
+            if let data : JSON = JSON(response.result.value!) {
                 let allItems = data["response"]
                 for item in allItems.arrayValue {
                     let boardItem = BoardItem()
@@ -282,7 +282,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                     boardItem.coordinates = item["location"].stringValue
                     boardItem.type = item["type"].stringValue
                     boardItem.position = item["position"].stringValue
-                    self.itemArray.add(boardItem)
+                    self.itemArray.append(boardItem)
                 }
             SVProgressHUD.dismiss()
             self.itemCollectionView.reloadData()
@@ -304,8 +304,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //IF IMAGE
         } else if (cell as? ImageCell) != nil {
             let cell = collectionView.cellForItem(at: indexPath) as! ImageCell
-            let imageView = cell.img as! UIImageView
-            let newImageView = UIImageView(image: imageView.image)
+            let imageView = cell.img
+            let newImageView = UIImageView(image: imageView?.image)
             newImageView.frame = UIScreen.main.bounds
             newImageView.contentMode = .scaleAspectFit
             newImageView.isUserInteractionEnabled = true
@@ -318,7 +318,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
          //IF MAP
         } else if (cell as? MapViewCell) != nil {
             let cell = collectionView.cellForItem(at: indexPath) as! MapViewCell
-            let locationId = cell.locationId
+//            let locationId = cell.locationId
             let url = URL(string: "https://www.google.com/maps/dir/?api=1&origin=Puyallup+WA&destination=QVB&destination_place_id=\(cell.locationId)")
             UIApplication.shared.open(url!, options: [:])
         }
@@ -336,7 +336,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
 ///////////////////////////////////////////////////////////////////////////////
     @objc func deleteItem(_ gesture: UITapGestureRecognizer) {
         let selectedIndexPath = (itemCollectionView.indexPathForItem(at: gesture.location(in: itemCollectionView)))
-        let item = self.itemArray[selectedIndexPath![1]] as! BoardItem
+        let item = self.itemArray[selectedIndexPath![1]]
         let itemId = item.id
         let alert = UIAlertController(title: "Delete this item?", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
@@ -345,7 +345,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let url = "https://powerful-earth-36700.herokuapp.com/deleteItem/\(itemId)"
             Alamofire.request(url, method: .delete, encoding: JSONEncoding.default, headers: nil).responseJSON {
                 response in
-                if let data : JSON = JSON(response.result.value) {
+                if let data : JSON = JSON(response.result.value!) {
                     print(data)
                     
                 }
@@ -363,10 +363,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     func addImage() {
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, _ in
-            
             if let photo = items.singlePhoto {
                 SVProgressHUD.show()
-
                 self.uploadImage(photo.image, progressBlock: { (percentage) in
                     print(percentage)
                 }, completionBlock: { (fileURL, errorMessage) in
@@ -382,7 +380,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     //MAP BUTTON
     func addMap() {
         resultsViewController = GMSAutocompleteResultsViewController()
-        resultsViewController?.delegate = self as! GMSAutocompleteResultsViewControllerDelegate
+        resultsViewController?.delegate = self as GMSAutocompleteResultsViewControllerDelegate
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         subView.tag = 100
@@ -399,10 +397,10 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let boardId = defaults.string(forKey: "boardId")
         let params = [
             "itemType": "note",
-            "added_by": Int(userId!),
+            "added_by": Int(userId!)!,
             "link": "",
             "content": "",
-            "board_id": Int(boardId!),
+            "board_id": boardId,
             "position": self.itemArray.count + 1
             ] as [String : Any]
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
@@ -439,7 +437,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     //SETTINGS BUTTON
     @IBAction func settingsButton(_ sender: UIBarButtonItem) {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let controller = self.storyboard?.instantiateViewController(withIdentifier: "BoardSettingsViewController")
             self.navigationController!.pushViewController(controller!, animated: true)
         }
@@ -466,11 +464,11 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let boardId = self.defaults.string(forKey: "boardId")
             let params = [
                 "itemType": "map",
-                "added_by": Int(userId!),
-                "link": Double(latitude),
-                "webpage_url": Double(longitude),
+                "added_by": Int(userId!)!,
+                "link": Double(latitude)!,
+                "webpage_url": Double(longitude)!,
                 "content": "\(content!)",
-                "board_id": Int(boardId!),
+                "board_id": Int(boardId!)!,
                 "location": String(locationId),
                 "position": self.itemArray.count + 1
                 
@@ -525,7 +523,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             completionBlock(nil, "Image not converted to data")
         }
     }
-
+    //GET IMAGE CAPTION ALERT
     func getCaption(fileName: String) {
         SVProgressHUD.dismiss()
         let alert = UIAlertController(title: "Add a caption!", message: nil, preferredStyle: .alert)
@@ -550,30 +548,15 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let userId = defaults.string(forKey: "userId")
         let params = [
             "itemType": "image",
-            "added_by": Int(userId!),
+            "added_by": Int(userId!)!,
             "link": "images/\(String(describing: boardId!))/\(String(describing: name)).jpg",
             "content": "\(caption)",
-            "board_id": Int(boardId!),
+            "board_id": Int(boardId!)!,
             "position": self.itemArray.count + 1
             ] as [String : Any]
         let url = "https://powerful-earth-36700.herokuapp.com/addItem"
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
             self.renderItems()
-        }
-    }
-    //ADD VIDEO TO FIREBASE DB
-    func uploadVideo(video: URL) {
-        let fileName = NSUUID().uuidString
-        let boardId = defaults.string(forKey: "boardId")
-        let userId = defaults.string(forKey: "userId")
-        let storage = Storage.storage()
-        let storageRef = storage.reference()
-        let videoRef = storageRef.child("videos/\(boardId!)/\(fileName).jpg")
-        let uploadTask = videoRef.putFile(from: video, metadata: nil) { metadata, error in
-            if let error = error
-            {
-                //do error handle
-            }
         }
     }
     //GET WEBSITE METADATA FROM SLP API
@@ -583,7 +566,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             onSuccess: { result in
                 let imageIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "image")!)
                 let image = result[imageIndex!].value
-                let titleIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "title")!)
+//                let titleIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "title")!)
                 let urlIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "url")!)
                 let webpageUrl = result[urlIndex!].value
                 self.websiteInfo(image: image as! String, webpageUrl: webpageUrl as! URL)
@@ -615,10 +598,10 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let boardId = self.defaults.string(forKey: "boardId")
         let params = [
             "itemType": "webpage",
-            "added_by": Int(userId!),
+            "added_by": Int(userId!)!,
             "link": "\(image)",
             "content": "\(title)",
-            "board_id": Int(boardId!),
+            "board_id": Int(boardId!)!,
             "webpage_url": "\(webpageUrl)",
             "position": self.itemArray.count + 1
             ] as [String : Any]
@@ -635,8 +618,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
 
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let tempvalue1 = itemArray.object(at: sourceIndexPath.row)
-        itemArray.removeObject(at: sourceIndexPath.row)
+        let tempvalue1 = itemArray[sourceIndexPath.row]
+        itemArray.remove(at: sourceIndexPath.row)
         itemArray.insert(tempvalue1, at: destinationIndexPath.row)
 //        for item in itemArray {
 //            item.position = destinationIndexPath.row.stringValue
