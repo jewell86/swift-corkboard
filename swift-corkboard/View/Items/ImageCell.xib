@@ -43,10 +43,10 @@
                         <rect key="frame" x="10" y="84" width="55" height="55"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" keyboardDismissMode="interactive" text="asdfadadgadgdfgsdfgsdfgsfgdfgdfgsdfsdfsdfsdfsdf" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="46N-Q9-fkP">
-                        <rect key="frame" x="41" y="114" width="134" height="61"/>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" keyboardDismissMode="interactive" text="asdfadadgadgdfgsdfgsdfgsfgdf" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="46N-Q9-fkP">
+                        <rect key="frame" x="55" y="117" width="110" height="50"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="11"/>
+                        <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="12"/>
                         <textInputTraits key="textInputTraits"/>
                     </textView>
                 </subviews>

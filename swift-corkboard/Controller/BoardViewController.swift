@@ -72,7 +72,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //MENU BUTTON CONFIG
         itemCollectionView.addSubview(menu)
         
-        var buttons = [ "note-icon", "photo-icon", "map-icon", "website-icon" ]
+        var buttons = [ "NOTE", "CAMERA", "MAP", "WEBPAGE" ]
         
         let items = buttons.map { button -> MenuItem in
             var item = MenuItem(image: UIImage(named: button)!)
@@ -81,13 +81,13 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             return item
         }
         //PULL DOWN BUTTON
-        pullButton.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-        pullButton.setBackgroundImage(UIImage(named:"down-arrow"), for: .normal)
+        pullButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        pullButton.setBackgroundImage(UIImage(named:"blue-add"), for: .normal)
         pullButton.addTarget(self, action: #selector(self.dropMenu), for: UIControlEvents.touchUpInside)
         pullButton.translatesAutoresizingMaskIntoConstraints = false
         self.itemCollectionView.addSubview(pullButton)
         pullButton.center = CGPoint(x: itemCollectionView.frame.size.width  / 2,
-                                    y: 10)
+                                    y: 20)
         //MENU ITEMS
         menu.items = items
         menu.backgroundColor = UIColor(displayP3Red: 000, green: 000, blue: 000, alpha: 0.0)
