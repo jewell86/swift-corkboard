@@ -19,32 +19,28 @@
                 <rect key="frame" x="0.0" y="0.0" width="188" height="175"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wcC-Qk-TTg">
-                        <rect key="frame" x="0.0" y="0.0" width="142" height="155"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sticky_note" translatesAutoresizingMaskIntoConstraints="NO" id="AFF-3O-veA">
                         <rect key="frame" x="26" y="-3" width="157" height="158"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="interactive" text="Lorem ipsum dolor sit er elit lamet." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ttz-fn-EI9">
+                        <rect key="frame" x="38" y="13" width="130" height="128"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="15"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
+                    </textView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user-icon" translatesAutoresizingMaskIntoConstraints="NO" id="jkC-jT-GFH">
                         <rect key="frame" x="14" y="110" width="55" height="55"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vEr-LW-yar">
-                        <rect key="frame" x="145" y="110" width="30" height="30"/>
+                        <rect key="frame" x="143" y="109" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="+"/>
                         <connections>
                             <action selector="saveNote:" destination="gTV-IL-0wX" eventType="touchUpInside" id="iCi-In-Cwc"/>
                         </connections>
                     </button>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="interactive" text="Lorem ipsum dolor sit er elit lamet." textAlignment="natural" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ttz-fn-EI9">
-                        <rect key="frame" x="38" y="13" width="130" height="128"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="15"/>
-                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
-                    </textView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>

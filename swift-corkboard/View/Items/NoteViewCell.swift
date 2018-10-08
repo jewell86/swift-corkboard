@@ -25,7 +25,6 @@ class NoteViewCell: UICollectionViewCell, UITextViewDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.content.delegate = self
-//        self.randomUuid = UIDevice.current.identifierForVendor!.uuidString
         self.randomUuid = NSUUID().uuidString
         content.isUserInteractionEnabled = true
         listenForChanges()
