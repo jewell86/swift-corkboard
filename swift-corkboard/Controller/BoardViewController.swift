@@ -1,11 +1,3 @@
-//
-//  BoardViewController.swift
-//  swift-corkboard
-//
-//  Created by Jewell Braden on 9/11/18.
-//  Copyright © 2018 Jewell White. All rights reserved.
-//
-
 //IMPORT LIBRARIES
 import UIKit
 import AVFoundation
@@ -111,7 +103,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         //IMAGE PICKER CONFIG
         config.library.mediaType = .photoAndVideo
-        config.screens = [.library, .photo, .video]
+        config.screens = [.photo, .library, .video]
         let picker = YPImagePicker(configuration: config)
 
         //INVOKE FUNCTIONS
@@ -281,7 +273,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                     boardItem.url = item["webpage_url"].stringValue
                     boardItem.coordinates = item["location"].stringValue
                     boardItem.type = item["type"].stringValue
-                    boardItem.position = item["position"].stringValue
                     self.itemArray.append(boardItem)
                 }
             SVProgressHUD.dismiss()
@@ -364,7 +355,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, _ in
             if let photo = items.singlePhoto {
-                SVProgressHUD.show()
                 self.uploadImage(photo.image, progressBlock: { (percentage) in
                     print(percentage)
                 }, completionBlock: { (fileURL, errorMessage) in
@@ -374,6 +364,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
             picker.dismiss(animated: true, completion: nil)
         }
+        
         present(picker, animated: true, completion: nil)
     }
 
@@ -401,9 +392,9 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             "link": "",
             "content": "",
             "board_id": boardId,
-            "position": self.itemArray.count + 1
             ] as [String : Any]
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
+            print("ALAMOFIRE")
             self.renderItems()
         }
     }
@@ -470,7 +461,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 "content": "\(content!)",
                 "board_id": Int(boardId!)!,
                 "location": String(locationId),
-                "position": self.itemArray.count + 1
                 
                 ] as [String : Any]
             Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
@@ -485,7 +475,9 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         return("\((location?.coordinate.latitude)!)", "\((location?.coordinate.longitude)!)")
     }
     //ADD IMAGE TO FIREBASE DB
-    func uploadImage(_ image: UIImage,  progressBlock: @escaping (_ percentage: Double) -> Void, completionBlock: @escaping (_ url: URL?, _ errorMessage: String?) -> Void) {
+    func uploadImage(_ image: UIImage,  progressBlock: @escaping (_ percentage: Double) -> Void, completionBlock: @escaping (_ url:
+        URL?, _ errorMessage: String?) -> Void) {
+        SVProgressHUD.show()
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let boardId = defaults.string(forKey: "boardId")
@@ -504,6 +496,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             let uploadTask = imageRef.putData(imageData, metadata: metadata, completion: { (metadata, error) in
                 imageRef.downloadURL(completion: { (url, error) in
                     if let metadata = metadata {
+                        
                         self.getCaption(fileName: fileName)
                         return completionBlock( url, nil)
                     } else {
@@ -552,7 +545,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             "link": "images/\(String(describing: boardId!))/\(String(describing: name)).jpg",
             "content": "\(caption)",
             "board_id": Int(boardId!)!,
-            "position": self.itemArray.count + 1
             ] as [String : Any]
         let url = "https://powerful-earth-36700.herokuapp.com/addItem"
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
@@ -603,7 +595,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             "content": "\(title)",
             "board_id": Int(boardId!)!,
             "webpage_url": "\(webpageUrl)",
-            "position": self.itemArray.count + 1
             ] as [String : Any]
         Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {_ in
             self.renderItems()
@@ -621,9 +612,6 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let tempvalue1 = itemArray[sourceIndexPath.row]
         itemArray.remove(at: sourceIndexPath.row)
         itemArray.insert(tempvalue1, at: destinationIndexPath.row)
-//        for item in itemArray {
-//            item.position = destinationIndexPath.row.stringValue
-//        }
     }
 
 ////////////////////////////////////////////////////////////////////////////////

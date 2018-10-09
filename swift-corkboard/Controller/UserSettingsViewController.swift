@@ -46,6 +46,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
     @IBOutlet var usernameInput: UITextField!
     @IBOutlet var newPasswordInput: UITextField!
     @IBOutlet var passwordInput: UITextField!
+    
     @IBAction func saveUserChangesButton(_ sender: UIButton) {
         let first_name = firstNameInput.text
         let last_name = lastNameInput.text

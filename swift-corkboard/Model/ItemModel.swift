@@ -16,7 +16,5 @@ class BoardItem {
     var content : String = ""
     var boardId : String = ""
     var url : String = ""
-    var coordinates : String = ""
-    var position : String = ""
-    
+    var coordinates : String = ""    
 }
