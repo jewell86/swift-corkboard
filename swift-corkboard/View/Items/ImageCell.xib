@@ -44,7 +44,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" keyboardDismissMode="interactive" text="asdfadadgadgdfgsdfgsdfgsfgdf" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="46N-Q9-fkP">
-                        <rect key="frame" x="55" y="121" width="110" height="46"/>
+                        <rect key="frame" x="55" y="126" width="110" height="41"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="12"/>
                         <textInputTraits key="textInputTraits"/>

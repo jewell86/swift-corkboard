@@ -309,8 +309,8 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
          //IF MAP
         } else if (cell as? MapViewCell) != nil {
             let cell = collectionView.cellForItem(at: indexPath) as! MapViewCell
-//            let locationId = cell.locationId
-            let url = URL(string: "https://www.google.com/maps/dir/?api=1&origin=Puyallup+WA&destination=QVB&destination_place_id=\(cell.locationId)")
+            let locationId = cell.locationId
+            let url = URL(string: "https://www.google.com/maps/dir/?api=1&origin=Seattle+WA&destination=QVB&destination_place_id=\(cell.locationId)")
             UIApplication.shared.open(url!, options: [:])
         }
 
