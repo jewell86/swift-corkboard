@@ -16,13 +16,9 @@ Currently to run this app, Xcode is a requirement.
 ### To install:
 
 -clone this app to your local machine
-
 -run ‘pod install’ to install it’s dependencies
-
 -open the directory in Xcode 
-
 -build the app in Xcode
-
 -open in the simulator to use this app
 
 This app’s server is built using Node, Express & PostgreSQL as well as Firebase and is currently hosted on both Heroku and Firebase. Visit https://github.com/jewell86/swift-backend for the server-side repo or https://powerful-earth-36700.herokuapp.com/ for the Heroku hosted server.
@@ -30,13 +26,8 @@ This app’s server is built using Node, Express & PostgreSQL as well as Firebas
 ### Technologies used for the front-end development of this app include:
 
 -Swift
-
 -Xcode
-
 -Alamofire
-
 -Apple libraries
-
 -PusherSwift Websockets
-
 -Google Maps & Places API
