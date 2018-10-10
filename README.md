@@ -40,3 +40,5 @@ This app’s server is built using Node, Express & PostgreSQL as well as Firebas
 -PusherSwift Websockets
 
 -Google Maps & Places API
+
+Created by Jewell White - jewellsmailbox@gmail.com - linkedin.com/in/jewell86
