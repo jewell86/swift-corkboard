@@ -1,9 +1,7 @@
 # CORKBOARD
 
 ------------------------------
-![](https://bit.ly/2OhSG4E)
-
-[![Live Demo Video](https://img.youtube.com/vi/kIWtTdLov-w/0.jpg)](https://www.youtube.com/watch?v=kIWtTdLov-w)
+![](https://bit.ly/2OhSG4E) Click below to watch a live demo![![Live Demo Video](https://img.youtube.com/vi/kIWtTdLov-w/0.jpg)](https://www.youtube.com/watch?v=kIWtTdLov-w)
 
 ### ABOUT THIS PROJECT
 Corkboard is a full-stack native iOS app built in Swift with two server-side database servers. Corkboard is for users who want to share items from their phone with their friends and family in one central spot. Just register for an account and start adding items to your board! Users can add other users to a board to have collaborative boards with each other. Items that can be added currently include notes, images & videos from your phone or taken live, website thumbnail links and a thumbnail map that links to directions in the browser (more items to come soon, keep checking back!). 
