@@ -1,10 +1,8 @@
 # CORKBOARD
 
-------------------------------
-
 App Screenshots            |  Click below for a live demo
 :-------------------------:|:-------------------------:
-![](https://bit.ly/2OhSG4E)|  ![](https://img.youtube.com/vi/kIWtTdLov-w/0.jpg)](https://www.youtube.com/watch?v=kIWtTdLov-w)
+![](https://bit.ly/2OhSG4E)|  [![](https://img.youtube.com/vi/kIWtTdLov-w/0.jpg)](https://www.youtube.com/watch?v=kIWtTdLov-w)
 
 
 
