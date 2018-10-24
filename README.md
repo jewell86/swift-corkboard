@@ -29,7 +29,7 @@ Currently to run this app, Xcode is a requirement.
 
 -the server for this app is hosted live online, so after following the above steps, Corkboard is now ready to use!
 
-This app’s server is built using Node, Express & PostgreSQL as well as Firestore and is currently hosted on both Heroku and Firebase. Visit https://github.com/jewell86/swift-backend for the server-side repo code or https://powerful-earth-36700.herokuapp.com/ for the Heroku hosted server. 
+This app’s server is built using Node, Express & PostgreSQL as well as Firestore and is currently hosted on both Heroku and Firebase. Visit https://github.com/jewell86/corkboard-backend for the server-side repo code or https://powerful-earth-36700.herokuapp.com/ for the Heroku hosted server. 
 
 ### Technologies used for the front-end development of this app include:
 
