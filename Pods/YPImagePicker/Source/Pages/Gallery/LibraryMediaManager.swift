@@ -16,7 +16,6 @@ class LibraryMediaManager {
     internal var fetchResult: PHFetchResult<PHAsset>!
     internal var previousPreheatRect: CGRect = .zero
     internal var imageManager: PHCachingImageManager?
-    internal var selectedAsset: PHAsset!
     internal var exportTimer: Timer?
     internal var currentExportSessions: [AVAssetExportSession] = []
     
@@ -69,12 +68,13 @@ class LibraryMediaManager {
     func fetchVideoUrlAndCrop(for videoAsset: PHAsset, cropRect: CGRect, callback: @escaping (URL) -> Void) {
         let videosOptions = PHVideoRequestOptions()
         videosOptions.isNetworkAccessAllowed = true
+        videosOptions.deliveryMode = .highQualityFormat
         imageManager?.requestAVAsset(forVideo: videoAsset, options: videosOptions) { asset, _, _ in
             do {
                 guard let asset = asset else { print("⚠️ PHCachingImageManager >>> Don't have the asset"); return }
                 
                 let assetComposition = AVMutableComposition()
-                let trackTimeRange = CMTimeRangeMake(kCMTimeZero, asset.duration)
+                let trackTimeRange = CMTimeRangeMake(start: CMTime.zero, duration: asset.duration)
                 
                 // 1. Inserting audio and video tracks in composition
                 
@@ -90,29 +90,27 @@ class LibraryMediaManager {
                     let audioCompositionTrack = assetComposition
                         .addMutableTrack(withMediaType: AVMediaType.audio,
                                          preferredTrackID: kCMPersistentTrackID_Invalid) {
-                    try audioCompositionTrack.insertTimeRange(trackTimeRange, of: audioTrack, at: kCMTimeZero)
+                    try audioCompositionTrack.insertTimeRange(trackTimeRange, of: audioTrack, at: CMTime.zero)
                 }
                 
-                try videoCompositionTrack.insertTimeRange(trackTimeRange, of: videoTrack, at: kCMTimeZero)
+                try videoCompositionTrack.insertTimeRange(trackTimeRange, of: videoTrack, at: CMTime.zero)
                 
-                // 2. Create the instructions
+                // Layer Instructions
+                let layerInstructions = AVMutableVideoCompositionLayerInstruction(assetTrack: videoCompositionTrack)
+                var transform = videoTrack.preferredTransform
+                transform.tx -= cropRect.minX
+                transform.ty -= cropRect.minY
+                layerInstructions.setTransform(transform, at: CMTime.zero)
                 
+                // CompositionInstruction
                 let mainInstructions = AVMutableVideoCompositionInstruction()
                 mainInstructions.timeRange = trackTimeRange
-                
-                // 3. Adding the layer instructions. Transforming
-                
-                let layerInstructions = AVMutableVideoCompositionLayerInstruction(assetTrack: videoCompositionTrack)
-                layerInstructions.setTransform(videoTrack.getTransform(cropRect: cropRect), at: kCMTimeZero)
-                layerInstructions.setOpacity(1.0, at: kCMTimeZero)
                 mainInstructions.layerInstructions = [layerInstructions]
                 
-                // 4. Create the main composition and add the instructions
-                
-                let videoComposition = AVMutableVideoComposition()
-                videoComposition.renderSize = cropRect.size
+                // Video Composition
+                let videoComposition = AVMutableVideoComposition(propertiesOf: asset)
                 videoComposition.instructions = [mainInstructions]
-                videoComposition.frameDuration = CMTimeMake(1, 30)
+                videoComposition.renderSize = cropRect.size // needed? 
                 
                 // 5. Configuring export session
                 
@@ -138,7 +136,7 @@ class LibraryMediaManager {
                     DispatchQueue.main.async {
                         if let url = exportSession?.outputURL, exportSession?.status == .completed {
                             callback(url)
-                            if let index = self.currentExportSessions.index(of:exportSession!) {
+                            if let index = self.currentExportSessions.firstIndex(of:exportSession!) {
                                 self.currentExportSessions.remove(at: index)
                             }
                         } else {
@@ -175,4 +173,3 @@ class LibraryMediaManager {
         }
     }
 }
-

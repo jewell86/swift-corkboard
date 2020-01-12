@@ -6,22 +6,23 @@
 //  Copyright © 2017 Sacha Durand Saint Omer. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
 
 public struct SteviaAttribute {
     let view: UIView
-    let attribute: NSLayoutAttribute
+    let attribute: NSLayoutConstraint.Attribute
     let constant: CGFloat?
     let multiplier: CGFloat?
     
-    init(view: UIView, attribute: NSLayoutAttribute) {
+    init(view: UIView, attribute: NSLayoutConstraint.Attribute) {
         self.view = view
         self.attribute = attribute
         self.constant = nil
         self.multiplier = nil
     }
     
-    init(view: UIView, attribute: NSLayoutAttribute, constant: CGFloat?, multiplier: CGFloat?) {
+    init(view: UIView, attribute: NSLayoutConstraint.Attribute, constant: CGFloat?, multiplier: CGFloat?) {
         self.view = view
         self.attribute = attribute
         self.constant = constant
@@ -31,44 +32,52 @@ public struct SteviaAttribute {
 
 public extension UIView {
     
-    public var Width: SteviaAttribute {
+    var Width: SteviaAttribute {
         return SteviaAttribute(view: self, attribute: .width)
     }
     
-    public var Height: SteviaAttribute {
+    var Height: SteviaAttribute {
         return SteviaAttribute(view: self, attribute: .height)
     }
     
-    public var Top: SteviaAttribute {
+    var Top: SteviaAttribute {
         return SteviaAttribute(view: self, attribute: .top)
     }
     
-    public var Bottom: SteviaAttribute {
+    var Bottom: SteviaAttribute {
         return SteviaAttribute(view: self, attribute: .bottom)
     }
     
-    public var Left: SteviaAttribute {
+    var Left: SteviaAttribute {
         return SteviaAttribute(view: self, attribute: .left)
     }
     
-    public var Right: SteviaAttribute {
+    var Right: SteviaAttribute {
         return SteviaAttribute(view: self, attribute: .right)
     }
     
-    public var Leading: SteviaAttribute {
+    var Leading: SteviaAttribute {
         return SteviaAttribute(view: self, attribute: .leading)
     }
     
-    public var Trailing: SteviaAttribute {
+    var Trailing: SteviaAttribute {
         return SteviaAttribute(view: self, attribute: .trailing)
     }
     
-    public var CenterX: SteviaAttribute {
+    var CenterX: SteviaAttribute {
         return SteviaAttribute(view: self, attribute: .centerX)
     }
     
-    public var CenterY: SteviaAttribute {
+    var CenterY: SteviaAttribute {
         return SteviaAttribute(view: self, attribute: .centerY)
+    }
+    
+    var FirstBaseline: SteviaAttribute {
+        return SteviaAttribute(view: self, attribute: .firstBaseline)
+    }
+    
+    var LastBaseline: SteviaAttribute {
+        return SteviaAttribute(view: self, attribute: .lastBaseline)
     }
 }
 
@@ -150,28 +159,21 @@ func commonParent(with viewA: UIView, and viewB: UIView) -> UIView? {
 
 @discardableResult
 public func >= (left: SteviaAttribute, right: SteviaAttribute) -> NSLayoutConstraint {
-    let constant = right.constant ?? 0
-    let multiplier = right.multiplier ?? 1
-    if let spv = left.view.superview {
-        return spv.addConstraint(item: left.view,
-                                 attribute: left.attribute,
-                                 relatedBy: .greaterThanOrEqual,
-                                 toItem: right.view,
-                                 attribute: right.attribute,
-                                 multiplier: multiplier,
-                                 constant: constant)
-    }
-    return NSLayoutConstraint()
+    return applyRelation(left: left, right: right, relateBy: .greaterThanOrEqual)
 }
 
 @discardableResult
 public func <= (left: SteviaAttribute, right: SteviaAttribute) -> NSLayoutConstraint {
+    return applyRelation(left: left, right: right, relateBy: .lessThanOrEqual)
+}
+
+private func applyRelation(left: SteviaAttribute, right: SteviaAttribute, relateBy: NSLayoutConstraint.Relation) -> NSLayoutConstraint {
     let constant = right.constant ?? 0
     let multiplier = right.multiplier ?? 1
     if let spv = left.view.superview {
         return spv.addConstraint(item: left.view,
                                  attribute: left.attribute,
-                                 relatedBy: .lessThanOrEqual,
+                                 relatedBy: relateBy,
                                  toItem: right.view,
                                  attribute: right.attribute,
                                  multiplier: multiplier,
@@ -229,11 +231,19 @@ public func == (left: SteviaAttribute, right: CGFloat) -> NSLayoutConstraint {
 @discardableResult
 public func >= (left: SteviaAttribute, right: CGFloat) -> NSLayoutConstraint {
     if let spv = left.view.superview {
+        var toItem: UIView? = spv
+        var constant: CGFloat = right
+        if left.attribute == .width || left.attribute == .height {
+            toItem = nil
+        }
+        if left.attribute == .bottom || left.attribute == .right {
+            constant = -constant
+        }
         return spv.addConstraint(item: left.view,
                                  attribute: left.attribute,
                                  relatedBy: .greaterThanOrEqual,
-                                 toItem: spv,
-                                 constant: right)
+                                 toItem: toItem,
+                                 constant: constant)
     }
     return NSLayoutConstraint()
 }
@@ -241,11 +251,20 @@ public func >= (left: SteviaAttribute, right: CGFloat) -> NSLayoutConstraint {
 @discardableResult
 public func <= (left: SteviaAttribute, right: CGFloat) -> NSLayoutConstraint {
     if let spv = left.view.superview {
+        var toItem: UIView? = spv
+        var constant: CGFloat = right
+        if left.attribute == .width || left.attribute == .height {
+            toItem = nil
+        }
+        if left.attribute == .bottom || left.attribute == .right {
+            constant = -constant
+        }
         return spv.addConstraint(item: left.view,
                                  attribute: left.attribute,
                                  relatedBy: .lessThanOrEqual,
-                                 toItem: spv,
-                                 constant: right)
+                                 toItem: toItem,
+                                 constant: constant)
     }
     return NSLayoutConstraint()
 }
+#endif

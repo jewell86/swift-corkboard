@@ -6,12 +6,13 @@
 //  Copyright © 2016 Sacha Durand Saint Omer. All rights reserved.
 //
 
+#if canImport(UIKit)
 import UIKit
 
 public extension UIView {
-
-    /**
     
+    /**
+     
      Lays out the views on both axis.
      
      Note that this is not needed for Horizontal only layouts.
@@ -21,29 +22,29 @@ public extension UIView {
      
      ```
      layout(
-         100,
-         |-email-| ~ 80,
-         8,
-         |-password-forgot-| ~ 80,
-         >=20,
-         |login| ~ 80,
-         0
+     100,
+     |-email-| ~ 80,
+     8,
+     |-password-forgot-| ~ 80,
+     >=20,
+     |login| ~ 80,
+     0
      )
      ```
      */
     @discardableResult
-    public func layout(_ objects: Any...) -> [UIView] {
+    func layout(_ objects: Any...) -> [UIView] {
         return layout(objects)
     }
     
     @discardableResult
-    public func layout(_ objects: [Any]) -> [UIView] {
-        var previousMargin: CGFloat? = nil
-        var previousFlexibleMargin: SteviaFlexibleMargin? = nil
+    func layout(_ objects: [Any]) -> [UIView] {
+        var previousMargin: CGFloat?
+        var previousFlexibleMargin: SteviaFlexibleMargin?
+        
         for (i, o) in objects.enumerated() {
             
-            switch o {
-            case let v as UIView:
+            func viewLogic(_ v: UIView) {
                 if let pm = previousMargin {
                     if i == 1 {
                         v.top(pm) // only if first view
@@ -79,6 +80,11 @@ public extension UIView {
                 } else {
                     tryStackViewVerticallyWithPreviousView(v, index: i, objects: objects)
                 }
+            }
+            
+            switch o {
+            case let v as UIView:
+                viewLogic(v)
             case is Int, is Double, is CGFloat:
                 let m = cgFloatMarginFromObject(o)
                 previousMargin = m // Store margin for next pass
@@ -103,46 +109,12 @@ public extension UIView {
             case _ as String:() //Do nothin' !
             case let a as [UIView]:
                 align(horizontally: a)
-            let v = a.first!
-            if let pm = previousMargin {
-                if i == 1 {
-                    v.top(pm) // only if first view
-                } else {
-                    if let vx = objects[i-2] as? UIView {
-                        vx.stackV(m: pm, v: v)
-                    } else if let va = objects[i-2] as? [UIView] {
-                        va.first!.stackV(m: pm, v: v)
-                    }
-                }
-                previousMargin = nil
-            } else if let pfm = previousFlexibleMargin {
-                if i == 1 {
-                    v.top(pfm) // only if first view
-                } else {
-                    if let vx = objects[i-2] as? UIView {
-                        addConstraint(
-                            item: v, attribute: .top,
-                            relatedBy: pfm.relation,
-                            toItem: vx, attribute: .bottom,
-                            multiplier: 1, constant: pfm.points
-                        )
-                    } else if let va = objects[i-2] as? [UIView] {
-                        addConstraint(
-                            item: v, attribute: .top,
-                            relatedBy: pfm.relation,
-                            toItem: va.first!, attribute: .bottom,
-                            multiplier: 1, constant: pfm.points
-                        )
-                    }
-                }
-                previousFlexibleMargin = nil
-            } else {
-                tryStackViewVerticallyWithPreviousView(v, index: i, objects: objects)
-            }
+                let v = a.first!
+                viewLogic(v)
             default: ()
             }
         }
-        return objects.map {$0 as? UIView }.flatMap {$0}
+        return objects.map {$0 as? UIView }.compactMap {$0}
     }
     
     fileprivate func cgFloatMarginFromObject(_ o: Any) -> CGFloat {
@@ -178,10 +150,10 @@ public extension UIView {
         return stack(.vertical, points: points, v: v)
     }
     
-    fileprivate func stack(_ axis: UILayoutConstraintAxis,
+    fileprivate func stack(_ axis: NSLayoutConstraint.Axis,
                            points: CGFloat = 0, v: UIView) -> UIView {
-        let a: NSLayoutAttribute = axis == .vertical ? .top : .left
-        let b: NSLayoutAttribute = axis == .vertical ? .bottom : .right
+        let a: NSLayoutConstraint.Attribute = axis == .vertical ? .top : .left
+        let b: NSLayoutConstraint.Attribute = axis == .vertical ? .bottom : .right
         if let spv = superview {
             let c = constraint(item: v, attribute: a, toItem: self, attribute: b, constant: points)
             spv.addConstraint(c)
@@ -189,3 +161,4 @@ public extension UIView {
         return v
     }
 }
+#endif

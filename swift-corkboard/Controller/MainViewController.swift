@@ -78,11 +78,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return boardArray.count
     }
     
-    //
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     //RENDER ALL BOARDS FROM DB TO SELF.BOARD ARRAY
     func renderBoards() {
         let userId = defaults.string(forKey: "userId")

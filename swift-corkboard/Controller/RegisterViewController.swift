@@ -31,10 +31,6 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, UINavigatio
         self.password.delegate = self
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         registerPressed((Any).self)
         return true

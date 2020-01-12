@@ -2,47 +2,19 @@ import Foundation
 import Starscream
 
 let PROTOCOL = 7
-let VERSION = "6.1.0"
+let VERSION = "7.2.0"
 let CLIENT_NAME = "pusher-websocket-swift"
 
 @objcMembers
 @objc open class Pusher: NSObject {
-    open let connection: PusherConnection
+    public let connection: PusherConnection
     open weak var delegate: PusherDelegate? = nil {
         willSet {
             self.connection.delegate = newValue
-#if os(iOS) || os(OSX)
-            self.nativePusher.delegate = newValue
-#endif
         }
     }
     private let key: String
 
-#if os(iOS) || os(OSX)
-    public let nativePusher: NativePusher
-
-    /**
-        Initializes the Pusher client with an app key and any appropriate options.
-
-        - parameter key:          The Pusher app key
-        - parameter options:      An optional collection of options
-        - parameter nativePusher: A NativePusher instance for the app that the provided
-                                  key belongs to
-
-        - returns: A new Pusher client instance
-    */
-    public init(key: String, options: PusherClientOptions = PusherClientOptions(), nativePusher: NativePusher? = nil) {
-        self.key = key
-        let urlString = constructUrl(key: key, options: options)
-        let ws = WebSocket(url: URL(string: urlString)!)
-        connection = PusherConnection(key: key, socket: ws, url: urlString, options: options)
-        connection.createGlobalChannel()
-        self.nativePusher = nativePusher ?? NativePusher()
-        self.nativePusher.setPusherAppKey(pusherAppKey: key)
-    }
-#endif
-
-#if os(tvOS)
     /**
         Initializes the Pusher client with an app key and any appropriate options.
 
@@ -58,8 +30,6 @@ let CLIENT_NAME = "pusher-websocket-swift"
         connection = PusherConnection(key: key, socket: ws, url: urlString, options: options)
         connection.createGlobalChannel()
     }
-#endif
-
 
     /**
         Subscribes the client to a new channel
@@ -136,18 +106,33 @@ let CLIENT_NAME = "pusher-websocket-swift"
     /**
         Binds the client's global channel to all events
 
-        - parameter callback: The function to call when a new event is received
+        - parameter callback: The function to call when a new event is received. The callback
+                              receives the event's data payload
 
         - returns: A unique string that can be used to unbind the callback from the client
     */
     @discardableResult open func bind(_ callback: @escaping (Any?) -> Void) -> String {
-        return self.connection.addCallbackToGlobalChannel(callback)
+        return self.connection.addLegacyCallbackToGlobalChannel(callback)
+    }
+
+    /**
+     Binds the client's global channel to all events
+
+     - parameter eventCallback: The function to call when a new event is received. The callback
+                                receives a PusherEvent, containing the event's data payload and
+                                other properties.
+
+     - returns: A unique string that can be used to unbind the callback from the client
+     */
+    @discardableResult open func bind(eventCallback: @escaping (PusherEvent) -> Void) -> String {
+        return self.connection.addCallbackToGlobalChannel(eventCallback)
     }
 
     /**
         Unbinds the client from its global channel
 
-        - parameter callbackId: The unique callbackId string used to identify which callback to unbind
+        - parameter callbackId: The unique callbackId string used to identify which callback
+                                to unbind
     */
     open func unbind(callbackId: String) {
         self.connection.removeCallbackFromGlobalChannel(callbackId: callbackId)

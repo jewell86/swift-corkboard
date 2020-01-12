@@ -72,10 +72,6 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
         self.tableView.reloadData()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return userNameArray.count
     }

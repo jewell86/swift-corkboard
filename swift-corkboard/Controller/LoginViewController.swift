@@ -25,10 +25,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         self.passwordTextField.delegate = self
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         loginButtonPressed((Any).self)
         return true

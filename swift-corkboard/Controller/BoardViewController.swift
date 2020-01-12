@@ -556,12 +556,15 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         slp.preview(
             "\(url)",
             onSuccess: { result in
-                let imageIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "image")!)
-                let image = result[imageIndex!].value
-//                let titleIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "title")!)
-                let urlIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "url")!)
-                let webpageUrl = result[urlIndex!].value
-                self.websiteInfo(image: image as! String, webpageUrl: webpageUrl as! URL)
+                guard let image = result.image else {
+                    return
+                }
+
+                guard let webpageUrl = result.finalUrl else {
+                    return
+                }
+                
+                self.websiteInfo(image: image, webpageUrl: webpageUrl)
         },
             onError: { error in
                 print("\(error)")

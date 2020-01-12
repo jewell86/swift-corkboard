@@ -17,8 +17,12 @@
 #ifndef FIRESTORE_CORE_SRC_FIREBASE_FIRESTORE_UTIL_FILESYSTEM_H_
 #define FIRESTORE_CORE_SRC_FIREBASE_FIRESTORE_UTIL_FILESYSTEM_H_
 
+#include <memory>
+#include <string>
+
 #include "Firestore/core/src/firebase/firestore/util/path.h"
 #include "Firestore/core/src/firebase/firestore/util/status.h"
+#include "Firestore/core/src/firebase/firestore/util/statusor.h"
 
 namespace firebase {
 namespace firestore {
@@ -58,6 +62,31 @@ Status RecursivelyCreateDir(const Path& path);
 Status RecursivelyDelete(const Path& path);
 
 /**
+ * Marks the given directory as excluded from platform-specific backup schemes
+ * like iCloud backup.
+ */
+Status ExcludeFromBackups(const Path& dir);
+
+/**
+ * Returns a system-defined best directory in which to create application data.
+ * Values vary wildly across platforms. They include:
+ *
+ *   * iOS: $container/Documents/$app_name
+ *   * Linux: $HOME/.local/share/$app_name
+ *   * macOS: $HOME/.$app_name
+ *   * Other UNIX: $HOME/.$app_name
+ *   * tvOS: $HOME/Library/Caches/$app_name
+ *   * Windows: %USERPROFILE%/AppData/Local
+ *
+ * Note: the returned path is just where the system thinks the application data
+ * should be stored, but AppDataDir does not actually guarantee that this path
+ * exists.
+ *
+ * @param app_name The name of the application.
+ */
+StatusOr<Path> AppDataDir(absl::string_view app_name);
+
+/**
  * Returns system-defined best directory in which to create temporary files.
  * Typical return values are like `/tmp` on UNIX systems. Clients should create
  * randomly named directories or files within this location to avoid collisions.
@@ -69,6 +98,71 @@ Status RecursivelyDelete(const Path& path);
  * exists.
  */
 Path TempDir();
+
+/**
+ * On success, returns the size in bytes of the file specified by
+ * `path`.
+ */
+StatusOr<int64_t> FileSize(const Path& path);
+
+/**
+ * On success, opens the file at the given `path` and returns its contents as
+ * a string.
+ */
+StatusOr<std::string> ReadFile(const Path& path);
+
+/**
+ * Implements an iterator over the contents of a directory. Initializes to the
+ * first entry in the directory.
+ */
+class DirectoryIterator {
+ public:
+  /**
+   * Creates a new platform-specific directory iterator.
+   *
+   * @param path The path over which to iterate (must outlive the
+   *     DirectoryIterator).
+   */
+  static std::unique_ptr<DirectoryIterator> Create(const Path& path);
+
+  virtual ~DirectoryIterator() = default;
+
+  /**
+   * Advances the iterator.
+   */
+  virtual void Next() = 0;
+
+  /**
+   * Returns true if `Next()` and `file()` can be called on the iterator.
+   * If `Valid() == false && status().ok()`, then iteration has finished.
+   */
+  virtual bool Valid() const = 0;
+
+  /**
+   * Return the full path of the current entry pointed to by the iterator.
+   */
+  virtual Path file() const = 0;
+
+  /**
+   * Returns the last error encountered by the iterator, or OK.
+   */
+  Status status() const {
+    return status_;
+  }
+
+ protected:
+  /**
+   * `path` should outlive the iterator.
+   */
+  explicit DirectoryIterator(const Path& path) : parent_{path} {
+  }
+
+  DirectoryIterator(const DirectoryIterator& other) = delete;
+  DirectoryIterator& operator=(const DirectoryIterator& other) = delete;
+
+  Status status_;
+  const Path& parent_;
+};
 
 }  // namespace util
 }  // namespace firestore

@@ -24,7 +24,6 @@ target 'swift-corkboard' do
     pod 'Persei'
     pod 'SCLAlertView'
     pod 'Eureka'
-    pod 'hkAlium'
     pod 'iOSDropDown'
     
   target 'swift-corkboardTests' do
