@@ -12,7 +12,7 @@ import Photos
 
 internal func ypLocalized(_ str: String) -> String {
     return NSLocalizedString(str,
-                             tableName: nil,
+                             tableName: "YPImagePickerLocalizable",
                              bundle: Bundle(for: YPPickerVC.self),
                              value: "",
                              comment: "")
@@ -43,14 +43,14 @@ struct YPHelper {
     static func configureFocusView(_ v: UIView) {
         v.alpha = 0.0
         v.backgroundColor = UIColor.clear
-        v.layer.borderColor = UIColor(r: 204, g: 204, b: 204).cgColor
+        v.layer.borderColor = UIColor.ypSecondaryLabel.cgColor
         v.layer.borderWidth = 1.0
         v.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
     }
     
     static func animateFocusView(_ v: UIView) {
         UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.8,
-                       initialSpringVelocity: 3.0, options: UIViewAnimationOptions.curveEaseIn,
+                       initialSpringVelocity: 3.0, options: UIView.AnimationOptions.curveEaseIn,
                        animations: {
                         v.alpha = 1.0
                         v.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)

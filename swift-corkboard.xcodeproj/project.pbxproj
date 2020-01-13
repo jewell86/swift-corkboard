@@ -3,13 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		27E5F16D4B48D0F0C219790A /* Pods_swift_corkboard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2D303AFD5A04C33266D52F /* Pods_swift_corkboard.framework */; };
-		66BA8BD5C1E650AAB6BD8745 /* Pods_swift_corkboardUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 621F9337CF51F4F501F88394 /* Pods_swift_corkboardUITests.framework */; };
-		748F9E9A24FE12384A8AFFA2 /* Pods_swift_corkboardTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A760FBE2A4C7B2D3C49AD9FF /* Pods_swift_corkboardTests.framework */; };
 		F106D7A12148BCA2008C51C4 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106D7A02148BCA2008C51C4 /* BoardViewController.swift */; };
 		F106D7A32148BCB4008C51C4 /* BoardSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106D7A22148BCB4008C51C4 /* BoardSettingsViewController.swift */; };
 		F106D7A52148BCC2008C51C4 /* UserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106D7A42148BCC2008C51C4 /* UserSettingsViewController.swift */; };
@@ -29,8 +27,6 @@
 		F1602D5B21404601005DFA13 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1602D5921404601005DFA13 /* Main.storyboard */; };
 		F1602D5D21404602005DFA13 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1602D5C21404602005DFA13 /* Assets.xcassets */; };
 		F1602D6021404602005DFA13 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1602D5E21404602005DFA13 /* LaunchScreen.storyboard */; };
-		F1602D6B21404602005DFA13 /* swift_corkboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1602D6A21404602005DFA13 /* swift_corkboardTests.swift */; };
-		F1602D7621404602005DFA13 /* swift_corkboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1602D7521404602005DFA13 /* swift_corkboardUITests.swift */; };
 		F180BA67216668B0009A4339 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F180BA65216668B0009A4339 /* UserCell.swift */; };
 		F180BA6A21666C87009A4339 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F180BA6921666C87009A4339 /* UserModel.swift */; };
 		F19A0EFD214B0468007C1D31 /* BoardIconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */; };
@@ -59,13 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0222995816F9D51D73081D39 /* Pods-swift-corkboardUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-corkboardUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-swift-corkboardUITests/Pods-swift-corkboardUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		0D199E4344232A2ED32D5E2F /* Pods-swift-corkboardUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-corkboardUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-swift-corkboardUITests/Pods-swift-corkboardUITests.release.xcconfig"; sourceTree = "<group>"; };
-		360B873E893114DE716F096F /* Pods-swift-corkboardTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-corkboardTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-swift-corkboardTests/Pods-swift-corkboardTests.debug.xcconfig"; sourceTree = "<group>"; };
 		44A10D12213C68788F7E5B77 /* Pods-swift-corkboard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-corkboard.release.xcconfig"; path = "Pods/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard.release.xcconfig"; sourceTree = "<group>"; };
-		4780C9A054E8CED54B42120D /* Pods-swift-corkboardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-corkboardTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-swift-corkboardTests/Pods-swift-corkboardTests.release.xcconfig"; sourceTree = "<group>"; };
-		621F9337CF51F4F501F88394 /* Pods_swift_corkboardUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_swift_corkboardUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A760FBE2A4C7B2D3C49AD9FF /* Pods_swift_corkboardTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_swift_corkboardTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B06F2FB4060AAD208C72B256 /* Pods-swift-corkboard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swift-corkboard.debug.xcconfig"; path = "Pods/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard.debug.xcconfig"; sourceTree = "<group>"; };
 		CE2D303AFD5A04C33266D52F /* Pods_swift_corkboard.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_swift_corkboard.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F106D7A02148BCA2008C51C4 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
@@ -90,11 +80,7 @@
 		F1602D5F21404602005DFA13 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F1602D6121404602005DFA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1602D6621404602005DFA13 /* swift-corkboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "swift-corkboardTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F1602D6A21404602005DFA13 /* swift_corkboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swift_corkboardTests.swift; sourceTree = "<group>"; };
-		F1602D6C21404602005DFA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1602D7121404602005DFA13 /* swift-corkboardUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "swift-corkboardUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F1602D7521404602005DFA13 /* swift_corkboardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swift_corkboardUITests.swift; sourceTree = "<group>"; };
-		F1602D7721404602005DFA13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F180BA65216668B0009A4339 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		F180BA6921666C87009A4339 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		F19A0EFC214B0468007C1D31 /* BoardIconModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardIconModel.swift; sourceTree = "<group>"; };
@@ -119,7 +105,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				748F9E9A24FE12384A8AFFA2 /* Pods_swift_corkboardTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,7 +112,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66BA8BD5C1E650AAB6BD8745 /* Pods_swift_corkboardUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,10 +123,6 @@
 			children = (
 				B06F2FB4060AAD208C72B256 /* Pods-swift-corkboard.debug.xcconfig */,
 				44A10D12213C68788F7E5B77 /* Pods-swift-corkboard.release.xcconfig */,
-				360B873E893114DE716F096F /* Pods-swift-corkboardTests.debug.xcconfig */,
-				4780C9A054E8CED54B42120D /* Pods-swift-corkboardTests.release.xcconfig */,
-				0222995816F9D51D73081D39 /* Pods-swift-corkboardUITests.debug.xcconfig */,
-				0D199E4344232A2ED32D5E2F /* Pods-swift-corkboardUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -169,8 +149,6 @@
 			isa = PBXGroup;
 			children = (
 				F1602D5421404601005DFA13 /* swift-corkboard */,
-				F1602D6921404602005DFA13 /* swift-corkboardTests */,
-				F1602D7421404602005DFA13 /* swift-corkboardUITests */,
 				F1602D5321404601005DFA13 /* Products */,
 				3A6FC9742BB85B588AC76784 /* Pods */,
 				F18799E8D18C84EBD12D056B /* Frameworks */,
@@ -199,31 +177,11 @@
 			path = "swift-corkboard";
 			sourceTree = "<group>";
 		};
-		F1602D6921404602005DFA13 /* swift-corkboardTests */ = {
-			isa = PBXGroup;
-			children = (
-				F1602D6A21404602005DFA13 /* swift_corkboardTests.swift */,
-				F1602D6C21404602005DFA13 /* Info.plist */,
-			);
-			path = "swift-corkboardTests";
-			sourceTree = "<group>";
-		};
-		F1602D7421404602005DFA13 /* swift-corkboardUITests */ = {
-			isa = PBXGroup;
-			children = (
-				F1602D7521404602005DFA13 /* swift_corkboardUITests.swift */,
-				F1602D7721404602005DFA13 /* Info.plist */,
-			);
-			path = "swift-corkboardUITests";
-			sourceTree = "<group>";
-		};
 		F18799E8D18C84EBD12D056B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				F1EC567021670479000A1683 /* iOSDropDown.framework */,
 				CE2D303AFD5A04C33266D52F /* Pods_swift_corkboard.framework */,
-				A760FBE2A4C7B2D3C49AD9FF /* Pods_swift_corkboardTests.framework */,
-				621F9337CF51F4F501F88394 /* Pods_swift_corkboardUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -453,19 +411,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-swift-corkboardTests/Pods-swift-corkboardTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
-				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-swift-corkboardTests/Pods-swift-corkboardTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-swift-corkboardTests/Pods-swift-corkboardTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-swift-corkboardTests/Pods-swift-corkboardTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-swift-corkboardTests/Pods-swift-corkboardTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BF2D4AA36C7F011BB59F7426 /* [CP] Embed Pods Frameworks */ = {
@@ -473,77 +428,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
-				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
-				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/Persei/Persei.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework",
-				"${BUILT_PRODUCTS_DIR}/PusherSwift/PusherSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
-				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
-				"${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/TaskQueue/TaskQueue.framework",
-				"${BUILT_PRODUCTS_DIR}/YPImagePicker/YPImagePicker.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
-				"${BUILT_PRODUCTS_DIR}/hkAlium/hkAlium.framework",
-				"${BUILT_PRODUCTS_DIR}/iOSDropDown/iOSDropDown.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Persei.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PryntTrimmerView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PusherSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stevia.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftKeychainWrapper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLinkPreview.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TaskQueue.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YPImagePicker.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hkAlium.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSDropDown.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F87C108ABE3103AB027A8F58 /* [CP] Copy Pods Resources */ = {
@@ -551,21 +445,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-				"${PODS_ROOT}/GooglePlacePicker/Frameworks/GooglePlacePicker.framework/Resources/GooglePlacePicker.bundle",
-				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlacePicker.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-swift-corkboard/Pods-swift-corkboard-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FAE98405A568520766AEDB0C /* [CP] Embed Pods Frameworks */ = {
@@ -573,19 +462,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-swift-corkboardUITests/Pods-swift-corkboardUITests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
-				"${BUILT_PRODUCTS_DIR}/Quick/Quick.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-swift-corkboardUITests/Pods-swift-corkboardUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Quick.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-swift-corkboardUITests/Pods-swift-corkboardUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-swift-corkboardUITests/Pods-swift-corkboardUITests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-swift-corkboardUITests/Pods-swift-corkboardUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FEA07EAEA4F3E82AA96060CD /* [CP] Check Pods Manifest.lock */ = {
@@ -637,7 +523,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1602D6B21404602005DFA13 /* swift_corkboardTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,7 +530,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1602D7621404602005DFA13 /* swift_corkboardUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,7 +722,6 @@
 		};
 		F1602D7E21404602005DFA13 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 360B873E893114DE716F096F /* Pods-swift-corkboardTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -860,7 +743,6 @@
 		};
 		F1602D7F21404602005DFA13 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4780C9A054E8CED54B42120D /* Pods-swift-corkboardTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -882,7 +764,6 @@
 		};
 		F1602D8121404602005DFA13 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0222995816F9D51D73081D39 /* Pods-swift-corkboardUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -903,7 +784,6 @@
 		};
 		F1602D8221404602005DFA13 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D199E4344232A2ED32D5E2F /* Pods-swift-corkboardUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+platform :ios, '11.0'
 
 target 'swift-corkboard' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -24,7 +24,6 @@ target 'swift-corkboard' do
     pod 'Persei'
     pod 'SCLAlertView'
     pod 'Eureka'
-    pod 'hkAlium'
     pod 'iOSDropDown'
     
   target 'swift-corkboardTests' do

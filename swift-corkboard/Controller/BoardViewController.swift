@@ -72,6 +72,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             item.highlightedBackgroundColor = UIColor(displayP3Red: 000, green: 000, blue: 000, alpha: 0.0)
             return item
         }
+        
         //PULL DOWN BUTTON
         pullButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         pullButton.setBackgroundImage(UIImage(named:"blue-add"), for: .normal)
@@ -104,7 +105,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //IMAGE PICKER CONFIG
         config.library.mediaType = .photoAndVideo
         config.screens = [.photo, .library, .video]
-        let picker = YPImagePicker(configuration: config)
+        let _ = YPImagePicker(configuration: config)
 
         //INVOKE FUNCTIONS
         configureCollectionView()
@@ -261,23 +262,26 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let url = "https://powerful-earth-36700.herokuapp.com/\(userId!)/\(boardId!)"
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-            if let data : JSON = JSON(response.result.value!) {
-                let allItems = data["response"]
-                for item in allItems.arrayValue {
-                    let boardItem = BoardItem()
-                    boardItem.id = item["id"].stringValue
-                    boardItem.addedBy = item["added_by"].stringValue
-                    boardItem.link = item["link"].stringValue
-                    boardItem.content = item["content"].stringValue
-                    boardItem.boardId = item["board_id"].stringValue
-                    boardItem.url = item["webpage_url"].stringValue
-                    boardItem.coordinates = item["location"].stringValue
-                    boardItem.type = item["type"].stringValue
-                    self.itemArray.append(boardItem)
-                }
+            guard let data = response.result.value else {
+                return
+            }
+            
+            let JSONData = JSON(data)
+            let allItems = JSONData["response"]
+            for item in allItems.arrayValue {
+                let boardItem = BoardItem()
+                boardItem.id = item["id"].stringValue
+                boardItem.addedBy = item["added_by"].stringValue
+                boardItem.link = item["link"].stringValue
+                boardItem.content = item["content"].stringValue
+                boardItem.boardId = item["board_id"].stringValue
+                boardItem.url = item["webpage_url"].stringValue
+                boardItem.coordinates = item["location"].stringValue
+                boardItem.type = item["type"].stringValue
+                self.itemArray.append(boardItem)
+            }
             SVProgressHUD.dismiss()
             self.itemCollectionView.reloadData()
-        }
     }
     }
     
@@ -310,7 +314,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         } else if (cell as? MapViewCell) != nil {
             let cell = collectionView.cellForItem(at: indexPath) as! MapViewCell
             let locationId = cell.locationId
-            let url = URL(string: "https://www.google.com/maps/dir/?api=1&origin=Seattle+WA&destination=QVB&destination_place_id=\(cell.locationId)")
+            let url = URL(string: "https://www.google.com/maps/dir/?api=1&origin=Seattle+WA&destination=QVB&destination_place_id=\(locationId)")
             UIApplication.shared.open(url!, options: [:])
         }
 
@@ -331,15 +335,17 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let itemId = item.id
         let alert = UIAlertController(title: "Delete this item?", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
-        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { _ in
             SVProgressHUD.show()
             let url = "https://powerful-earth-36700.herokuapp.com/deleteItem/\(itemId)"
             Alamofire.request(url, method: .delete, encoding: JSONEncoding.default, headers: nil).responseJSON {
                 response in
-                if let data : JSON = JSON(response.result.value!) {
-                    print(data)
-                    
+                guard let data = response.result.value else {
+                    return
                 }
+                
+                let JSONData = JSON(data)
+                print(JSONData)
                 SVProgressHUD.dismiss()
                 self.renderItems()
             }
@@ -358,7 +364,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 self.uploadImage(photo.image, progressBlock: { (percentage) in
                     print(percentage)
                 }, completionBlock: { (fileURL, errorMessage) in
-                    print(errorMessage)
+                    print(errorMessage ?? "Error retrieving photo")
                 })
                 print(photo)
             }
@@ -384,11 +390,13 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     //NOTE BUTTON
     func addNote() {
         let url = "https://powerful-earth-36700.herokuapp.com/addItem"
-        let userId = defaults.string(forKey: "userId")
-        let boardId = defaults.string(forKey: "boardId")
+        guard let userId = defaults.string(forKey: "userId"), let boardId = defaults.string(forKey: "boardId") else {
+            return
+        }
+
         let params = [
             "itemType": "note",
-            "added_by": Int(userId!)!,
+            "added_by": Int(userId)!,
             "link": "",
             "content": "",
             "board_id": boardId,
@@ -495,7 +503,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             metadata.contentType = "image/jpeg"
             let uploadTask = imageRef.putData(imageData, metadata: metadata, completion: { (metadata, error) in
                 imageRef.downloadURL(completion: { (url, error) in
-                    if let metadata = metadata {
+                    if metadata != nil {
                         
                         self.getCaption(fileName: fileName)
                         return completionBlock( url, nil)
@@ -556,12 +564,15 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         slp.preview(
             "\(url)",
             onSuccess: { result in
-                let imageIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "image")!)
-                let image = result[imageIndex!].value
-//                let titleIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "title")!)
-                let urlIndex = result.index(forKey: SwiftLinkResponseKey(rawValue: "url")!)
-                let webpageUrl = result[urlIndex!].value
-                self.websiteInfo(image: image as! String, webpageUrl: webpageUrl as! URL)
+                guard let image = result.image else {
+                    return
+                }
+
+                guard let webpageUrl = result.finalUrl else {
+                    return
+                }
+                
+                self.websiteInfo(image: image, webpageUrl: webpageUrl)
         },
             onError: { error in
                 print("\(error)")
@@ -672,7 +683,7 @@ extension BoardViewController {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
-        self.addMapToDB(latitude: "\(place.coordinate.latitude)", longitude: "\(place.coordinate.longitude)", locationId: "\(place.placeID)")
+        self.addMapToDB(latitude: "\(place.coordinate.latitude)", longitude: "\(place.coordinate.longitude)", locationId: "\(String(describing: place.placeID))")
     
     }
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,

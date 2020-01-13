@@ -104,7 +104,7 @@ open class StickyHeaderView: UIView {
     }
     
     // MARK: - ScrollView
-    private var scrollView: UIScrollView! { return superview as! UIScrollView }
+    private var scrollView: UIScrollView! { return superview as? UIScrollView }
     
     // MARK: - KVO
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

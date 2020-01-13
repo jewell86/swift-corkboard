@@ -1,6 +1,0 @@
-framework module hkAlium {
-  umbrella header "hkAlium-umbrella.h"
-
-  export *
-  module * { export * }
-}

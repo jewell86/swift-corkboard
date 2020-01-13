@@ -6,7 +6,7 @@
 
 YPImagePicker is an instagram-like photo/video picker for iOS written in pure Swift. It is feature-rich and highly customizable to match your App's requirements.
 
-[![Language: Swift 4](https://img.shields.io/badge/language-swift%204-f48041.svg?style=flat)](https://developer.apple.com/swift)
+[![Language: Swift 5](https://img.shields.io/badge/language-swift%205-f48041.svg?style=flat)](https://developer.apple.com/swift)
 [![Version](https://img.shields.io/cocoapods/v/YPImagePicker.svg?style=flat)](http://cocoapods.org/pods/YPImagePicker)
 [![Platform](https://img.shields.io/cocoapods/p/YPImagePicker.svg?style=flat)](http://cocoapods.org/pods/YPImagePicker)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -84,35 +84,69 @@ you'll need to ad these `plist entries` :
 
 ## Configuration
 
+All the configuration endpoints are in the [YPImagePickerConfiguration](https://github.com/Yummypets/YPImagePicker/blob/master/Source/Configuration/YPImagePickerConfiguration.swift) struct.
+Below are the default value for reference, feel free to play around :)
+
 ```swift
 var config = YPImagePickerConfiguration()
-config.library.mediaType = .photoAndVideo
-config.library.onlySquare  = false
-config.onlySquareImagesFromCamera = true
-config.targetImageSize = .original
-config.usesFrontCamera = true
-config.showsFilters = true
-config.filters = [YPFilterDescriptor(name: "Normal", filterName: ""),
-                  YPFilterDescriptor(name: "Mono", filterName: "CIPhotoEffectMono")]
-config.shouldSaveNewPicturesToAlbum = true
-config.video.compression = AVAssetExportPresetHighestQuality
-config.albumName = "MyGreatAppName"
-config.screens = [.library, .photo, .video]
-config.startOnScreen = .library
-config.video.recordingTimeLimit = 10
-config.video.libraryTimeLimit = 20
-config.showsCrop = .rectangle(ratio: (16/9))
-config.wordings.libraryTitle = "Gallery"
-config.hidesStatusBar = false
-config.overlayView = myOverlayView
-config.library.maxNumberOfItems = 5
-config.library.minNumberOfItems = 3
-config.library.numberOfItemsInRow = 3
-config.library.spacingBetweenItems = 2
-config.isScrollToChangeModesEnabled = false
-
+// [Edit configuration here ...]
 // Build a picker with your configuration
 let picker = YPImagePicker(configuration: config)
+```
+
+### General
+```Swift
+config.isScrollToChangeModesEnabled = true
+config.onlySquareImagesFromCamera = true
+config.usesFrontCamera = false
+config.showsPhotoFilters = true
+config.showsVideoTrimmer = true
+config.shouldSaveNewPicturesToAlbum = true
+config.albumName = "DefaultYPImagePickerAlbumName"
+config.startOnScreen = YPPickerScreen.photo
+config.screens = [.library, .photo]
+config.showsCrop = .none
+config.targetImageSize = YPImageSize.original
+config.overlayView = UIView()
+config.hidesStatusBar = true
+config.hidesBottomBar = false
+config.preferredStatusBarStyle = UIStatusBarStyle.default
+config.bottomMenuItemSelectedColour = UIColor(r: 38, g: 38, b: 38)
+config.bottomMenuItemUnSelectedColour = UIColor(r: 153, g: 153, b: 153)
+config.filters = [DefaultYPFilters...]
+config.maxCameraZoomFactor = 1.0
+```
+
+### Library
+```swift
+config.library.options = nil
+config.library.onlySquare = false
+config.library.isSquareByDefault = true
+config.library.minWidthForItem = nil
+config.library.mediaType = YPlibraryMediaType.photo
+config.library.defaultMultipleSelection = false
+config.library.maxNumberOfItems = 1
+config.library.minNumberOfItems = 1
+config.library.numberOfItemsInRow = 4
+config.library.spacingBetweenItems = 1.0
+config.library.skipSelectionsGallery = false
+config.library.preselectedItems = nil
+```
+
+### Video
+```swift
+config.video.compression = AVAssetExportPresetHighestQuality
+config.video.fileType = .mov
+config.video.recordingTimeLimit = 60.0
+config.video.libraryTimeLimit = 60.0
+config.video.minimumTimeLimit = 3.0
+config.video.trimmerMaxDuration = 60.0
+config.video.trimmerMinDuration = 3.0
+```
+
+### Gallery
+```swift
+config.gallery.hidesRemoveButton = false
 ```
 
 ## Default Configuration
@@ -152,7 +186,7 @@ present(picker, animated: true, completion: nil)
 // Here we configure the picker to only show videos, no photos.
 var config = YPImagePickerConfiguration()
 config.screens = [.library, .video]
-config.libraryMediaType = .video
+config.library.mediaType = .video
 
 let picker = YPImagePicker(configuration: config)
 picker.didFinishPicking { [unowned picker] items, _ in
@@ -202,7 +236,7 @@ picker.didFinishPicking { [unowned picker] items, cancelled in
 That's it !
 
 ## Languages
-🇺🇸 English, 🇪🇸 Spanish, 🇫🇷 French 🇷🇺 Russian, 🇳🇱 Dutch, 🇧🇷 Brazilian, 🇹🇷 Turkish, 🇸🇾 Arabic, 🇩🇪 German, 🇮🇹 Italian, 🇯🇵 Japanese, 🇨🇳 Chinese, 🇮🇩 Indonesian
+🇺🇸 English, 🇪🇸 Spanish, 🇫🇷 French 🇷🇺 Russian, 🇳🇱 Dutch, 🇧🇷 Brazilian, 🇹🇷 Turkish, 🇸🇾 Arabic, 🇩🇪 German, 🇮🇹 Italian, 🇯🇵 Japanese, 🇨🇳 Chinese, 🇮🇩 Indonesian, 🇰🇷 Korean, 🇹🇼 Traditional Chinese（Taiwan), 🇻🇳 Vietnamese, 🇹🇭 Thai. 
 
 If your language is not supported, you can still customize the wordings via the `configuration.wordings` api:
 
@@ -324,5 +358,9 @@ See [LICENSE](LICENSE) for details.
 
 ## Swift Version
 
-- Swift 3 -> version [**1.2.1**](https://github.com/Yummypets/YPImagePicker/releases/tag/1.2.1)
-- Swift 4.1 -> version [**3.1.0**](https://github.com/Yummypets/YPImagePicker/releases/tag/3.1.0)
+- Swift 3 -> version [**1.2.0**](https://github.com/Yummypets/YPImagePicker/releases/tag/1.2.0)
+- Swift 4.1 -> version [**3.4.1**](https://github.com/Yummypets/YPImagePicker/releases/tag/3.4.0)
+- Swift 4.2 -> version [**3.5.2**](https://github.com/Yummypets/YPImagePicker/releases/tag/3.5.2)
+releases/tag/3.4.0)
+- Swift 5.0 -> version [**4.0.0**](https://github.com/Yummypets/YPImagePicker/releases/tag/4.0.0)
+- Swift 5.1 -> version [**4.1.2**](https://github.com/Yummypets/YPImagePicker/releases/tag/4.1.2)

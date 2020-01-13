@@ -10,26 +10,23 @@ import UIKit
 import AVFoundation
 import Photos
 
-public protocol YPImagePickerDelegate {
+public protocol YPImagePickerDelegate: AnyObject {
     func noPhotos()
 }
 
-public class YPImagePicker: UINavigationController {
-    
-    @available(*, deprecated, message: "Use didFinishPicking callback instead")
-    public var didSelectImage: ((UIImage) -> Void)?
-    @available(*, deprecated, message: "Use didFinishPicking callback instead")
-    public var didSelectVideo: ((Data, UIImage, URL) -> Void)?
-    @available(*, deprecated, message: "Use didFinishPicking callback instead")
-    public var didCancel: (() -> Void)?
+open class YPImagePicker: UINavigationController {
+      
+    open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
     
     private var _didFinishPicking: (([YPMediaItem], Bool) -> Void)?
     public func didFinishPicking(completion: @escaping (_ items: [YPMediaItem], _ cancelled: Bool) -> Void) {
         _didFinishPicking = completion
     }
-    public var imagePickerDelegate: YPImagePickerDelegate?
+    public weak var imagePickerDelegate: YPImagePickerDelegate?
     
-    public override var preferredStatusBarStyle: UIStatusBarStyle {
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
         return YPImagePickerConfiguration.shared.preferredStatusBarStyle
     }
     
@@ -37,21 +34,7 @@ public class YPImagePicker: UINavigationController {
     // This keeps the backwards compatibility keeps the api as simple as possible.
     // Multiple selection becomes available as an opt-in.
     private func didSelect(items: [YPMediaItem]) {
-        if items.count == 1 {
-            if let didSelectImage = didSelectImage, let first = items.first,
-                case let .photo(pickedPhoto) = first {
-                didSelectImage(pickedPhoto.image)
-            } else if let didSelectVideo = didSelectVideo, let first = items.first,
-                case let .video(pickedVideo) = first {
-                pickedVideo.fetchData { videoData in
-                    didSelectVideo(videoData, pickedVideo.thumbnail, pickedVideo.url)
-                }
-            } else {
-                _didFinishPicking?(items, false)
-            }
-        } else {
-            _didFinishPicking?(items, false)
-        }
+        _didFinishPicking?(items, false)
     }
     
     let loadingView = YPLoadingView()
@@ -67,17 +50,18 @@ public class YPImagePicker: UINavigationController {
         YPImagePickerConfiguration.shared = configuration
         picker = YPPickerVC()
         super.init(nibName: nil, bundle: nil)
+        modalPresentationStyle = .fullScreen // Force .fullScreen as iOS 13 now shows modals as cards by default.
         picker.imagePickerDelegate = self
+        navigationBar.tintColor = .ypLabel
     }
     
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override public func viewDidLoad() {
+override open func viewDidLoad() {
         super.viewDidLoad()
         picker.didClose = { [weak self] in
-            self?.didCancel?()
             self?._didFinishPicking?([], true)
         }
         viewControllers = [picker]
@@ -85,13 +69,11 @@ public class YPImagePicker: UINavigationController {
         navigationBar.isTranslucent = false
 
         picker.didSelectItems = { [weak self] items in
-            let showsFilters = YPConfig.showsFilters
-            
             // Use Fade transition instead of default push animation
             let transition = CATransition()
             transition.duration = 0.3
-            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-            transition.type = kCATransitionFade
+            transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+            transition.type = CATransitionType.fade
             self?.view.layer.add(transition, forKey: nil)
             
             // Multiple items flow
@@ -137,7 +119,7 @@ public class YPImagePicker: UINavigationController {
                     }
                 }
                 
-                if showsFilters {
+                if YPConfig.showsPhotoFilters {
                     let filterVC = YPPhotoFiltersVC(inputPhoto: photo,
                                                     isFromSelectionVC: false)
                     // Show filters and then crop
@@ -151,7 +133,7 @@ public class YPImagePicker: UINavigationController {
                     showCropVC(photo: photo, completion: completion)
                 }
             case .video(let video):
-                if showsFilters {
+                if YPConfig.showsVideoTrimmer {
                     let videoFiltersVC = YPVideoFiltersVC.initWith(video: video,
                                                                    isFromSelectionVC: false)
                     videoFiltersVC.didSave = { [weak self] outputMedia in
@@ -162,11 +144,6 @@ public class YPImagePicker: UINavigationController {
                     self?.didSelect(items: [YPMediaItem.video(v: video)])
                 }
             }
-        }
-        
-        // If user has not customized the Nav Bar tintColor, then use black.
-        if UINavigationBar.appearance().tintColor == nil {
-            UINavigationBar.appearance().tintColor  = .black
         }
     }
     

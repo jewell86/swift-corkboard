@@ -64,7 +64,7 @@ class YPAlbumVC: UIViewController {
         v.tableView.isHidden = true
         v.tableView.dataSource = self
         v.tableView.delegate = self
-        v.tableView.rowHeight = UITableViewAutomaticDimension
+        v.tableView.rowHeight = UITableView.automaticDimension
         v.tableView.estimatedRowHeight = 80
         v.tableView.separatorStyle = .none
         v.tableView.register(YPAlbumCell.self, forCellReuseIdentifier: "AlbumCell")
@@ -80,7 +80,7 @@ extension YPAlbumVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let album = albums[indexPath.row]
         if let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumCell", for: indexPath) as? YPAlbumCell {
-            cell.thumbnail.backgroundColor = .gray
+            cell.thumbnail.backgroundColor = .ypSystemGray
             cell.thumbnail.image = album.thumbnail
             cell.title.text = album.title
             cell.numberOfItems.text = "\(album.numberOfItems)"

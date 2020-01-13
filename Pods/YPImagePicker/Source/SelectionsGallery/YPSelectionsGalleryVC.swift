@@ -8,7 +8,9 @@
 
 import UIKit
 
-public class YPSelectionsGalleryVC: UIViewController {
+public class YPSelectionsGalleryVC: UIViewController, YPSelectionsGalleryCellDelegate {
+    
+    override public var prefersStatusBarHidden: Bool { return YPConfig.hidesStatusBar }
     
     public var items: [YPMediaItem] = []
     public var didFinishHandler: ((_ gallery: YPSelectionsGalleryVC, _ items: [YPMediaItem]) -> Void)?
@@ -60,6 +62,15 @@ public class YPSelectionsGalleryVC: UIViewController {
         }
         didFinishHandler?(self, items)
     }
+    
+    public func selectionsGalleryCellDidTapRemove(cell: YPSelectionsGalleryCell) {
+        if let indexPath = v.collectionView.indexPath(for: cell) {
+            items.remove(at: indexPath.row)
+            v.collectionView.performBatchUpdates({
+                v.collectionView.deleteItems(at: [indexPath])
+            }, completion: { _ in })
+        }
+    }
 }
 
 // MARK: - Collection View
@@ -74,13 +85,17 @@ extension YPSelectionsGalleryVC: UICollectionViewDataSource {
                                                             for: indexPath) as? YPSelectionsGalleryCell else {
             return UICollectionViewCell()
         }
+        cell.delegate = self
         let item = items[indexPath.row]
         switch item {
         case .photo(let photo):
             cell.imageView.image = photo.image
+            cell.setEditable(YPConfig.showsPhotoFilters)
         case .video(let video):
             cell.imageView.image = video.thumbnail
+            cell.setEditable(YPConfig.showsVideoTrimmer)
         }
+        cell.removeButton.isHidden = YPConfig.gallery.hidesRemoveButton
         return cell
     }
 }
@@ -92,11 +107,13 @@ extension YPSelectionsGalleryVC: UICollectionViewDelegate {
         var mediaFilterVC: IsMediaFilterVC?
         switch item {
         case .photo(let photo):
-            if !YPConfig.filters.isEmpty {
+            if !YPConfig.filters.isEmpty, YPConfig.showsPhotoFilters {
                 mediaFilterVC = YPPhotoFiltersVC(inputPhoto: photo, isFromSelectionVC: true)
             }
         case .video(let video):
-            mediaFilterVC = YPVideoFiltersVC.initWith(video: video, isFromSelectionVC: true)
+            if YPConfig.showsVideoTrimmer {
+                mediaFilterVC = YPVideoFiltersVC.initWith(video: video, isFromSelectionVC: true)
+            }
         }
         
         mediaFilterVC?.didSave = { outputMedia in
@@ -120,8 +137,8 @@ extension YPSelectionsGalleryVC: UICollectionViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let isScrollingBackwards = scrollView.contentOffset.x < lastContentOffsetX
         scrollView.decelerationRate = isScrollingBackwards
-            ? UIScrollViewDecelerationRateFast
-            : UIScrollViewDecelerationRateNormal
+            ? UIScrollView.DecelerationRate.fast
+            : UIScrollView.DecelerationRate.normal
         lastContentOffsetX = scrollView.contentOffset.x
     }
 }
