@@ -72,6 +72,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             item.highlightedBackgroundColor = UIColor(displayP3Red: 000, green: 000, blue: 000, alpha: 0.0)
             return item
         }
+        
         //PULL DOWN BUTTON
         pullButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         pullButton.setBackgroundImage(UIImage(named:"blue-add"), for: .normal)
@@ -104,7 +105,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         //IMAGE PICKER CONFIG
         config.library.mediaType = .photoAndVideo
         config.screens = [.photo, .library, .video]
-        let picker = YPImagePicker(configuration: config)
+        let _ = YPImagePicker(configuration: config)
 
         //INVOKE FUNCTIONS
         configureCollectionView()
@@ -310,7 +311,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         } else if (cell as? MapViewCell) != nil {
             let cell = collectionView.cellForItem(at: indexPath) as! MapViewCell
             let locationId = cell.locationId
-            let url = URL(string: "https://www.google.com/maps/dir/?api=1&origin=Seattle+WA&destination=QVB&destination_place_id=\(cell.locationId)")
+            let url = URL(string: "https://www.google.com/maps/dir/?api=1&origin=Seattle+WA&destination=QVB&destination_place_id=\(locationId)")
             UIApplication.shared.open(url!, options: [:])
         }
 
@@ -358,7 +359,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
                 self.uploadImage(photo.image, progressBlock: { (percentage) in
                     print(percentage)
                 }, completionBlock: { (fileURL, errorMessage) in
-                    print(errorMessage)
+                    print(errorMessage ?? "Error retrieving photo")
                 })
                 print(photo)
             }
@@ -495,7 +496,7 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
             metadata.contentType = "image/jpeg"
             let uploadTask = imageRef.putData(imageData, metadata: metadata, completion: { (metadata, error) in
                 imageRef.downloadURL(completion: { (url, error) in
-                    if let metadata = metadata {
+                    if metadata != nil {
                         
                         self.getCaption(fileName: fileName)
                         return completionBlock( url, nil)

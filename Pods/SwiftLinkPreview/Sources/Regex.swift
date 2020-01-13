@@ -42,7 +42,7 @@ class Regex {
 
             if let match = rx.firstMatch(in: string, options: [], range: NSRange(location: 0, length: string.count)) {
 
-                var result: [String] = Regex.stringMatches([match], text: string, index: index)
+                let result: [String] = Regex.stringMatches([match], text: string, index: index)
                 return result.count == 0 ? nil : result[0]
 
             } else {

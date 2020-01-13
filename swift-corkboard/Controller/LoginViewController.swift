@@ -45,7 +45,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             print(userId)
             print(token)
             let saveToken: Bool = KeychainWrapper.standard.set(token.stringValue, forKey: "token")
-            let saveUserId: Bool = KeychainWrapper.standard.set(userId.stringValue, forKey: "userId")
+            let _: Bool = KeychainWrapper.standard.set(userId.stringValue, forKey: "userId")
             print(saveToken)
             if token == JSON.null {
                 print("Error: \(error)")
@@ -58,7 +58,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 SVProgressHUD.dismiss()
                 self.passwordTextField.text = ""
                 self.usernameTextField.text = ""
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let _: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let controller = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController")
                 self.navigationController!.pushViewController(controller!, animated: true)
                 
