@@ -52,7 +52,7 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
                 case .success:
                     print("Succeeded")
                     let alert = UIAlertController(title: "Success!", message: "\(String(describing: selectedText)) added!", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
                         self.listAllUsers()
                     }))
                     self.present(alert, animated: true, completion: nil)
@@ -97,7 +97,7 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
     }
     
     func removeButton(cell: UserCell) {
-        let indexPath = self.tableView.indexPath(for: cell)
+//        let indexPath = self.tableView.indexPath(for: cell)
         let boardId = defaults.string(forKey: "boardId")
         let userId = cell.usersId
         let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/\(userId)/removeUser"
@@ -107,7 +107,7 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
             case .success:
                 print("Succeeded")
                 let alert = UIAlertController(title: "Success!", message: "User deleted", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
                 }))
                 self.present(alert, animated: true, completion: nil)
 
@@ -121,14 +121,17 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
     func populateUsers() {
         let url = "https://powerful-earth-36700.herokuapp.com/getAll"
         Alamofire.request(url, method: .get).responseJSON { response in
-            if let data : JSON = JSON(response.result.value) {
-                let users = data["response"]
-                for user in users.arrayValue {
-                    let thisUser = user["username"]
-                    let id = user["id"]
-                    self.dropDown.optionArray.append(thisUser.string!)
-                    self.dropDown.optionIds?.append(id.int!) 
-                }
+            guard let data = response.result.value else {
+                return
+            }
+            
+            let JSONData = JSON(data)
+            let users = JSONData["response"]
+            for user in users.arrayValue {
+                let thisUser = user["username"]
+                let id = user["id"]
+                self.dropDown.optionArray.append(thisUser.string!)
+                self.dropDown.optionIds?.append(id.int!)
             }
         }
     }
@@ -137,24 +140,29 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
     //RENAME BOARD
     @IBOutlet var renameBoardInput: UITextField!
     @IBAction func renameBoardButton(_ sender: UIButton) {
-        let boardId = defaults.string(forKey: "boardId")
+        guard let boardId = defaults.string(forKey: "boardId") else {
+            return
+        }
+        
         let newName = renameBoardInput.text!
-        let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/renameBoard"
+        let url = "https://powerful-earth-36700.herokuapp.com/\(boardId)/renameBoard"
         let params : [String : Any] = ["title" : newName]
         Alamofire.request(url, method: .patch, parameters: params).responseJSON { response in
-            if let data : JSON = JSON(response.result.value) {
-                let data = data["response"]
-                let title = data["title"]
-                self.defaults.set("\(title)", forKey: "title")
-                switch response.result {
-                case .success:
-                    self.navigationController?.popViewController(animated: true);
-                    print("Succeeded")
-                case .failure(let error):
-                    print(error)
-                }
-                self.renameBoardInput.text = ""
-        }
+            guard let data = response.result.value else {
+                return
+            }
+            
+            let JSONData = JSON(data)
+            let title = JSONData["title"]
+            self.defaults.set("\(title)", forKey: "title")
+            switch response.result {
+            case .success:
+                self.navigationController?.popViewController(animated: true);
+                print("Succeeded")
+            case .failure(let error):
+                print(error)
+            }
+            self.renameBoardInput.text = ""
         }
     }
     
@@ -165,30 +173,39 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
         userPhotoArray = [String]()
         userIdArray = [String]()
         let userId = defaults.string(forKey: "userId")
-        let boardId = defaults.string(forKey: "boardId")
-        let params : [String : Any] = ["boards_id": boardId]
-        let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/getAllUsers"
+        guard let boardId = defaults.string(forKey: "boardId") else {
+            return
+        }
+        
+//        let params : [String : Any] = ["boards_id": boardId]
+        let url = "https://powerful-earth-36700.herokuapp.com/\(boardId)/getAllUsers"
         Alamofire.request(url, method: .get).responseJSON { response in
-            if let data : JSON = JSON(response.result.value) {
-                let allUsers = data["response"]
+            guard let data = response.result.value else {
+                return
+            }
+            
+            let JSONData = JSON(data)
+                let allUsers = JSONData["response"]
                 for user in allUsers.arrayValue {
                     if user["users_id"].stringValue != userId {
-                        var thisUser = user["users_id"].stringValue
+                        let thisUser = user["users_id"].stringValue
                         let newUrl = "https://powerful-earth-36700.herokuapp.com/byId/\(user["users_id"].intValue)"
                         Alamofire.request(newUrl, method: .get).responseJSON { response in
-                            if let data : JSON = JSON(response.result.value) {
-                                let response = data["response"]
-                                let user = response["username"]
-                                self.userNameArray.append(user.stringValue)
-                                self.userIdArray.append(thisUser)
-                                self.userPhotoArray.append("images/users/\(thisUser).jpg")
-                                self.tableView.reloadData()
+                            guard let data = response.result.value else {
+                                return
                             }
+                            
+                            let JSONData = JSON(data)
+                            let response = JSONData["response"]
+                            let user = response["username"]
+                            self.userNameArray.append(user.stringValue)
+                            self.userIdArray.append(thisUser)
+                            self.userPhotoArray.append("images/users/\(thisUser).jpg")
+                            self.tableView.reloadData()
                         }
                     }
                 }
                 self.tableView.reloadData()
-            }
         }
     }
         
@@ -197,7 +214,7 @@ class BoardSettingsViewController: UIViewController, UserCellDelegate, UINavigat
     @IBAction func deleteBoardButton(_ sender: UIButton) {
         let alert = UIAlertController(title: "Are you sure?", message: "This will delete board permanently", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Nevermind", style: UIAlertActionStyle.default,handler: nil))
-        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { _ in
             let boardId = self.defaults.string(forKey: "boardId")
             let url = "https://powerful-earth-36700.herokuapp.com/\(boardId!)/deleteBoard"
             Alamofire.request(url, method: .delete).responseJSON { response in

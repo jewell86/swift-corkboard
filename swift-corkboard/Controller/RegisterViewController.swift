@@ -61,19 +61,19 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, UINavigatio
                 print("Registration Success!")
                 SVProgressHUD.dismiss()
                 let alert = UIAlertController(title: "Success", message: "You are registered!", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Login", style: .default, handler: { [weak alert] (_) in
+                alert.addAction(UIAlertAction(title: "Login", style: .default, handler: { _ in
                     self.lastName.text = ""
                     self.firstName.text = ""
                     self.email.text = ""
                     self.password.text = ""
                     self.username.text = ""
                     self.secondPassword.text = ""
-                    let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let _ : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let controller = self.storyboard?.instantiateViewController(withIdentifier: "MainViewController")
                     self.navigationController!.pushViewController(controller!, animated: true)
                 }))
+                
                 self.present(alert, animated: true, completion: nil)
-
             }
         }
      }

@@ -262,23 +262,26 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let url = "https://powerful-earth-36700.herokuapp.com/\(userId!)/\(boardId!)"
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-            if let data : JSON = JSON(response.result.value!) {
-                let allItems = data["response"]
-                for item in allItems.arrayValue {
-                    let boardItem = BoardItem()
-                    boardItem.id = item["id"].stringValue
-                    boardItem.addedBy = item["added_by"].stringValue
-                    boardItem.link = item["link"].stringValue
-                    boardItem.content = item["content"].stringValue
-                    boardItem.boardId = item["board_id"].stringValue
-                    boardItem.url = item["webpage_url"].stringValue
-                    boardItem.coordinates = item["location"].stringValue
-                    boardItem.type = item["type"].stringValue
-                    self.itemArray.append(boardItem)
-                }
+            guard let data = response.result.value else {
+                return
+            }
+            
+            let JSONData = JSON(data)
+            let allItems = JSONData["response"]
+            for item in allItems.arrayValue {
+                let boardItem = BoardItem()
+                boardItem.id = item["id"].stringValue
+                boardItem.addedBy = item["added_by"].stringValue
+                boardItem.link = item["link"].stringValue
+                boardItem.content = item["content"].stringValue
+                boardItem.boardId = item["board_id"].stringValue
+                boardItem.url = item["webpage_url"].stringValue
+                boardItem.coordinates = item["location"].stringValue
+                boardItem.type = item["type"].stringValue
+                self.itemArray.append(boardItem)
+            }
             SVProgressHUD.dismiss()
             self.itemCollectionView.reloadData()
-        }
     }
     }
     
@@ -332,15 +335,17 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
         let itemId = item.id
         let alert = UIAlertController(title: "Delete this item?", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
-        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak alert] (_) in
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { _ in
             SVProgressHUD.show()
             let url = "https://powerful-earth-36700.herokuapp.com/deleteItem/\(itemId)"
             Alamofire.request(url, method: .delete, encoding: JSONEncoding.default, headers: nil).responseJSON {
                 response in
-                if let data : JSON = JSON(response.result.value!) {
-                    print(data)
-                    
+                guard let data = response.result.value else {
+                    return
                 }
+                
+                let JSONData = JSON(data)
+                print(JSONData)
                 SVProgressHUD.dismiss()
                 self.renderItems()
             }
@@ -385,11 +390,13 @@ class BoardViewController: UIViewController, UICollectionViewDelegate, UICollect
     //NOTE BUTTON
     func addNote() {
         let url = "https://powerful-earth-36700.herokuapp.com/addItem"
-        let userId = defaults.string(forKey: "userId")
-        let boardId = defaults.string(forKey: "boardId")
+        guard let userId = defaults.string(forKey: "userId"), let boardId = defaults.string(forKey: "boardId") else {
+            return
+        }
+
         let params = [
             "itemType": "note",
-            "added_by": Int(userId!)!,
+            "added_by": Int(userId)!,
             "link": "",
             "content": "",
             "board_id": boardId,
@@ -676,7 +683,7 @@ extension BoardViewController {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
-        self.addMapToDB(latitude: "\(place.coordinate.latitude)", longitude: "\(place.coordinate.longitude)", locationId: "\(place.placeID)")
+        self.addMapToDB(latitude: "\(place.coordinate.latitude)", longitude: "\(place.coordinate.longitude)", locationId: "\(String(describing: place.placeID))")
     
     }
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,

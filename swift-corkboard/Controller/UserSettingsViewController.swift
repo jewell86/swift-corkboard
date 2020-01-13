@@ -29,7 +29,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let token = defaults.string(forKey: "token")
+//        let token = defaults.string(forKey: "token")
         uploadUserImage()
         getUserInfo()
         let userName = defaults.string(forKey: "username")
@@ -55,8 +55,8 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         let email = passwordInput.text
         let userId = defaults.string(forKey: "userId")
         let url = "https://powerful-earth-36700.herokuapp.com/updateUser/\(userId!)"
-        let params = [ "first_name": first_name, "last_name": last_name, "username": username, "password": password, "email": email]
-        Alamofire.request(url, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {
+        let params = ["first_name": first_name, "last_name": last_name, "username": username, "password": password, "email": email]
+        Alamofire.request(url, method: .patch, parameters: params as Parameters, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
             let alert = UIAlertController(title: "Update Successful!", message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
@@ -110,7 +110,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
             self.uploadImage(image, progressBlock: { (percentage) in
                 print(percentage)
             }, completionBlock: { (fileURL, errorMessage) in
-                print(errorMessage)
+                print(errorMessage ?? "Error uploading image")
             })
         }
     }
@@ -121,7 +121,7 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         let storage = Storage.storage()
         let storageRef = storage.reference()
         let userId = defaults.string(forKey: "userId")
-        let fileName = NSUUID().uuidString
+//        let fileName = NSUUID().uuidString
         let imageRef = storageRef.child("images/users/\(userId!).jpg")
         if let imageData = UIImageJPEGRepresentation(image, 0.8) {
             let metadata = StorageMetadata()
@@ -161,13 +161,13 @@ class UserSettingsViewController: UIViewController, UIImagePickerControllerDeleg
         let userId = defaults.string(forKey: "userId")
         let url = "https://powerful-earth-36700.herokuapp.com/deleteUser/\(userId!)"
         let params = ["token" : token]
-        Alamofire.request(url, method: .post, parameters: params, encoding: JSONEncoding.default, headers: nil).responseJSON {
+        Alamofire.request(url, method: .post, parameters: params as Parameters, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
                 switch response.result {
                 case .success:
                     let alert = UIAlertController(title: "Are you sure?", message: "Deleting your account cannot be reversed", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
-                    alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { [weak alert] (_) in
+                    alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { _ in
                         KeychainWrapper.standard.removeObject(forKey: "token")
                         KeychainWrapper.standard.removeObject(forKey: "token")
                         let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]

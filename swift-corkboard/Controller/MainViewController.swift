@@ -62,7 +62,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let id = boardArray[indexPath.row]
         let title = id.title
-        let addedBy = id.added_by
+//        let addedBy = id.added_by
         let boardId = id.boards_id
         self.defaults.set("\(boardId)", forKey: "boardId")
         self.defaults.set("\(title)", forKey: "title")
@@ -86,8 +86,12 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.boardArray = [BoardIcon]()
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default, headers: nil).responseJSON {
             response in
-            if let data : JSON = JSON(response.result.value) {
-            let allBoards = data["response"]
+            guard let data = response.result.value else {
+                return
+            }
+            
+            let JSONData = JSON(data)
+            let allBoards = JSONData["response"]
             for board in allBoards.arrayValue {
                 let newBoard = BoardIcon()
                 newBoard.boards_id = board["boards_id"]
@@ -97,7 +101,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 }
             }
             self.allBoardsTableView.reloadData()
-        }
     }
     
     //ADD NEW BOARD BUTTON PRESSED SHOW ALERT
@@ -120,7 +123,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     
     @IBAction func settingsButton(_ sender: UIBarButtonItem) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let controller = self.storyboard?.instantiateViewController(withIdentifier: "UserSettingsViewController")
         self.navigationController!.pushViewController(controller!, animated: true)
     }
